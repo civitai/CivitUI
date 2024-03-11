@@ -1,45 +1,45 @@
-import { NodeId } from './base'
+import { NodeId } from "./base";
 
 /**
- * 消息类型定义
+ * Message type definitions
  */
 export interface MessageType {
   /**
-   * 状态消息
-   * @property status - 状态信息
+   * Status message
+   * @property status - Status information
    * @property sid - Session ID
    */
-  status: { status: { exec_info: { queue_remaining: number } }; sid?: string }
+  status: { status: { exec_info: { queue_remaining: number } }; sid?: string };
   /**
-   * 正在执行消息
-   * @property node - 正在执行的节点 ID
+   * Executing message
+   * @property node - The ID of the node being executed
    */
-  executing: { node?: NodeId }
+  executing: { node?: NodeId };
   /**
-   * 进度消息
-   * @property value - 进度值
-   * @property max - 最大值
+   * Progress message
+   * @property value - Progress value
+   * @property max - Maximum value
    */
-  progress: { value: number; max: number }
+  progress: { value: number; max: number };
   /**
-   * 执行完成消息
-   * @property node - 执行完成的节点 ID
-   * @property output - 输出值
+   * Execution completed message
+   * @property node - The ID of the node that has completed execution
+   * @property output - Output value
    */
-  executed: { node: NodeId; output: Record<string, any> }
+  executed: { node: NodeId; output: Record<string, any> };
 }
 
 /**
- * 消息对象
- * @typeparam K - 消息类型键
+ * Message object
+ * @typeparam K - Message type key
  */
 export interface Message<K extends keyof MessageType> {
   /**
-   * 消息类型
+   * Message type
    */
-  type: K
+  type: K;
   /**
-   * 消息数据
+   * Message data
    */
-  data: MessageType[K]
+  data: MessageType[K];
 }

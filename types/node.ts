@@ -4,7 +4,7 @@ import { NodeId, PropertyKey, WidgetKey } from './base'
 import { Widget } from './widget'
 
 /**
- * 节点位置
+ * Node position
  */
 export interface NodePosition {
   x: number
@@ -12,9 +12,9 @@ export interface NodePosition {
 }
 
 /**
- * SDNode 修改属性
- * @property color - 颜色
- * @property nickname - 昵称
+ * SDNode modify properties
+ * @property color - Color
+ * @property nickname - Nickname
  */
 export interface SDNodeModify {
   color?: string
@@ -22,11 +22,11 @@ export interface SDNodeModify {
 }
 
 /**
- * SDNode 对象
- * @property widget - Widget 键
- * @property fields - 属性字段
- * @property images - 图片列表
- * @property modify - 修改属性
+ * SDNode object
+ * @property widget - Widget key
+ * @property fields - Property fields
+ * @property images - Image list
+ * @property modify - Modify properties
  */
 export interface SDNode {
   widget: WidgetKey
@@ -36,14 +36,14 @@ export interface SDNode {
 }
 
 /**
- * 节点对象
- * @property widget - Widget 对象
- * @property node - SDNode 对象
- * @property position - 节点位置
- * @property key - 节点键
- * @property width - 节点宽度
- * @property height - 节点高度
- * @property parentNode - 父节点 ID
+ * Node object
+ * @property widget - Widget object
+ * @property node - SDNode object
+ * @property position - Node position
+ * @property key - Node key
+ * @property width - Node width
+ * @property height - Node height
+ * @property parentNode - Parent node ID
  */
 export interface NodeItem {
   widget: Widget
@@ -56,10 +56,10 @@ export interface NodeItem {
 }
 
 /**
- * 图片对象
- * @property filename - 文件名
- * @property subfolder - 子文件夹名
- * @property type - 文件类型
+ * Image object
+ * @property filename - Filename
+ * @property subfolder - Subfolder name
+ * @property type - File type
  */
 export interface ImageItem extends StringifiableRecord {
   filename: string
@@ -68,9 +68,9 @@ export interface ImageItem extends StringifiableRecord {
 }
 
 /**
- * 节点执行进度对象
- * @property id - 节点 ID
- * @property progress - 进度值
+ * Node execution progress object
+ * @property id - Node ID
+ * @property progress - Progress value
  */
 export interface NodeInProgress {
   id: NodeId
@@ -78,9 +78,9 @@ export interface NodeInProgress {
 }
 
 /**
- * Gallery Item 对象
- * @property prompt - 提示信息
- * @property image - 图片对象
+ * Gallery Item object
+ * @property prompt - Prompt message
+ * @property image - Image object
  */
 export interface GalleryItem {
   prompt?: string

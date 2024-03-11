@@ -1,23 +1,23 @@
 /**
- * Widget 的 key
+ * Key of the Widget
  */
-export type WidgetKey = string
+export type WidgetKey = string;
 
 /**
- * Property 的 key
+ * Key of the Property
  */
-export type PropertyKey = string
+export type PropertyKey = string;
 
 /**
- * 节点的 ID
+ * ID of the Node
  */
-export type NodeId = string
+export type NodeId = string;
 
 /**
- * 连线的类型
- * - 'default' 默认类型
- * - 'step' 折线
- * - 'smoothstep' 平滑折线
- * - 'straight' 直线
+ * Types of connections
+ * - 'default' Default type
+ * - 'step' Polyline
+ * - 'smoothstep' Smooth polyline
+ * - 'straight' Straight line
  */
-export type EdgeTypes = 'default' | 'step' | 'smoothstep' | 'straight'
+export type EdgeTypes = "default" | "step" | "smoothstep" | "straight";

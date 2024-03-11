@@ -1,91 +1,96 @@
-import { NodeId, PropertyKey, WidgetKey } from '@/types'
+import { NodeId, PropertyKey, WidgetKey } from "@/types";
 
 /**
- * Prompt 请求参数
+ * Prompt request parameters
  */
 export interface PromptRequest {
   /**
-   * 客户端 id
+   * Client id
    */
-  client_id?: string
+  client_id?: string;
   /**
-   * 节点 id 和节点信息的映射
+   * Mapping of node id to node information
    */
-  prompt: Record<NodeId, Node>
+  prompt: Record<NodeId, Node>;
   /**
-   * 额外的数据
+   * Additional data
    */
-  extra_data?: ExtraData
+  extra_data?: ExtraData;
 }
 
 /**
- * 额外数据
+ * Additional data
  */
 export interface ExtraData {
   /**
-   * png 信息
+   * PNG information
    */
-  extra_pnginfo?: Record<string, any>
+  extra_pnginfo?: Record<string, any>;
 }
 
 /**
- * Prompt 响应参数
+ * Prompt response parameters
  */
 export interface PromptResponse {
   /**
-   * 错误信息
+   * Error message
    */
-  error?: string
+  error?: string;
 }
 
 /**
- * 节点信息
+ * Node information
  */
 export interface Node {
   /**
-   * 类型
+   * Type
    */
-  class_type: WidgetKey
+  class_type: WidgetKey;
   /**
-   * 输入属性和值的映射
+   * Mapping of input properties to values
    */
-  inputs: Record<PropertyKey, any>
+  inputs: Record<PropertyKey, any>;
 }
 
 /**
- * 队列
+ * Queue
  */
 export interface Queue {
   /**
-   * 运行中的队列项
+   * Running queue items
    */
-  queue_running: QueueItem[]
+  queue_running: QueueItem[];
   /**
-   * 等待中的队列项
+   * Pending queue items
    */
-  queue_pending: QueueItem[]
+  queue_pending: QueueItem[];
 }
 
 /**
- * 队列项
+ * Queue item
  */
-export type QueueItem = [number, number, Record<NodeId, Node>, { client_id?: string }]
+export type QueueItem = [
+  number,
+  number,
+  Record<NodeId, Node>,
+  { client_id?: string }
+];
 
 /**
- * 历史记录
+ * History
  */
-export type History = Record<string, HistoryItem>
+export type History = Record<string, HistoryItem>;
 
 /**
- * 历史记录项
+ * History item
  */
 export interface HistoryItem {
   /**
-   * Prompt 请求参数
+   * Prompt request parameters
    */
-  prompt: QueueItem
+  prompt: QueueItem;
   /**
-   * 节点 id 和输出属性及其值的映射
+   * Mapping of node id to output properties and their values
    */
-  outputs: Record<NodeId, Record<PropertyKey, any>>
+  outputs: Record<NodeId, Record<PropertyKey, any>>;
 }
