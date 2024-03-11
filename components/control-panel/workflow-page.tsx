@@ -21,6 +21,7 @@ import WorkflowItem from "./workflow-item";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
+import Dropzone from "../dropzone";
 
 const WorkflowPageComponent = () => {
   const [title, setTitle] = useState<string>();
@@ -170,32 +171,9 @@ const WorkflowPageComponent = () => {
   );
 
   return (
-    <>
-      <div className="flex">
-        <div className="w-full flex space-x-2">
-          <Input
-            placeholder="Name the workflow to save"
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <Button>
-            <PlusIcon />
-            Save
-          </Button>
-        </div>
-        <div className="ml-2 flex space-x-2">
-          <Button onClick={handleNew}>
-            <FileIcon />
-          </Button>
-          <Button onClick={onDownloadWorkflow}>
-            <DownloadIcon />
-          </Button>
-
-          <Button onClick={() => handleUpload}>
-            <UploadIcon />
-          </Button>
-        </div>
-      </div>
-      <div className="flex-1 overflow-auto">
+    <div className="flex flex-col gap-4">
+      <Dropzone />
+      <div>
         <h5>Local Workflows</h5>
         {localWorkflowList?.map((item, index) => (
           <li
@@ -213,7 +191,7 @@ const WorkflowPageComponent = () => {
           </li>
         ))}
       </div>
-    </>
+    </div>
   );
 };
 

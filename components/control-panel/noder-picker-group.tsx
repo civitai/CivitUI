@@ -1,9 +1,9 @@
+"use client";
+
 import PreviewNode from "../node/sd-node/preview-node";
 import { NodeItem, Widget } from "@/types";
 import { startCase } from "lodash-es";
-import React, { useCallback, useEffect, useState } from "react";
-import styled from "styled-components";
-import { Button } from "../ui/button";
+import React, { useCallback, useState } from "react";
 import {
   Popover,
   PopoverContent,
@@ -15,21 +15,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-
-const CARD_LIST_PADDING = "8px 4px";
-
-/******************************************************
- *********************** Style *************************
- ******************************************************/
-
-const CardList = styled.div`
-  cursor: pointer;
-  padding: ${CARD_LIST_PADDING};
-`;
-
-/******************************************************
- ************************* Dom *************************
- ******************************************************/
+import { Badge } from "@/components/ui/badge";
 
 /**
  * @title Node Selector Group Component Properties
@@ -48,29 +34,11 @@ interface NodePickerGroupProps {
    * @param nodeItem - Node Item
    */
   onAddNode: (nodeItem: NodeItem) => void;
-  /**
-   * @title Global Expansion State
-   * @default false
-   */
-  globalExpand: boolean;
-  /**
-   * @title Card View State
-   * @default false
-   */
-  cardView: boolean;
 }
-const NodePickerGroup: React.FC<NodePickerGroupProps> = ({
-  cat,
-  data,
-  onAddNode,
-  globalExpand,
-  cardView,
-}) => {
-  const [expand, setExpand] = useState<boolean>(true);
 
-  useEffect(() => {
-    setExpand(globalExpand);
-  }, [globalExpand]);
+const NodePickerGroup = ({ cat, data, onAddNode }: NodePickerGroupProps) => {
+  const [open, setOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null); // State to track the active item index
 
   const handleDrag = useCallback(
     (event: React.DragEvent<HTMLDivElement> | any, i: Widget) => {
@@ -80,57 +48,54 @@ const NodePickerGroup: React.FC<NodePickerGroupProps> = ({
     []
   );
 
-  const renderCardView = useCallback(() => {
-    return (
-      <div>
-        {data.map((i) => (
-          <CardList
-            key={i.name}
-            draggable
-            onDragStart={(event) => handleDrag(event, i)}
-            onClick={() => onAddNode({ widget: i })}
-          >
-            <PreviewNode data={i} />
-          </CardList>
-        ))}
-      </div>
-    );
-  }, [data, handleDrag, onAddNode]);
+  const handleMouseEnter = (index: number) => {
+    setOpen(true);
+    setActiveIndex(index);
+  };
 
-  const renderButtonView = useCallback(() => {
-    return (
-      <div className="flex flex-col space-y-2">
-        {data.map((i) => (
-          <Popover key={i.name}>
-            <PopoverTrigger asChild>
-              <Button
-                onClick={() => onAddNode({ widget: i })}
-                draggable
-                onDragStart={(event) => handleDrag(event, i)}
-              >
-                {startCase(i.name)}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent>
-              <PreviewNode data={i} />
-            </PopoverContent>
-          </Popover>
-        ))}
-      </div>
-    );
-  }, [data, handleDrag, onAddNode]);
-
-  const handleExpandChange = useCallback((expanded: boolean) => {
-    setExpand(expanded);
-  }, []);
-
+  const handleMouseLeave = () => {
+    setOpen(false);
+  };
   return (
-    <Accordion type="multiple">
-      <AccordionTrigger>startCase(cat)</AccordionTrigger>
-      <AccordionContent>
-        {cardView ? renderCardView() : renderButtonView()}
-      </AccordionContent>
-    </Accordion>
+    <Popover open={open} onOpenChange={setOpen}>
+      <Accordion type="multiple" defaultValue={[cat]}>
+        <AccordionItem value={cat}>
+          <AccordionTrigger className="pb-2 text-sm text-left">
+            {startCase(cat)}
+          </AccordionTrigger>
+          <AccordionContent>
+            <div className="flex flex-wrap items-baseline justify-start">
+              {data.map((i, index) => (
+                <div key={i.name}>
+                  <Badge
+                    className="cursor-grab mr-1 my-1"
+                    // onClick={(e) => {
+                    //   e.preventDefault();
+                    //   onAddNode({ widget: i });
+                    // }}
+                    draggable
+                    onDragStart={(event) => handleDrag(event, i)}
+                    onMouseEnter={() => handleMouseEnter(index)}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <PopoverTrigger>{startCase(i.name)}</PopoverTrigger>
+                  </Badge>
+                </div>
+              ))}
+            </div>
+          </AccordionContent>
+          {open && activeIndex !== null && (
+            <PopoverContent
+              side="right"
+              className="w-[400px] z-[60]"
+              sideOffset={50}
+            >
+              <PreviewNode data={data[activeIndex]} />
+            </PopoverContent>
+          )}
+        </AccordionItem>
+      </Accordion>
+    </Popover>
   );
 };
 

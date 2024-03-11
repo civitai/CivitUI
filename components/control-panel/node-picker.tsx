@@ -5,9 +5,7 @@ import type { Widget } from "@/types";
 import React, { useCallback, useEffect, useState } from "react";
 import { shallow } from "zustand/shallow";
 import NodePickerGroup from "./noder-picker-group";
-import { Button } from "../ui/button";
-import { Expand, LayoutDashboard, Menu, Shrink } from "lucide-react";
-import { Input } from "../ui/input";
+import { HamburgerMenuIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
 
 /******************************************************
  ************************* Dom *************************
@@ -17,8 +15,6 @@ const NodePickerComponent: React.FC = () => {
   const { widgets, onAddNode } = useAppStore((state) => state, shallow);
   const [category, setCategory] = useState<Record<string, Widget[]>>({});
   const [keywords, setKeywords] = useState<string>("");
-  const [globalExpand, setGlobalExpand] = useState<boolean>(true);
-  const [cardView, setCardView] = useState<boolean>(false);
 
   useEffect(() => {
     const byCategory: Record<string, Widget[]> = {};
@@ -45,49 +41,25 @@ const NodePickerComponent: React.FC = () => {
     []
   );
 
-  const handleCardViewToggle = useCallback(() => {
-    setCardView((prevCardView) => !prevCardView);
-  }, []);
-
-  const handleExpandAll = useCallback(() => {
-    setGlobalExpand(true);
-  }, []);
-
-  const handleCollapseAll = useCallback(() => {
-    setGlobalExpand(false);
-  }, []);
-
   return (
-    <>
-      <div className="flex">
-        <Input
-          placeholder="Input search text"
+    <div className="flex flex-col gap-4">
+      <div className="relative">
+        <input
+          name="search"
+          type="text"
+          className="px-9 flex h-9 w-full rounded-md border border-input bg-transparent py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+          placeholder="Search..."
           onChange={handleKeywordsChange}
         />
-        <div className="flex gap-2 ml-2">
-          <Button
-            aria-label="Switch Card/List View"
-            size={"icon"}
-            onClick={handleCardViewToggle}
-          >
-            {cardView ? <LayoutDashboard /> : <Menu />}
-          </Button>
-          <Button
-            aria-label="Expand All"
-            size={"icon"}
-            onClick={handleExpandAll}
-          >
-            <Expand className="h-5 w-5" />
-          </Button>
-          <Button
-            aria-label="Collapse All"
-            size={"icon"}
-            onClick={handleCollapseAll}
-          >
-            <Shrink />
-          </Button>
+        <div
+          className="absolute inset-y-0 left-0 pl-2  
+              flex items-center  
+              pointer-events-none"
+        >
+          <MagnifyingGlassIcon className="w-4 h-4 text-gray-400" />
         </div>
       </div>
+
       <div className="flex-1 overflow-auto">
         {Object.entries(category).map(([cat, items]) => (
           <NodePickerGroup
@@ -95,12 +67,10 @@ const NodePickerComponent: React.FC = () => {
             data={items}
             cat={cat}
             onAddNode={onAddNode}
-            globalExpand={globalExpand}
-            cardView={cardView}
           />
         ))}
       </div>
-    </>
+    </div>
   );
 };
 

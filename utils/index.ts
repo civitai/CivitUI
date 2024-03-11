@@ -13,4 +13,4 @@ export * from "./widget";
  * @returns The full URL
  */
 export const getBackendUrl = (endpoint: string): string =>
-  `${config.protocol}//${config.host}${endpoint}`;
+  `${config.host}${endpoint}`;

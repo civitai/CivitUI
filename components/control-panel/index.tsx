@@ -7,6 +7,7 @@ import React, { useMemo } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import { FilePlusIcon, PlusIcon } from "@radix-ui/react-icons";
 
 enum TABS {
   NODES = "Nodes",
@@ -37,15 +38,36 @@ const ControlPanel: React.FC = () => {
   );
 
   return (
-    <Sheet>
-      <SheetTrigger asChild>
-        <Button variant="outline">Open</Button>
-      </SheetTrigger>
-      <SheetContent>
-        <Tabs defaultValue={TABS.NODES}>
-          <TabsList>
+    <Sheet modal={false}>
+      <div className="fixed top-1/2 left-8 transform -translate-y-1/2 flex flex-col gap-2">
+        <SheetTrigger asChild>
+          <Button
+            className="relative group/btn shadow-lg hover:bg-background"
+            variant={"outline"}
+            size={"icon"}
+          >
+            <PlusIcon />
+            <BottomGradient />
+          </Button>
+        </SheetTrigger>
+
+        <SheetTrigger asChild>
+          <Button
+            className="relative group/btn shadow-lg hover:bg-background"
+            variant="outline"
+            size={"icon"}
+          >
+            <FilePlusIcon />
+            <BottomGradient />
+          </Button>
+        </SheetTrigger>
+      </div>
+
+      <SheetContent side={"left"} className="overflow-y-scroll">
+        <Tabs defaultValue={TABS.NODES} className="mt-8">
+          <TabsList className="w-full mb-4">
             {tabs.map((tab) => (
-              <TabsTrigger key={tab.key} value={tab.key}>
+              <TabsTrigger className="w-full" key={tab.key} value={tab.key}>
                 {tab.label}
               </TabsTrigger>
             ))}
@@ -58,6 +80,15 @@ const ControlPanel: React.FC = () => {
         </Tabs>
       </SheetContent>
     </Sheet>
+  );
+};
+
+const BottomGradient = () => {
+  return (
+    <>
+      <span className="group-hover/btn:opacity-100 block transition duration-500 opacity-0 absolute h-px w-full -bottom-px inset-x-0 bg-gradient-to-r from-transparent via-cyan-500 to-transparent" />
+      <span className="group-hover/btn:opacity-100 blur-sm block transition duration-500 opacity-0 absolute h-px w-1/2 mx-auto -bottom-px inset-x-10 bg-gradient-to-r from-transparent via-indigo-500 to-transparent" />
+    </>
   );
 };
 

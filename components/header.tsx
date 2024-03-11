@@ -31,10 +31,6 @@ export default function Header() {
                   <NavigationMenuItem>
                     <ModeToggle />
                   </NavigationMenuItem>
-
-                  <NavigationMenuItem>
-                    <Button size={"sm"}>Queue Prompt</Button>
-                  </NavigationMenuItem>
                 </NavigationMenuList>
               </NavigationMenu>
             </div>
