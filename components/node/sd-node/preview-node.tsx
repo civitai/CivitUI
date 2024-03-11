@@ -3,11 +3,7 @@ import { checkInput } from "@/utils";
 import { startCase } from "lodash-es";
 import React, { useCallback, useMemo } from "react";
 import styled from "styled-components";
-import { NodeCard } from "../style";
-
-/******************************************************
- *********************** Style *************************
- ******************************************************/
+import { NodeCard } from "./node-card";
 
 const Slot = styled.div<{ isRequired: 1 | 0 }>`
   margin-top: 6px;
@@ -15,17 +11,7 @@ const Slot = styled.div<{ isRequired: 1 | 0 }>`
     isRequired ? theme.colorPrimary : theme.colorBorder};
 `;
 
-/******************************************************
- ************************* Dom *************************
- ******************************************************/
-
-/**
- * @title Preview Node Parameters
- */
 interface PreviewNodeProps {
-  /**
-   * @title Widget Data
-   */
   data: Widget;
 }
 const PreviewNode: React.FC<PreviewNodeProps> = ({ data }) => {
@@ -58,20 +44,20 @@ const PreviewNode: React.FC<PreviewNodeProps> = ({ data }) => {
       position: "left" | "right";
       isRequired: 1 | 0;
     }) => (
-      <h5>
+      <p>
         <Slot
           className="react-flow__handle"
           style={{ [position]: -3 }}
           isRequired={isRequired}
         />
         {startCase(item.name)}
-      </h5>
+      </p>
     ),
     []
   );
 
   return (
-    <NodeCard title={data.name} active={0} style={{ minWidth: 240 }}>
+    <NodeCard title={data.name} active={0}>
       <div className="flex w-full items-stretch justify-stretch space-x-6">
         <div className="flex-1">
           {inputs.map((item, index) => (

@@ -1,25 +1,6 @@
 import { Position } from "reactflow";
 import styled, { css } from "styled-components";
 
-export const NodeCard = styled.div<{ active: 1 | 0; title?: React.ReactNode }>`
-  min-width: 80px;
-  min-height: 40px;
-  box-shadow: ${({ theme }) => theme.boxShadowTertiary};
-
-  ${({ active, theme }) =>
-    active
-      ? css`
-          outline: 2px solid ${theme.colorPrimary};
-        `
-      : ""};
-  .ant-card-head {
-    height: 15px;
-    padding-right: 3px;
-    background: ${({ theme }) => theme.colorFillQuaternary} !important;
-    border-bottom: unset;
-  }
-`;
-
 export const GroupCard = styled.div<{ active: 1 | 0; title?: React.ReactNode }>`
   min-width: 80px;
   height: 100%;
@@ -52,20 +33,5 @@ export const Slot = styled.div<{ isRequired: 1 | 0; position: Position }>`
     margin-top: 10px;
     background: ${({ isRequired, theme }) =>
       isRequired ? theme.colorPrimary : theme.colorBorder};
-  }
-`;
-
-export const SpaceCol = styled.div`
-  flex: 1;
-`;
-
-export const SpaceGrid = styled.div`
-  display: flex;
-  align-items: stretch;
-  justify-content: stretch;
-  width: 100%;
-
-  ${SpaceCol} + ${SpaceCol} {
-    margin-left: 24px;
   }
 `;

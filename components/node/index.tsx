@@ -16,7 +16,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { NodeResizeControl, type NodeProps } from "reactflow";
 import { shallow } from "zustand/shallow";
 import SdNode from "./sd-node";
-import { GroupCard, NodeCard } from "./style";
+import { GroupCard } from "./style";
+import { NodeCard } from "./sd-node/node-card";
 import { Button } from "../ui/button";
 import {
   Card,

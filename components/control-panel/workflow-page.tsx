@@ -83,26 +83,6 @@ const WorkflowPageComponent = () => {
   );
 
   /**
-   * @title Upload workflow file
-   * @param file - Workflow file
-   * @returns void
-   */
-  const handleUpload = useCallback(
-    (file: File) => {
-      readWorkflowFromFile(file, (workflow) => {
-        if (workflow) {
-          onLoadWorkflow(workflow);
-          setCount(count + 1);
-          toast.success(`Success! the workflow have been loaded.`);
-        } else {
-          toast.error(`Error! Invalid workflow file.`);
-        }
-      });
-    },
-    [count, onLoadWorkflow]
-  );
-
-  /**
    * @title Update local workflow graph data
    * @param id - Workflow ID
    * @param name - Workflow name
@@ -143,6 +123,25 @@ const WorkflowPageComponent = () => {
     toast.success(`Success! load default workflow.`);
   }, [count, onLoadWorkflow]);
 
+  /**
+   * @title Upload workflow file
+   * @param file - Workflow file
+   * @returns void
+   */
+  const handleUpload = useCallback(
+    (file: File) => {
+      readWorkflowFromFile(file, (workflow) => {
+        if (workflow) {
+          onLoadWorkflow(workflow);
+          toast.success(`Success! the workflow have been loaded.`);
+        } else {
+          toast.error(`Error! Invalid workflow file.`);
+        }
+      });
+    },
+    [count, onLoadWorkflow]
+  );
+
   useEffect(() => {
     try {
       const workflows = retrieveLocalWorkflows();
@@ -172,7 +171,7 @@ const WorkflowPageComponent = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      <Dropzone />
+      <Dropzone onUpload={handleUpload} />
       <div>
         <h5>Local Workflows</h5>
         {localWorkflowList?.map((item, index) => (

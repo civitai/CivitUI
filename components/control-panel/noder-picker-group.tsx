@@ -66,7 +66,7 @@ const NodePickerGroup = ({ cat, data, onAddNode }: NodePickerGroupProps) => {
           <AccordionContent>
             <div className="flex flex-wrap items-baseline justify-start">
               {data.map((i, index) => (
-                <div key={i.name}>
+                <PopoverTrigger key={i.name}>
                   <Badge
                     className="cursor-grab mr-1 my-1"
                     // onClick={(e) => {
@@ -78,16 +78,16 @@ const NodePickerGroup = ({ cat, data, onAddNode }: NodePickerGroupProps) => {
                     onMouseEnter={() => handleMouseEnter(index)}
                     onMouseLeave={handleMouseLeave}
                   >
-                    <PopoverTrigger>{startCase(i.name)}</PopoverTrigger>
+                    {startCase(i.name)}
                   </Badge>
-                </div>
+                </PopoverTrigger>
               ))}
             </div>
           </AccordionContent>
           {open && activeIndex !== null && (
             <PopoverContent
               side="right"
-              className="w-[400px] z-[60]"
+              className="w-[400px] z-[60] p-0 border-0"
               sideOffset={50}
             >
               <PreviewNode data={data[activeIndex]} />

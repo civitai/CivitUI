@@ -13,7 +13,11 @@ import useDragDrop from "@/hooks/use-drag-drop";
 import { cn, formatBytes } from "@/lib/utils";
 import { useWorkflowForm } from "@/hooks/use-form";
 
-export default function Dropzone() {
+interface DropzoneProps {
+  onUpload: (file: File) => void;
+}
+
+export default function Dropzone({ onUpload }: DropzoneProps) {
   const form = useWorkflowForm();
 
   const [file, setFile] = useState<File | null>(null);
@@ -45,15 +49,7 @@ export default function Dropzone() {
 
     setFile(selectedFile);
     setFileDropError("");
-    // Read the file's contents
-    const reader = new FileReader();
-    reader.onload = async (ev) => {
-      // @ts-ignore
-      const text = ev.target.result;
-      // Assuming `text` is the JSON content you want to set
-      form.setValue("jsonContent", text?.toString() ?? "");
-    };
-    reader.readAsText(selectedFile);
+    onUpload(selectedFile);
   };
 
   const fileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,16 +72,7 @@ export default function Dropzone() {
 
     setFile(selectedFile);
     setFileDropError("");
-
-    // Read the file's contents
-    const reader = new FileReader();
-    reader.onload = async (ev) => {
-      // @ts-ignore
-      const text = ev.target.result;
-      // Assuming `text` is the JSON content you want to set
-      form.setValue("jsonContent", text?.toString() ?? "");
-    };
-    reader.readAsText(selectedFile);
+    onUpload(selectedFile);
   };
 
   const simulateLoading = () => {
@@ -121,7 +108,7 @@ export default function Dropzone() {
             <div className="space-y-0.5">
               <p className="font-semibold mb-0">Upload ComfyUI Workflow</p>
               <p className="text-sm text-neutral-500 -mt-1">
-                Drop your ComfyUI JSON API file. Will not be saved.
+                Drop your ComfyUI JSON API file.
               </p>
             </div>
           </div>
