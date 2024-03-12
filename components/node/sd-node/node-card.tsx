@@ -13,7 +13,7 @@ export const NodeCard = ({ active, title, style, children }: NodeCardProps) => {
 
   return (
     <Card className={`${activeClass}`} style={style}>
-      <CardHeader className="py-3 px-4 bg-muted mb-3 border-b">
+      <CardHeader className="py-3 px-4 bg-muted mb-3 border-b rounded-t-lg">
         <CardTitle className="text-md">{title}</CardTitle>
       </CardHeader>
       <CardContent>{children}</CardContent>

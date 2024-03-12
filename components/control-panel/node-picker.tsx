@@ -66,7 +66,7 @@ const NodePickerComponent: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-6">
       <div className="flex gap-2">
         <div className="relative w-full">
           <input
@@ -93,7 +93,7 @@ const NodePickerComponent: React.FC = () => {
         </Toggle>
       </div>
 
-      <div className="flex-1 overflow-auto">
+      <div className="flex flex-col gap-2 overflow-auto">
         {Object.entries(category).map(([cat, items], index) => (
           <NodePickerGroup
             key={cat}

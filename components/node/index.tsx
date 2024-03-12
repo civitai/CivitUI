@@ -137,7 +137,6 @@ const NodeComponent: React.FC<NodeProps<Widget>> = (node) => {
    * @description Styled card
    * @type {React.FC}
    */
-  const StyledCard = isGroup ? GroupCard : NodeCard;
   let background;
   if (isGroup) {
     background = node.data?.color
