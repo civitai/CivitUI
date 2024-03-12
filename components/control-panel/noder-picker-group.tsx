@@ -3,7 +3,7 @@
 import PreviewNode from "../node/sd-node/preview-node";
 import { NodeItem, Widget } from "@/types";
 import { startCase } from "lodash-es";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import {
   Popover,
   PopoverContent,
@@ -25,20 +25,35 @@ interface NodePickerGroupProps {
    * @title Group Category
    */
   cat: string;
+
   /**
    * @title Group Data
    */
   data: Widget[];
+
   /**
    * @title Add Node Event Callback Function
    * @param nodeItem - Node Item
    */
   onAddNode: (nodeItem: NodeItem) => void;
+
+  /**
+   * @title Expand/Collapse State
+   */
+  expand: boolean;
 }
 
-const NodePickerGroup = ({ cat, data, onAddNode }: NodePickerGroupProps) => {
+const NodePickerGroup = ({
+  cat,
+  data,
+  onAddNode,
+  expand,
+}: NodePickerGroupProps) => {
   const [open, setOpen] = useState(false);
-  const [activeIndex, setActiveIndex] = useState<number | null>(null); // State to track the active item index
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [expandedItems, setExpandedItems] = useState<string[]>(
+    expand ? [cat] : []
+  );
 
   const handleDrag = useCallback(
     (event: React.DragEvent<HTMLDivElement> | any, i: Widget) => {
@@ -56,9 +71,22 @@ const NodePickerGroup = ({ cat, data, onAddNode }: NodePickerGroupProps) => {
   const handleMouseLeave = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    if (expand) {
+      setExpandedItems([cat]);
+    } else {
+      setExpandedItems([]);
+    }
+  }, [expand, cat]);
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <Accordion type="multiple" defaultValue={[cat]}>
+      <Accordion
+        type="multiple"
+        value={expandedItems}
+        onValueChange={setExpandedItems}
+      >
         <AccordionItem value={cat}>
           <AccordionTrigger className="pb-2 text-sm text-left">
             {startCase(cat)}
@@ -69,10 +97,10 @@ const NodePickerGroup = ({ cat, data, onAddNode }: NodePickerGroupProps) => {
                 <PopoverTrigger key={i.name}>
                   <Badge
                     className="cursor-grab mr-1 my-1"
-                    // onClick={(e) => {
-                    //   e.preventDefault();
-                    //   onAddNode({ widget: i });
-                    // }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onAddNode({ widget: i });
+                    }}
                     draggable
                     onDragStart={(event) => handleDrag(event, i)}
                     onMouseEnter={() => handleMouseEnter(index)}
