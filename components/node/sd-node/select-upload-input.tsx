@@ -1,6 +1,6 @@
 import { useAppStore } from "@/store";
 import React, { useCallback, useEffect, useState } from "react";
-import { shallow } from "zustand/shallow";
+import { useShallow } from "zustand/react/shallow";
 import {
   Select,
   SelectContent,
@@ -10,26 +10,10 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 
-/**
- * @title Select Upload Input Parameters
- */
 interface SelectUploadInputProps {
-  /**
-   * @title Current Selected Value
-   */
   value: string;
-  /**
-   * @title Input Box Data
-   */
   input: any[][];
-  /**
-   * @title Callback Function for Value Change
-   * @param val - The changed value
-   */
   onChange: (val: any) => void;
-  /**
-   * @title Input Box Name
-   */
   name: string;
 }
 
@@ -40,7 +24,12 @@ const SelectUploadInput: React.FC<SelectUploadInputProps> = ({
   name,
 }) => {
   const [options, setOptions] = useState<any[]>([]);
-  const { onRefresh, widgets } = useAppStore((st) => st, shallow);
+  const { onRefresh, widgets } = useAppStore(
+    useShallow((state) => ({
+      onRefresh: state.onRefresh,
+      widgets: state.widgets,
+    }))
+  );
 
   useEffect(() => {
     const { LoadImage } = widgets;

@@ -1,23 +1,20 @@
 "use client";
 
+import React, { useEffect, useRef, useState } from "react";
+import { useShallow } from "zustand/react/shallow";
+import { useTheme } from "next-themes";
+import { mix, rgba } from "polished";
+import { NodeResizeControl, type NodeProps } from "reactflow";
+
+import { useAppStore } from "@/store";
+import { type Widget, ImageItem } from "@/types";
 import { Input } from "@/components/ui/input";
 import { ColorMenu, colorList } from "@/components/node/color-menu";
-import { useAppStore } from "@/store";
-import { ImageItem, type Widget } from "@/types";
-import { Play, Copy, Delete, Edit, Highlighter, Ellipsis } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
 } from "@/components/ui/dropdown-menu";
 import { Progress } from "@/components/ui/progress";
-import { useTheme } from "next-themes";
-import { mix, rgba } from "polished";
-import React, { useEffect, useRef, useState } from "react";
-import { NodeResizeControl, type NodeProps } from "reactflow";
-import { shallow } from "zustand/shallow";
-import SdNode from "./sd-node";
-import { GroupCard } from "./style";
-import { NodeCard } from "./sd-node/node-card";
 import { Button } from "../ui/button";
 import {
   Card,
@@ -28,183 +25,168 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+import SdNode from "./sd-node";
+import { GroupCard } from "./style";
+import { NodeCard } from "./sd-node/node-card";
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+  ContextMenuSub,
+  ContextMenuSubContent,
+  ContextMenuSubTrigger,
+  ContextMenuSeparator,
+} from "../ui/context-menu";
+import {
+  CopyIcon,
+  Pencil1Icon,
+  ShadowIcon,
+  TrashIcon,
+} from "@radix-ui/react-icons";
+
 export const NODE_IDENTIFIER = "sdNode";
 
-/**
- * @title Image Preview Parameters
- */
 export interface ImagePreview {
-  /**
-   * @title The image object to preview
-   */
   image: ImageItem;
-  /**
-   * @title The index of the image to preview
-   */
   index: number;
 }
 
-/******************************************************
- ************************* Dom *************************
- ******************************************************/
-
-/**
- * @interface Props
- * @description Component's props type
- * @generic T - Generic type for node data
- * @param node - Information related to the node
- */
-const NodeComponent: React.FC<NodeProps<Widget>> = (node) => {
-  const ref: any = useRef(null);
+const NodeComponent = (node: NodeProps<Widget>) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const { theme } = useTheme();
+  const [nicknameInput, setNicknameInput] = useState(false);
 
   const { progressBar, onDuplicateNode, onDeleteNode, onModifyChange } =
     useAppStore(
-      (st) => ({
+      useShallow((st) => ({
         ...st,
         progressBar:
           st.nodeInProgress?.id === node.id
             ? st.nodeInProgress.progress
             : undefined,
-      }),
-      shallow
+      }))
     );
 
-  const { theme } = useTheme();
-  const [nicknameInput, setNicknameInput] = useState<boolean>(false);
   const isInProgress = progressBar !== undefined;
   const isSelected = node.selected;
   const name = node.data?.nickname || node.data.name;
   const isGroup = node.data.name === "Group";
 
-  /**
-   * @function handleNickname
-   * @description Handle nickname modification
-   * @param e - Event object
-   */
-  const handleNickname = (e: any) => {
+  const handleNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
     const nickname = e.target.value;
     onModifyChange(node.id, "nickname", nickname);
     setNicknameInput(false);
   };
 
-  /**
-   * @function handleNodeColor
-   * @description Handle node color
-   * @param key - Color key
-   */
-  const handleNodeColor = ({ key }: any) => {
-    onModifyChange(node.id, "color", colorList[key]);
+  const handleNodeColor = (key: string) => {
+    onModifyChange(node.id, "color", colorList[key as keyof typeof colorList]);
   };
 
-  /**
-   * @constant extraMenu
-   * @description Extra menu for the node
-   * @type {Array}
-   */
-  const extraMenu = [
-    {
-      icon: <Edit />,
-      label: "Rename",
-      key: "rename",
-      onClick: () => setNicknameInput(true),
-    },
-    {
-      icon: <Highlighter />,
-      label: "Colors",
-      key: "colors",
-      children: ColorMenu,
-      onClick: handleNodeColor,
-    },
-    {
-      type: "divider",
-    },
-    {
-      icon: <Copy />,
-      label: "Copy",
-      key: "copy",
-      onClick: () => onDuplicateNode(node.id),
-    },
-    {
-      icon: <Delete />,
-      label: "Delete",
-      key: "delete",
-      onClick: () => onDeleteNode(node.id),
-    },
-  ];
-
-  /**
-   * @constant StyledCard
-   * @description Styled card
-   * @type {React.FC}
-   */
-  let background;
-  if (isGroup) {
-    background = node.data?.color
+  const background = isGroup
+    ? node.data?.color
       ? rgba(node.data.color, 0.2)
       : theme === "dark"
       ? "#2C3E50"
-      : "#ECF0F1";
-  } else {
-    background = node.data?.color
-      ? mix(0.8, theme === "dark" ? "#2C3E50" : "#ECF0F1", node.data.color)
-      : theme === "dark"
-      ? "#2C3E50"
-      : "#ECF0F1";
-  }
+      : "#ECF0F1"
+    : node.data?.color
+    ? mix(0.8, theme === "dark" ? "#2C3E50" : "#ECF0F1", node.data.color)
+    : theme === "dark"
+    ? "#2C3E50"
+    : "#ECF0F1";
 
   useEffect(() => {
-    const parenet = ref.current?.parentNode;
-    parenet.setAttribute("type", node.data.name);
-    ref.current.setAttribute("type", node.data.name);
-  }, []);
+    if (ref.current) {
+      const parent = ref.current.parentNode as HTMLElement;
+      parent.setAttribute("type", node.data.name);
+      ref.current.setAttribute("type", node.data.name);
+    }
+  }, [node.data.name]);
+
+  const Title = () => {
+    return (
+      <div className="flex gap-2">
+        {nicknameInput ? (
+          <Input
+            autoFocus
+            defaultValue={name}
+            onBlur={handleNickname}
+            style={{ margin: "4px 0", width: "100%" }}
+          />
+        ) : (
+          name
+        )}
+
+        {isInProgress
+          ? progressBar > 0 && (
+              <Progress value={Math.floor(progressBar * 100)} />
+            )
+          : null}
+      </div>
+    );
+  };
 
   return (
-    <Card
-      ref={ref}
-      style={{ background }}
-      active={isInProgress || isSelected} // Correctly passing a boolean value
-    >
-      <CardHeader>
-        <CardTitle>
-          {nicknameInput ? (
-            <Input
-              autoFocus
-              defaultValue={name}
-              onBlur={handleNickname}
-              style={{ margin: "4px 0", width: "100%" }}
-            />
-          ) : (
-            name
-          )}
-        </CardTitle>
-        <CardDescription>
-          {isInProgress
-            ? progressBar > 0 && (
-                <Progress value={Math.floor(progressBar * 100)} />
-              )
-            : isSelected && (
-                <DropdownMenu>
-                  <DropdownMenuContent>
-                    {extraMenu.map((item) => (
-                      <Button
-                        key={item.key}
-                        onClick={item.onClick}
-                        style={{ display: "block", width: "100%" }}
-                      >
-                        {item.icon}
-                        {item.label}
-                      </Button>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              )}
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <SdNode {...node} />
-        {isSelected && <NodeResizeControl minWidth={80} minHeight={40} />}
-      </CardContent>
-    </Card>
+    <ContextMenu>
+      <ContextMenuTrigger>
+        <NodeCard
+          ref={ref}
+          active={isInProgress || isSelected ? 1 : 0}
+          title={<Title />}
+        >
+          <SdNode {...node} />
+          {isSelected && <NodeResizeControl minWidth={80} minHeight={40} />}
+        </NodeCard>
+      </ContextMenuTrigger>
+      <ContextMenuContent className="w-48">
+        <ContextMenuItem
+          key="rename"
+          onClick={() => setNicknameInput(true)}
+          className="gap-2"
+        >
+          <Pencil1Icon />
+          Rename
+        </ContextMenuItem>
+
+        <ContextMenuSub key="colors">
+          <ContextMenuSubTrigger className="gap-2">
+            <ShadowIcon />
+            Colors
+          </ContextMenuSubTrigger>
+          <ContextMenuSubContent className="w-48">
+            {ColorMenu.map((child, index) => (
+              <ContextMenuItem
+                key={index}
+                className="gap-2"
+                onClick={() => handleNodeColor(colorList[child.key])}
+              >
+                {child.label}
+              </ContextMenuItem>
+            ))}
+          </ContextMenuSubContent>
+        </ContextMenuSub>
+
+        <ContextMenuSeparator />
+
+        <ContextMenuItem
+          key="copy"
+          onClick={() => onDuplicateNode(node.id)}
+          className="gap-2"
+        >
+          <CopyIcon />
+          Copy
+        </ContextMenuItem>
+
+        <ContextMenuItem
+          key="delete"
+          onClick={() => onDeleteNode(node.id)}
+          className="gap-2"
+        >
+          <TrashIcon />
+          Delete
+        </ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenu>
   );
 };
 

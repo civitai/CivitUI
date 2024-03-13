@@ -90,7 +90,7 @@ const NodePickerGroup = ({
           {startCase(cat)}
         </AccordionTrigger>
         <AccordionContent>
-          <div className="flex mb-3 w-full h-[1px] bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-800 to-transparent" />
+          <div className="flex my-1 mb-4 w-full h-[1px] bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-800 to-transparent" />
           <div className="flex flex-wrap items-baseline justify-start">
             {data.map((i, index) => (
               <button

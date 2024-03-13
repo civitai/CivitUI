@@ -1,11 +1,12 @@
 "use client";
 
-import NodeComponent, { NODE_IDENTIFIER } from "@/components/node";
-import { useAppStore } from "@/store";
-import { getPostion, getPostionCenter } from "@/utils";
-import { useTheme } from "next-themes";
-import { debounce } from "lodash-es";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import ReactFlow, {
   Background,
   BackgroundVariant,
@@ -15,23 +16,23 @@ import ReactFlow, {
   MiniMap,
   NodeDragHandler,
 } from "reactflow";
+import { debounce } from "lodash-es";
+import { useShallow } from "zustand/react/shallow";
+import { useTheme } from "next-themes";
+
+import NodeComponent, { NODE_IDENTIFIER } from "@/components/node";
+import { useAppStore } from "@/store";
+import { getPostion, getPostionCenter } from "@/utils";
+
 import "reactflow/dist/style.css";
-import { shallow } from "zustand/shallow";
 
-const nodeTypes = { [NODE_IDENTIFIER]: NodeComponent };
+const FlowEditor = () => {
+  const nodeTypes = useMemo(() => ({ [NODE_IDENTIFIER]: NodeComponent }), []);
 
-/**
- * @title FlowEditor
- * @visibleName Flow Chart Editor
- */
-const FlowEditor: React.FC = () => {
   const { theme } = useTheme();
-  const reactFlowRef = useRef<any>(null);
-  // System environment
+  const reactFlowRef = useRef<HTMLDivElement>(null);
   const isWindows = navigator.platform.includes("Win");
-  // Record the edge update status
   const edgeUpdateSuccessful = useRef(true);
-  // react-flow instance
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
 
   const {
@@ -48,70 +49,41 @@ const FlowEditor: React.FC = () => {
     onDeleteNode,
     onCreateGroup,
   } = useAppStore(
-    (st) => ({
+    useShallow((st) => ({
       ...st,
       onEdgesChange: debounce(st.onEdgesChange, 20),
       onNodesChange: debounce(st.onNodesChange, 20),
-    }),
-    shallow
+    }))
   );
 
-  /**
-   * Edge update start callback function
-   */
   const onEdgeUpdateStart = useCallback(() => {
     edgeUpdateSuccessful.current = false;
   }, []);
 
-  /**
-   * Edge update callback function
-   * @param oldEdge - Old edge information
-   * @param newConnection - New connection information
-   */
   const onEdgeUpdate = useCallback(
     (oldEdge: Edge, newConnection: Connection) => {
       edgeUpdateSuccessful.current = true;
-      onEdgesChange([
-        {
-          id: oldEdge.id,
-          type: "remove",
-        },
-      ]);
+      onEdgesChange([{ id: oldEdge.id, type: "remove" }]);
       onConnect(newConnection);
     },
-    []
+    [onEdgesChange, onConnect]
   );
 
-  /**
-   * Edge update end callback function
-   * @param _ - Unused parameter
-   * @param edge - Edge information
-   */
-  const onEdgeUpdateEnd = useCallback((_: any, edge: Edge) => {
-    if (!edgeUpdateSuccessful.current) {
-      onEdgesChange([
-        {
-          id: edge.id,
-          type: "remove",
-        },
-      ]);
-    }
-    edgeUpdateSuccessful.current = true;
-  }, []);
+  const onEdgeUpdateEnd = useCallback(
+    (_: any, edge: Edge) => {
+      if (!edgeUpdateSuccessful.current) {
+        onEdgesChange([{ id: edge.id, type: "remove" }]);
+      }
+      edgeUpdateSuccessful.current = true;
+    },
+    [onEdgesChange]
+  );
 
-  /**
-   * Drag over container callback function
-   * @param event - Event object
-   */
   const onDragOver = useCallback((event: any) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = "move";
   }, []);
 
-  /**
-   * Drag end callback function
-   * @param event - Event object
-   */
   const onDrop = useCallback(
     (event: any) => {
       event.preventDefault();
@@ -125,20 +97,11 @@ const FlowEditor: React.FC = () => {
         reactFlowRef,
         reactFlowInstance
       );
-      onAddNode({
-        widget,
-        position,
-      });
+      onAddNode({ widget, position });
     },
-    [reactFlowInstance]
+    [reactFlowInstance, onAddNode]
   );
 
-  /**
-   * Node drag callback function
-   * @param event - Event object
-   * @param node - Current dragged node information
-   * @param nodes - All node information
-   */
   const onNodeDrag: NodeDragHandler = useCallback(
     (_, node, nodes) => {
       if (nodes.length > 2 || node.data.name !== "Group") return;
@@ -152,45 +115,34 @@ const FlowEditor: React.FC = () => {
         .map((n: any) => n.id);
       onSetNodesGroup(intersections, node);
     },
-    [reactFlowInstance]
+    [reactFlowInstance, onSetNodesGroup]
   );
 
-  /**
-   * Copy callback function
-   */
   const handleCopy = useCallback(() => {
     const copyData = onCopyNode();
     navigator.clipboard.writeText(JSON.stringify(copyData));
     console.log("[Copy]", copyData);
-  }, []);
+  }, [onCopyNode]);
 
-  /**
-   * Paste callback function
-   * @param instance - react-flow instance
-   */
-  const handlePaste = useCallback(async (instance: any) => {
+  const handlePaste = useCallback(async () => {
     try {
       const clipboardData = await navigator.clipboard.readText();
       const pasteData = JSON.parse(clipboardData);
-      const position = getPostionCenter(reactFlowRef, instance);
+      const position = getPostionCenter(reactFlowRef, reactFlowInstance);
       if (pasteData) onPasteNode(pasteData, position);
       console.log("[Paste]", pasteData, position);
     } catch (e) {
       console.log("[Paste]", e);
     }
-  }, []);
+  }, [reactFlowInstance, onPasteNode]);
 
-  /**
-   * Keyboard key callback function
-   * @param event - Event object
-   */
   const handleKeyDown = useCallback(
-    (event: any) => {
+    (event: KeyboardEvent) => {
       const ctrlKey = event.metaKey || (event.ctrlKey && !event.altKey);
-      const ctrlAction: any = {
-        KeyC: () => handleCopy(),
-        KeyV: () => handlePaste(reactFlowInstance),
-        KeyG: () => onCreateGroup(),
+      const ctrlAction: Record<string, () => void> = {
+        KeyC: handleCopy,
+        KeyV: handlePaste,
+        KeyG: onCreateGroup,
       };
       if (ctrlKey) {
         const action = ctrlAction[event.code];
@@ -201,18 +153,15 @@ const FlowEditor: React.FC = () => {
           .forEach((n: any) => n.selected && onDeleteNode(n.id));
       }
     },
-    [reactFlowInstance]
+    [reactFlowInstance, handleCopy, handlePaste, onCreateGroup, onDeleteNode]
   );
 
-  /**
-   * Listen for keyboard key events
-   */
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [reactFlowInstance]);
+  }, [handleKeyDown]);
 
   return (
     <ReactFlow
@@ -228,7 +177,7 @@ const FlowEditor: React.FC = () => {
       deleteKeyCode={[]}
       panOnScroll={!isWindows}
       zoomOnScroll={isWindows}
-      disableKeyboardA11y={true}
+      disableKeyboardA11y
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
       onEdgeUpdate={onEdgeUpdate}
@@ -247,10 +196,9 @@ const FlowEditor: React.FC = () => {
       <Background variant={BackgroundVariant.Dots} />
       <Controls />
       <MiniMap
-        nodeColor={(n) => {
-          if (n.data.color) return n.data.color;
-          return theme === "dark" ? "#2C3E50" : "#ECF0F1";
-        }}
+        nodeColor={(n) =>
+          n.data.color || (theme === "dark" ? "#2C3E50" : "#ECF0F1")
+        }
       />
     </ReactFlow>
   );

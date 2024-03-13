@@ -3,7 +3,7 @@ import { Connection } from "reactflow";
 import { isArray, startCase } from "lodash-es";
 import React, { useCallback } from "react";
 import { Handle, HandleType, Position } from "reactflow";
-import { shallow } from "zustand/shallow";
+import { useShallow } from "zustand/react/shallow";
 import { Slot } from "../style";
 
 interface NodeHandleProps {
@@ -14,14 +14,14 @@ interface NodeHandleProps {
   isRequired?: boolean;
 }
 
-const NodeHandle: React.FC<NodeHandleProps> = ({
+const NodeHandle = ({
   label,
   type,
   position,
   slotType,
   isRequired,
-}) => {
-  const { nodes } = useAppStore((state) => ({ nodes: state.nodes }), shallow);
+}: NodeHandleProps) => {
+  const nodes = useAppStore(useShallow((state) => state.nodes));
 
   const handleValidCheck = useCallback(
     (connection: Connection) => {
@@ -47,10 +47,11 @@ const NodeHandle: React.FC<NodeHandleProps> = ({
         type={type}
         position={position}
         isValidConnection={handleValidCheck}
+        style={{ width: "10px", height: "10px" }}
       />
       <h5
+        className="mb-1"
         title={Array.isArray(slotType) ? "STRING" : slotType}
-        style={{ marginBottom: 2 }}
       >
         {startCase(label.toLowerCase())}
       </h5>

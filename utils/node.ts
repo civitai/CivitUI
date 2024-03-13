@@ -43,7 +43,7 @@ export const addNode = (
     id,
     type: NODE_IDENTIFIER,
     data: { ...widget, ...(node?.modify ?? {}) },
-    dragHandle: ".ant-card-head",
+    dragHandle: ".drag-handle",
     position,
     zIndex,
     width,
@@ -60,27 +60,14 @@ export const addNode = (
   };
 };
 
-/**
- * @title Update Node
- * @param id - Node unique identifier
- * @param data - Updated data
- * @param nodes - List of nodes
- * @returns Updated list of nodes
- */
+// Update Node
 export const updateNode = (id: string, data: any, nodes: Node[]) =>
   nodes.map((n) => {
     if (n.id === id) n.data = { ...n.data, ...data };
     return n;
   });
 
-/**
- * @title Get Node Position
- * @param x - X coordinate
- * @param y - Y coordinate
- * @param reactFlowRef - Reference to reactflow
- * @param reactFlowInstance - Instance of reactflow
- * @returns Node position
- */
+// Get Node Position
 export const getPostion = (
   x: number,
   y: number,
@@ -94,12 +81,7 @@ export const getPostion = (
   });
 };
 
-/**
- * @title Get Center Position
- * @param reactFlowRef - Reference to reactflow
- * @param reactFlowInstance - Instance of reactflow
- * @returns Center position
- */
+// Get Center Position
 export const getPostionCenter = (reactFlowRef: any, reactFlowInstance: any) => {
   const { x, y, zoom } = reactFlowInstance.getViewport();
   const width = reactFlowRef.current.offsetWidth;
@@ -110,11 +92,7 @@ export const getPostionCenter = (reactFlowRef: any, reactFlowInstance: any) => {
   };
 };
 
-/**
- * @title Get Top Left Position
- * @param points - List of node positions
- * @returns Top left position
- */
+// Get Top Left Position
 export const getTopLeftPoint = (points: NodePosition[]): NodePosition => {
   let topLeftPoint = points[0];
   for (let i = 1; i < points.length; i++) {
@@ -129,13 +107,7 @@ export const getTopLeftPoint = (points: NodePosition[]): NodePosition => {
   return topLeftPoint;
 };
 
-/**
- * @title Copy Node
- * @param node - Node
- * @param basePosition - Base position
- * @param position - New position
- * @returns Copied node
- */
+// Copy Node
 export const copyNode = (
   node: Node,
   basePositon: NodePosition,
@@ -149,13 +121,7 @@ export const copyNode = (
   key: uuid(),
 });
 
-/**
- * @title Copy Multiple Nodes
- * @param workflow - Workflow
- * @param basePosition - Base position
- * @param position - New position
- * @returns Copied nodes and id mapping
- */
+// Copy Multiple Nodes
 export const copyNodes = (
   workflow: PersistedGraph,
   basePositon: NodePosition,
@@ -181,12 +147,7 @@ export const copyNodes = (
     { data: {}, idMap: {} }
   );
 
-/**
- * @title Copy Multiple Connections
- * @param workflow - Workflow
- * @param idMap - ID mapping
- * @returns Copied connections
- */
+// Copy Multiple Connections
 export const copyConnections = (
   workflow: PersistedGraph,
   idMap: { [id: string]: string }

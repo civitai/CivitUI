@@ -9,7 +9,7 @@ interface NodeInputsProps {
   }[];
 }
 
-const NodeInputs: React.FC<NodeInputsProps> = ({ data }) => {
+const NodeInputs = ({ data }: NodeInputsProps) => {
   if (!data?.length) return <div />;
   return (
     <div className="flex-1">

@@ -3,17 +3,19 @@
 import { useAppStore } from "@/store";
 import type { Widget } from "@/types";
 import React, { useCallback, useEffect, useState } from "react";
-import { shallow } from "zustand/shallow";
+import { motion } from "framer-motion";
+import { useShallow } from "zustand/react/shallow";
 import NodePickerGroup from "./noder-picker-group";
 import { CaretSortIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { Toggle } from "../ui/toggle";
 
-/******************************************************
- ************************* Dom *************************
- ******************************************************/
-
 const NodePickerComponent: React.FC = () => {
-  const { widgets, onAddNode } = useAppStore((state) => state, shallow);
+  const { widgets, onAddNode } = useAppStore(
+    useShallow((state) => ({
+      widgets: state.widgets,
+      onAddNode: state.onAddNode,
+    }))
+  );
   const [category, setCategory] = useState<Record<string, Widget[]>>({});
   const [keywords, setKeywords] = useState<string>("");
   const [expandAll, setExpandAll] = useState<boolean>(false);
@@ -95,13 +97,23 @@ const NodePickerComponent: React.FC = () => {
 
       <div className="flex flex-col gap-2 overflow-auto">
         {Object.entries(category).map(([cat, items], index) => (
-          <NodePickerGroup
+          <motion.div
             key={cat}
-            data={items}
-            cat={cat}
-            onAddNode={onAddNode}
-            expand={expandedItems.includes(cat)}
-          />
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              delay: index < 16 ? index * 0.05 : 0.8, // Items after the 16th index will all have the same delay
+              duration: 0.2,
+            }}
+          >
+            <NodePickerGroup
+              key={cat}
+              data={items}
+              cat={cat}
+              onAddNode={onAddNode}
+              expand={expandedItems.includes(cat)}
+            />
+          </motion.div>
         ))}
       </div>
     </div>

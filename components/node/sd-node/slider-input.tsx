@@ -10,11 +10,7 @@ import React, {
   useState,
 } from "react";
 import styled from "styled-components";
-import { shallow } from "zustand/shallow";
-
-/******************************************************
- *********************** Style *************************
- ******************************************************/
+import { useShallow } from "zustand/react/shallow";
 
 const Row = styled.div`
   display: flex;
@@ -30,42 +26,13 @@ const Col = styled.div<{ span: number }>`
   }
 `;
 
-/******************************************************
- ************************* Dom *************************
- ******************************************************/
-
-/**
- * @title Slider Input Parameters
- */
 interface SliderInputProps {
-  /**
-   * @title Input Box Name
-   */
   name: string;
-  /**
-   * @title Current Selected Value
-   */
   value: number;
-  /**
-   * @title Minimum Value
-   */
   min: number;
-  /**
-   * @title Maximum Value
-   */
   max: number;
-  /**
-   * @title Step Length
-   */
   step?: number;
-  /**
-   * @title Style
-   */
   style?: CSSProperties;
-  /**
-   * @title Callback Function for Value Change
-   * @param val - The changed value
-   */
   onChange: (val: any) => void;
 }
 
@@ -78,7 +45,7 @@ const SliderInput: React.FC<SliderInputProps> = ({
   style,
   onChange,
 }) => {
-  const { counter } = useAppStore((st) => st, shallow);
+  const { counter } = useAppStore(useShallow((st) => st));
   const [inputValue, setInputValue] = useState<number>(value);
   const [isRandom, setIsRandom] = useState<boolean>(false);
   const isSeed = name === "seed";

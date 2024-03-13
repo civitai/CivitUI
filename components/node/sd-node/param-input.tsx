@@ -3,50 +3,31 @@ import { InputData, NodeId } from "@/types";
 import { checkInput } from "@/utils";
 import { Checkbox } from "@/components/ui/checkbox";
 import { debounce } from "lodash-es";
-import React from "react";
-import { shallow } from "zustand/shallow";
+import React, { useMemo } from "react";
+import { useShallow } from "zustand/react/shallow";
 import SelectUploadInput from "./select-upload-input";
 import SliderInput from "./slider-input";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
-/**
- * @title Parameter Input Component Props
- */
 interface ParamInputComponentProps {
-  /**
-   * @title Input Box Node ID
-   */
   id: NodeId;
-  /**
-   * @title Input Box Name
-   */
   name: string;
-  /**
-   * @title Input Box Data
-   */
   input: InputData;
 }
 
-const ParamInputComponent: React.FC<ParamInputComponentProps> = ({
-  id,
-  name,
-  input,
-}) => {
-  const { value, onChange } = useAppStore(
-    (st) => ({
-      value: st.graph[id]?.fields[name],
-      onChange: debounce(
-        (val: any) =>
-          st.onPropChange(
-            id,
-            name,
-            val?.target?.value ? val.target.value : val
-          ),
-        100
-      ),
-    }),
-    shallow
+const ParamInputComponent = ({ id, name, input }: ParamInputComponentProps) => {
+  const graph = useAppStore(useShallow((state) => state.graph));
+  const onPropChange = useAppStore(useShallow((state) => state.onPropChange));
+
+  const value = graph[id]?.fields[name];
+  const onChange = useMemo(
+    () =>
+      debounce((val: any) => {
+        const newValue = val?.target?.value ? val.target.value : val;
+        onPropChange(id, name, newValue);
+      }, 100),
+    [id, name, onPropChange]
   );
   /******************************************************
    *********************** isList ************************

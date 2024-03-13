@@ -4,7 +4,7 @@ import {
   getWidgetLibrary as getWidgets,
   sendPrompt,
 } from "@/app/client";
-import type { PersistedGraph } from "@/types";
+import type { EdgeTypes, PersistedGraph } from "@/types";
 import {
   addConnection,
   addNode,
@@ -31,9 +31,6 @@ export * from "./AppState";
 
 export const useAppStore = create<AppState>()(
   devtools((set, get) => ({
-    /******************************************************
-     ******************* initialState **********************
-     ******************************************************/
     page: "flow",
     counter: 0,
     widgets: {},
@@ -47,7 +44,6 @@ export const useAppStore = create<AppState>()(
     nodeInProgress: undefined,
     promptError: undefined,
     clientId: undefined,
-
     /******************************************************
      *********************** Base *************************
      ******************************************************/
@@ -83,17 +79,16 @@ export const useAppStore = create<AppState>()(
         .filter((n) => n.selected)
         .map((n) => onDetachGroup(n));
       if (childNodes.length < 1) return;
-      let left = Infinity;
-      let right = 0;
-      let top = Infinity;
-      let bottom = 0;
 
-      childNodes.forEach(({ position: { x, y }, width, height }) => {
-        left = Math.min(left, x);
-        right = Math.max(right, x + Number(width));
-        top = Math.min(top, y);
-        bottom = Math.max(bottom, y + Number(height));
-      });
+      const { left, right, top, bottom } = childNodes.reduce(
+        (bounds, { position: { x, y }, width, height }) => ({
+          left: Math.min(bounds.left, x),
+          right: Math.max(bounds.right, x + Number(width)),
+          top: Math.min(bounds.top, y),
+          bottom: Math.max(bounds.bottom, y + Number(height)),
+        }),
+        { left: Infinity, right: 0, top: Infinity, bottom: 0 }
+      );
 
       const newGroupNode = {
         widget: customWidgets.Group,
@@ -111,13 +106,23 @@ export const useAppStore = create<AppState>()(
         nodes: st.nodes.map((n) => {
           if (childIds.includes(n.id)) {
             if (n.parentNode === groupNode.id) return n;
-            n.parentNode = groupNode.id;
-            n.position.x = n.position.x - groupNode.position.x;
-            n.position.y = n.position.y - groupNode.position.y;
+            return {
+              ...n,
+              parentNode: groupNode.id,
+              position: {
+                x: n.position.x - groupNode.position.x,
+                y: n.position.y - groupNode.position.y,
+              },
+            };
           } else if (n.parentNode === groupNode.id) {
-            n.parentNode = undefined;
-            n.position.x = n.position.x + groupNode.position.x;
-            n.position.y = n.position.y + groupNode.position.y;
+            return {
+              ...n,
+              parentNode: undefined,
+              position: {
+                x: n.position.x + groupNode.position.x,
+                y: n.position.y + groupNode.position.y,
+              },
+            };
           }
           return n;
         }),
@@ -142,9 +147,14 @@ export const useAppStore = create<AppState>()(
       set((st) => ({
         nodes: st.nodes.map((n) => {
           if (childIds.includes(n.id)) {
-            n.parentNode = undefined;
-            n.position.x = n.position.x + groupNode.position.x;
-            n.position.y = n.position.y + groupNode.position.y;
+            return {
+              ...n,
+              parentNode: undefined,
+              position: {
+                x: n.position.x + groupNode.position.x,
+                y: n.position.y + groupNode.position.y,
+              },
+            };
           }
           return n;
         }),
@@ -172,12 +182,12 @@ export const useAppStore = create<AppState>()(
     },
 
     onDeleteNode: (id) => {
-      let nodes = get().nodes;
+      const { nodes, onDetachNodesGroup } = get();
       const node: any = nodes.find((n) => n.id === id);
       const childIds = nodes
         .filter((n) => n.parentNode === id)
         .map((n) => n.id);
-      get().onDetachNodesGroup(childIds, node);
+      onDetachNodesGroup(childIds, node);
       set(
         (st) => ({
           nodes: applyNodeChanges([{ type: "remove", id }], st.nodes),
@@ -276,15 +286,14 @@ export const useAppStore = create<AppState>()(
     },
 
     onCopyNode: () => {
-      const nodes = get().nodes;
+      const { nodes } = get();
       const selectedNodes = nodes.filter((n) => n.selected).map((n) => n.id);
       const workflow = toPersisted(get());
-      const workflowData: any = {};
-      selectedNodes.forEach((id) => {
+      const workflowData = selectedNodes.reduce((data: any, id) => {
         const selectNode = workflow.data[id];
         if (selectNode.parentNode) {
           const groupNode = nodes.find((n) => n.id === selectNode.parentNode);
-          workflowData[id] = {
+          data[id] = {
             ...selectNode,
             parentNode: undefined,
             position: {
@@ -293,15 +302,17 @@ export const useAppStore = create<AppState>()(
             },
           };
         } else {
-          workflowData[id] = selectNode;
+          data[id] = selectNode;
         }
-      });
-      workflow.data = workflowData;
-      workflow.connections = workflow.connections.filter(
-        (e) =>
-          selectedNodes.includes(e.target) && selectedNodes.includes(e.source)
-      );
-      return workflow;
+        return data;
+      }, {});
+      return {
+        data: workflowData,
+        connections: workflow.connections.filter(
+          (e) =>
+            selectedNodes.includes(e.target) && selectedNodes.includes(e.source)
+        ),
+      };
     },
 
     onPasteNode: (workflow, position) => {
@@ -349,10 +360,7 @@ export const useAppStore = create<AppState>()(
     onEdgesAnimate: (animated) => {
       set(
         (st) => ({
-          edges: st.edges.map((e) => ({
-            ...e,
-            animated,
-          })),
+          edges: st.edges.map((e) => ({ ...e, animated })),
         }),
         false,
         "onEdgesAnimate"
@@ -362,10 +370,7 @@ export const useAppStore = create<AppState>()(
     onEdgesType: (type) => {
       set(
         (st) => ({
-          edges: st.edges.map((e) => ({
-            ...e,
-            type,
-          })),
+          edges: st.edges.map((e) => ({ ...e, type })),
         }),
         false,
         "onEdgesType"
@@ -375,7 +380,6 @@ export const useAppStore = create<AppState>()(
     /******************************************************
      ********************* Connection ***********************
      ******************************************************/
-
     onConnect: (connection) => {
       set((st) => addConnection(st, connection), false, "onConnect");
     },
@@ -461,13 +465,8 @@ export const useAppStore = create<AppState>()(
     onLoadWorkflow: (workflow) => {
       console.log("[onLoadWorkflow] Received workflow:", workflow);
 
-      if (!workflow) {
-        console.error("[onLoadWorkflow] Workflow is undefined or null");
-        return;
-      }
-
-      if (!workflow.data) {
-        console.error("[onLoadWorkflow] Workflow data is undefined or null");
+      if (!workflow || !workflow.data) {
+        console.error("[onLoadWorkflow] Invalid workflow data");
         return;
       }
 
@@ -508,14 +507,14 @@ export const useAppStore = create<AppState>()(
             }
           });
 
-          if (!workflow.connections) {
-            console.warn(
-              "[onLoadWorkflow] Workflow connections is undefined or null"
-            );
-          } else {
+          if (workflow.connections) {
             workflow.connections.forEach((connection) => {
               state = addConnection(state, connection);
             });
+          } else {
+            console.warn(
+              "[onLoadWorkflow] Workflow connections is undefined or null"
+            );
           }
 
           return state;
@@ -524,7 +523,6 @@ export const useAppStore = create<AppState>()(
         "onLoadWorkflow"
       );
     },
-
     onDownloadWorkflow: () => {
       writeWorkflowToFile(toPersisted(get()));
     },

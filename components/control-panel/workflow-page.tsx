@@ -16,7 +16,7 @@ import {
   PlusIcon,
 } from "@radix-ui/react-icons";
 import React, { useCallback, useEffect, useState } from "react";
-import { shallow } from "zustand/shallow";
+import { useShallow } from "zustand/react/shallow";
 import WorkflowItem from "./workflow-item";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
@@ -35,25 +35,16 @@ const WorkflowPageComponent = () => {
     onSaveLocalWorkFlow,
     onUpdateLocalWorkFlowGraph,
     onUpdateLocalWorkFlowTitle,
-  } = useAppStore((st) => st, shallow);
+  } = useAppStore(useShallow((st) => st));
 
-  /**
-   * @title Save local workflow
-   * @param title - Workflow title
-   * @returns void
-   */
+  // Save local workflow
   const handleSave = useCallback(() => {
     onSaveLocalWorkFlow(title);
     setCount(count + 1);
     toast.success(`Success! ${title ?? "Your workflow"} have been saved.`);
   }, [count, onSaveLocalWorkFlow, title]);
 
-  /**
-   * @title Delete local workflow
-   * @param id - Workflow ID
-   * @param name - Workflow name
-   * @returns void
-   */
+  // Delete local workflow
   const handleDelete = useCallback(
     (id: string, name: string) => {
       deleteLocalWorkflowFromId(id);
@@ -63,12 +54,7 @@ const WorkflowPageComponent = () => {
     [count]
   );
 
-  /**
-   * @title Load workflow
-   * @param graph - Workflow graph data
-   * @param name - Workflow name
-   * @returns void
-   */
+  // Load workflow
   const handleLoad = useCallback(
     (graph: PersistedGraph, name: string) => {
       if (graph) {
@@ -82,12 +68,7 @@ const WorkflowPageComponent = () => {
     [count, onLoadWorkflow]
   );
 
-  /**
-   * @title Update local workflow graph data
-   * @param id - Workflow ID
-   * @param name - Workflow name
-   * @returns void
-   */
+  // Update local workflow graph data
   const handleUpdate = useCallback(
     (id: string, name: string) => {
       onUpdateLocalWorkFlowGraph(id);
@@ -97,12 +78,7 @@ const WorkflowPageComponent = () => {
     [count, onUpdateLocalWorkFlowGraph]
   );
 
-  /**
-   * @title Rename local workflow
-   * @param id - Workflow ID
-   * @param name - New workflow name
-   * @returns void
-   */
+  // Rename local workflow
   const handleRename = useCallback(
     (id: string, name: string) => {
       onUpdateLocalWorkFlowTitle(id, name);
@@ -112,10 +88,7 @@ const WorkflowPageComponent = () => {
     [count, onUpdateLocalWorkFlowTitle]
   );
 
-  /**
-   * @title Load default workflow
-   * @returns void
-   */
+  // Load default workflow
   const handleNew = useCallback(() => {
     cleanTempWorkflow();
     onLoadWorkflow(defaultWorkflow);
@@ -123,11 +96,7 @@ const WorkflowPageComponent = () => {
     toast.success(`Success! load default workflow.`);
   }, [count, onLoadWorkflow]);
 
-  /**
-   * @title Upload workflow file
-   * @param file - Workflow file
-   * @returns void
-   */
+  // Upload workflow file
   const handleUpload = useCallback(
     (file: File) => {
       readWorkflowFromFile(file, (workflow) => {

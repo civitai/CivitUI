@@ -1,18 +1,6 @@
-/**
- * Key of the Widget
- */
 export type WidgetKey = string;
-
-/**
- * Key of the Property
- */
 export type PropertyKey = string;
-
-/**
- * ID of the Node
- */
 export type NodeId = string;
-
 /**
  * Types of connections
  * - 'default' Default type

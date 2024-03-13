@@ -4,22 +4,15 @@ import Image from "next/image";
 import queryString from "query-string";
 import React, { useCallback } from "react";
 import styled from "styled-components";
-import { shallow } from "zustand/shallow";
-
-/******************************************************
- *********************** Style *************************
- ******************************************************/
+import { useShallow } from "zustand/react/shallow";
 
 const ImgList = styled.div`
   display: flex;
   flex-wrap: wrap;
 `;
 
-/******************************************************
- ************************* Dom *************************
- ******************************************************/
 const GalleryComponent: React.FC = () => {
-  const { gallery } = useAppStore((state) => state, shallow);
+  const { gallery } = useAppStore(useShallow((state) => state));
 
   const renderImage = useCallback(({ image }: any) => {
     const src = getBackendUrl(

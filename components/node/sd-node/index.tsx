@@ -1,20 +1,19 @@
-import { useAppStore } from "@/store";
-import { Widget } from "@/types";
-import { checkInput } from "@/utils";
-import React, { useMemo } from "react";
 import { NodeProps } from "reactflow";
-import { shallow } from "zustand/shallow";
+import { useShallow } from "zustand/react/shallow";
+
 import NodeImgPreview from "./node-img-preview";
 import NodeInputs from "./node-inputs";
 import NodeOutputs from "./node-ouputs";
 import NodeParams from "./node-params";
 
-const SdNode: React.FC<NodeProps<Widget>> = ({
-  id,
-  data: { input, output },
-}) => {
+import { useAppStore } from "@/store";
+import { Widget } from "@/types";
+import { checkInput } from "@/utils";
+import React, { useMemo } from "react";
+
+const SdNode = ({ id, data: { input, output } }: NodeProps<Widget>) => {
   const { imagePreviews, inputImgPreviews } = useAppStore(
-    (st) => ({
+    useShallow((st) => ({
       imagePreviews: st.graph?.[id]?.images
         ?.map((image, index) => ({ image, index }))
         .filter(Boolean),
@@ -27,8 +26,7 @@ const SdNode: React.FC<NodeProps<Widget>> = ({
           index: 0,
         },
       ].filter((i) => i.image.filename),
-    }),
-    shallow
+    }))
   );
 
   const params = useMemo(() => {
