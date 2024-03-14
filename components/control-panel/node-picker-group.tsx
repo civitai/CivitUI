@@ -64,7 +64,7 @@ const NodePickerGroup = ({
     >
       <AccordionItem
         value={cat}
-        className="rounded-md px-4 bg-muted dark:bg-background"
+        className="rounded-lg px-4 bg-background shadow-md border dark:border-0"
       >
         <AccordionTrigger className="py-3 text-sm text-left">
           {startCase(cat)}

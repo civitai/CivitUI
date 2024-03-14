@@ -22,6 +22,10 @@ const config = {
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
       },
+      aspectRatio: {
+        landscape: "3 / 2",
+        portrait: "2 / 3",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

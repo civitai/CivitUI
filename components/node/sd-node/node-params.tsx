@@ -2,7 +2,7 @@ import NodeHandle from "@/components/node/sd-node/node-handle";
 import { Flow } from "@/types";
 import React from "react";
 import { Position } from "reactflow";
-import ParamInputComponent from "./input-param";
+import InputParam from "./input-param";
 
 interface NodeParamsProps {
   nodeId: string;
@@ -15,7 +15,6 @@ interface NodeParamsProps {
 
 const NodeParams: React.FC<NodeParamsProps> = ({ data, nodeId }) => {
   if (!data?.length) return null;
-
   return (
     <div>
       {data.map(({ name, type, input }) => (
@@ -27,7 +26,7 @@ const NodeParams: React.FC<NodeParamsProps> = ({ data, nodeId }) => {
             position={Position.Left}
             isRequired={false}
           />
-          <ParamInputComponent name={name} id={nodeId} input={input} />
+          <InputParam name={name} id={nodeId} input={input} />
           <div style={{ height: 4 }} />
         </div>
       ))}

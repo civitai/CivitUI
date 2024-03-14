@@ -9,14 +9,15 @@ import SelectUploadInput from "./select-upload-input";
 import SliderInput from "./slider-input";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { ModelDialog } from "../model-dialog";
 
-interface ParamInputComponentProps {
+interface InputParamProps {
   id: NodeId;
   name: string;
   input: InputData;
 }
 
-const ParamInputComponent = ({ id, name, input }: ParamInputComponentProps) => {
+const InputParam = ({ id, name, input }: InputParamProps) => {
   const graph = useAppStore(useShallow((state) => state.graph));
   const onPropChange = useAppStore(useShallow((state) => state.onPropChange));
 
@@ -31,6 +32,10 @@ const ParamInputComponent = ({ id, name, input }: ParamInputComponentProps) => {
   );
 
   if (checkInput.isList(input)) {
+    if (name === "ckpt_name") {
+      return <ModelDialog />;
+    }
+
     return (
       <SelectUploadInput
         value={value}
@@ -103,4 +108,4 @@ const ParamInputComponent = ({ id, name, input }: ParamInputComponentProps) => {
   return null;
 };
 
-export default React.memo(ParamInputComponent);
+export default React.memo(InputParam);

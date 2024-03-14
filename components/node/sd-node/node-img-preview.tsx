@@ -25,7 +25,6 @@ const NodeImgPreview: React.FC<NodeImgPreviewProps> = ({ data }) => {
   );
 
   if (!data || data.length === 0) return null;
-  // Use a div or another suitable element as a container for the images
   return <div>{data.map(renderImage).reverse()}</div>;
 };
 

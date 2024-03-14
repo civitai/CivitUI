@@ -65,13 +65,16 @@ const ControlPanel: React.FC = () => {
 
       <SheetContent side={"left"} className="overflow-y-scroll">
         <Tabs defaultValue={TABS.NODES} className="mt-8">
-          <TabsList className="w-full mb-4">
-            {tabs.map((tab) => (
-              <TabsTrigger className="w-full" key={tab.key} value={tab.key}>
-                {tab.label}
-              </TabsTrigger>
-            ))}
-          </TabsList>
+          <div className="px-2">
+            <TabsList className="w-full mb-4">
+              {tabs.map((tab) => (
+                <TabsTrigger className="w-full" key={tab.key} value={tab.key}>
+                  {tab.label}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </div>
+
           {tabs.map((tab) => (
             <TabsContent key={tab.key} value={tab.key}>
               {tab.children}
@@ -86,8 +89,8 @@ const ControlPanel: React.FC = () => {
 const BottomGradient = () => {
   return (
     <>
-      <span className="group-hover/btn:opacity-100 block transition duration-500 opacity-0 absolute h-px w-full -bottom-px inset-x-0 bg-gradient-to-r from-transparent via-cyan-500 to-transparent" />
-      <span className="group-hover/btn:opacity-100 blur-sm block transition duration-500 opacity-0 absolute h-px w-1/2 mx-auto -bottom-px inset-x-10 bg-gradient-to-r from-transparent via-indigo-500 to-transparent" />
+      <span className="group-hover/btn:opacity-100 block transition duration-300 opacity-0 absolute h-px w-full -bottom-px inset-x-0 bg-gradient-to-r from-transparent via-cyan-500 to-transparent" />
+      <span className="group-hover/btn:opacity-100 blur-sm block transition duration-300 opacity-0 absolute h-px w-1/2 mx-auto -bottom-px inset-x-10 bg-gradient-to-r from-transparent via-indigo-500 to-transparent" />
     </>
   );
 };

@@ -4,8 +4,10 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const modelType = searchParams.get("type") || "TextualInversion";
   const limit = searchParams.get("limit") || "3";
+  const sort = searchParams.get("sort") || "Most Downloaded";
+  const period = searchParams.get("period") || "AllTime";
 
-  const url = `https://civitai.com/api/v1/models?limit=${limit}&types=${modelType}`;
+  const url = `https://civitai.com/api/v1/models?limit=${limit}&types=${modelType}&sort=${sort}&period=${period}&page=-1`;
   const apiKey = process.env.CIVITAI_API_KEY;
 
   try {
@@ -22,7 +24,7 @@ export async function GET(request: Request) {
     }
 
     const data = await response.json();
-
+    console.log("Models API data:", data);
     return NextResponse.json(data);
   } catch (error) {
     console.error("Error fetching data:", error);

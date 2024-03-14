@@ -69,7 +69,7 @@ const NodePickerComponent: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex gap-2">
+      <div className="flex gap-2 px-2">
         <div className="relative w-full">
           <input
             name="search"
@@ -95,7 +95,7 @@ const NodePickerComponent: React.FC = () => {
         </Toggle>
       </div>
 
-      <div className="flex flex-col gap-2 overflow-auto">
+      <div className="flex flex-col gap-4 overflow-auto px-2">
         {Object.entries(category).map(([cat, items], index) => (
           <motion.div
             key={cat}
