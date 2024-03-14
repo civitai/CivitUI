@@ -1,3 +1,6 @@
+# CivitUI - A comfier worfklow for generating with Civitai models
+https://github.com/civitai/CivitUI/assets/34775928/61f8662f-5a52-46ac-aac2-c751b0f8b02d
+
 ## Local Development
 
 ### 1. Set up ComfyUI server
@@ -8,7 +11,7 @@ First, clone and setup [ComfyUI](https://github.com/comfyanonymous/ComfyUI) if y
 git clone https://github.com/comfyanonymous/ComfyUI
 ```
 
-Then, modify `ComfyUI/server.py` to add CORS (Cross-Origin Resource Sharing) headers to responses from your server. Adding the below code block will allow our Next.js app access resources on the ComfyUI server.
+Then, modify `ComfyUI/server.py` to add CORS (Cross-Origin Resource Sharing) headers to responses from the server. Adding the below code blocks will allow our CivitUI Next.js app to access resources on the ComfyUI server.
 
 ```python
 @web.middleware
