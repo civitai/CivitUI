@@ -5,7 +5,7 @@ import type { Widget } from "@/types";
 import React, { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useShallow } from "zustand/react/shallow";
-import NodePickerGroup from "./noder-picker-group";
+import NodePickerGroup from "./node-picker-group";
 import { CaretSortIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { Toggle } from "../ui/toggle";
 
@@ -102,7 +102,7 @@ const NodePickerComponent: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{
-              delay: index < 16 ? index * 0.05 : 0.8, // Items after the 16th index will all have the same delay
+              delay: index < 16 ? index * 0.05 : 0.4, // Items after the 16th index will all have the same delay
               duration: 0.2,
             }}
           >

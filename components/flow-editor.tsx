@@ -170,7 +170,6 @@ const FlowEditor = () => {
       nodeTypes={nodeTypes}
       ref={reactFlowRef}
       fitView
-      snapToGrid
       snapGrid={[20, 20]}
       minZoom={0.05}
       multiSelectionKeyCode={["Shift"]}
@@ -194,7 +193,7 @@ const FlowEditor = () => {
       }}
     >
       <Background variant={BackgroundVariant.Dots} />
-      <Controls />
+      <Controls showZoom={false} />
       <MiniMap
         nodeColor={(n) =>
           n.data.color || (theme === "dark" ? "#2C3E50" : "#ECF0F1")

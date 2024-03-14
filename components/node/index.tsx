@@ -10,20 +10,7 @@ import { useAppStore } from "@/store";
 import { type Widget, ImageItem } from "@/types";
 import { Input } from "@/components/ui/input";
 import { ColorMenu, colorList } from "@/components/node/color-menu";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-} from "@/components/ui/dropdown-menu";
 import { Progress } from "@/components/ui/progress";
-import { Button } from "../ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 
 import SdNode from "./sd-node";
 import { GroupCard } from "./style";
@@ -54,6 +41,8 @@ export interface ImagePreview {
 
 const NodeComponent = (node: NodeProps<Widget>) => {
   const ref = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const { theme } = useTheme();
   const [nicknameInput, setNicknameInput] = useState(false);
 
@@ -103,15 +92,26 @@ const NodeComponent = (node: NodeProps<Widget>) => {
     }
   }, [node.data.name]);
 
+  useEffect(() => {
+    if (nicknameInput && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [nicknameInput]);
+
   const Title = () => {
     return (
       <div className="flex gap-2">
         {nicknameInput ? (
           <Input
-            autoFocus
+            ref={inputRef}
             defaultValue={name}
+            onKeyDown={(e) => {
+              if (e.key === "Backspace") {
+                e.stopPropagation();
+              }
+            }}
             onBlur={handleNickname}
-            style={{ margin: "4px 0", width: "100%" }}
+            className="nodrag"
           />
         ) : (
           name
@@ -129,13 +129,9 @@ const NodeComponent = (node: NodeProps<Widget>) => {
   return (
     <ContextMenu>
       <ContextMenuTrigger>
-        <NodeCard
-          ref={ref}
-          active={isInProgress || isSelected ? 1 : 0}
-          title={<Title />}
-        >
+        <NodeCard active={isInProgress || isSelected ? 1 : 0} title={<Title />}>
           <SdNode {...node} />
-          {isSelected && <NodeResizeControl minWidth={80} minHeight={40} />}
+          <NodeResizeControl minWidth={80} minHeight={40} />
         </NodeCard>
       </ContextMenuTrigger>
       <ContextMenuContent className="w-48">

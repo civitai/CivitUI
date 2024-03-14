@@ -3,7 +3,6 @@
 import PreviewNode from "../node/sd-node/preview-node";
 import { NodeItem, Widget } from "@/types";
 import { startCase } from "lodash-es";
-import { motion } from "framer-motion";
 import React, { useCallback, useState, useEffect } from "react";
 import {
   Accordion,
@@ -13,29 +12,10 @@ import {
 } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
 
-/**
- * @title Node Selector Group Component Properties
- */
 interface NodePickerGroupProps {
-  /**
-   * @title Group Category
-   */
   cat: string;
-
-  /**
-   * @title Group Data
-   */
   data: Widget[];
-
-  /**
-   * @title Add Node Event Callback Function
-   * @param nodeItem - Node Item
-   */
   onAddNode: (nodeItem: NodeItem) => void;
-
-  /**
-   * @title Expand/Collapse State
-   */
   expand: boolean;
 }
 
@@ -115,18 +95,9 @@ const NodePickerGroup = ({
         </AccordionContent>
       </AccordionItem>
       {open && activeIndex !== null && (
-        <motion.div
-          initial={{ y: -40, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: -40, opacity: 0 }}
-          transition={{
-            x: { type: "spring", stiffness: 50, damping: 10 },
-            duration: 0.2,
-          }}
-          className="fixed w-[350px] z-[60] md:left-[400px] top-1/2 transform -translate-y-1/2 shadow-xl rounded-lg"
-        >
+        <div className="fixed z-[60] md:left-[400px] top-1/2 transform -translate-y-1/2 bg-muted/50 p-8 rounded-lg border backdrop-blur-sm">
           <PreviewNode data={data[activeIndex]} />
-        </motion.div>
+        </div>
       )}
     </Accordion>
   );

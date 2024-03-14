@@ -29,9 +29,6 @@ const ParamInputComponent = ({ id, name, input }: ParamInputComponentProps) => {
       }, 100),
     [id, name, onPropChange]
   );
-  /******************************************************
-   *********************** isList ************************
-   ******************************************************/
 
   if (checkInput.isList(input)) {
     return (
@@ -43,9 +40,6 @@ const ParamInputComponent = ({ id, name, input }: ParamInputComponentProps) => {
       />
     );
   }
-  /******************************************************
-   ********************** isBool ************************
-   ******************************************************/
 
   if (checkInput.isBool(input)) {
     return (
@@ -53,13 +47,10 @@ const ParamInputComponent = ({ id, name, input }: ParamInputComponentProps) => {
         value={value}
         defaultChecked={input[1].default}
         onChange={onChange}
+        className="nodrag"
       />
     );
   }
-
-  /******************************************************
-   *********************** isInt ************************
-   ******************************************************/
 
   if (checkInput.isInt(input)) {
     return (
@@ -75,10 +66,6 @@ const ParamInputComponent = ({ id, name, input }: ParamInputComponentProps) => {
       />
     );
   }
-
-  /******************************************************
-   ********************* isFloat ***********************
-   ******************************************************/
 
   if (checkInput.isFloat(input)) {
     return (
@@ -96,10 +83,6 @@ const ParamInputComponent = ({ id, name, input }: ParamInputComponentProps) => {
     );
   }
 
-  /******************************************************
-   ********************* isString ***********************
-   ******************************************************/
-
   if (checkInput.isString(input)) {
     const args = input[1];
     if (args.multiline === true) {
@@ -108,11 +91,12 @@ const ParamInputComponent = ({ id, name, input }: ParamInputComponentProps) => {
           style={{ height: 128, width: "100%" }}
           defaultValue={value}
           onBlur={onChange}
+          className="nodrag"
         />
       );
     }
     return (
-      <Input style={{ width: "100%" }} value={value} onChange={onChange} />
+      <Input className="nodrag w-full" value={value} onChange={onChange} />
     );
   }
 

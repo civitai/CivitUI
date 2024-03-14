@@ -72,7 +72,7 @@ const SelectUploadInput: React.FC<SelectUploadInputProps> = ({
       {name === "image" && <Button>Upload</Button>}
       <Select>
         <SelectTrigger className="w-full">
-          <SelectValue placeholder="Search to Select" />
+          <SelectValue placeholder="Select" />
         </SelectTrigger>
         <SelectContent>
           {options.map((option) => (

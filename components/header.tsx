@@ -17,7 +17,7 @@ export default function Header() {
     <div>
       <div
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 flex items-center justify-between p-6 lg:px-8 sm:flex-row h-14 backdrop-blur-md border-b border-b-slate-500 border-opacity-20 bg-transparent darktext-white"
+          "fixed top-0 left-0 right-0 z-50 flex items-center justify-between p-6 lg:px-8 sm:flex-row h-14 backdrop-blur-md border-b border-b-slate-500 border-opacity-20 bg-transparent dark:text-white"
         )}
       >
         <Link href={"/"} className="text-lg font-semibold">

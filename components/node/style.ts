@@ -15,15 +15,6 @@ export const GroupCard = styled.div<{ active: 1 | 0; title?: React.ReactNode }>`
   .react-flow__resize-control {
     pointer-events: all !important;
   }
-  .ant-card-head {
-    pointer-events: all !important;
-
-    height: 15px;
-    padding-right: 3px;
-
-    background: ${({ theme }) => theme.colorFillQuaternary} !important;
-    border-bottom: unset;
-  }
 `;
 
 export const Slot = styled.div<{ isRequired: 1 | 0; position: Position }>`

@@ -1,6 +1,7 @@
 import { type Widget } from "@/types";
 import { checkInput } from "@/utils";
 import { startCase } from "lodash-es";
+import { motion } from "framer-motion";
 import React, { useMemo } from "react";
 import { NodeCard } from "./node-card";
 
@@ -14,7 +15,12 @@ const Slot = ({ isRequired, position }: SlotProps) => (
     className={`mt-1.5 react-flow__handle ${
       isRequired ? "bg-primary" : "bg-border"
     } ${position === "left" ? "mr-2" : "ml-2"}`}
-    style={{ [position]: -3 }}
+    style={{
+      width: "10px",
+      height: "10px",
+      position: "absolute",
+      [position]: -3,
+    }}
   />
 );
 
@@ -40,34 +46,47 @@ const PreviewNode = ({ data }: PreviewNodeProps) => {
   }, [data]);
 
   return (
-    <NodeCard title={data.name} active={0}>
-      <div className="flex w-full items-stretch justify-between space-x-6">
-        <div className="flex-1">
-          {inputs.map((item, index) => (
-            <div key={index} className="flex items-center">
-              <Slot position="left" isRequired={1} />
-              <span className="text-sm">{startCase(item.name)}</span>
-            </div>
-          ))}
-        </div>
-        <div className="flex-1 text-right">
-          {outputs.map((item, index) => (
-            <div key={index} className="flex items-center justify-end">
-              <span className="text-sm">{startCase(item.name)}</span>
-              <Slot position="right" isRequired={1} />
-            </div>
-          ))}
-        </div>
-      </div>
-      <div className="mt-4">
-        {params.map((item, index) => (
-          <div key={index} className="flex items-center">
-            <Slot position="left" isRequired={0} />
-            <span className="text-sm">{startCase(item.name)}</span>
+    <motion.div
+      initial={{ scale: 0.5, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      exit={{ scale: 0, opacity: 0 }}
+      transition={{
+        type: "spring",
+        stiffness: 300,
+        damping: 20,
+        duration: 0.15,
+      }}
+      className="relative w-[350px] shadow-xl rounded-lg"
+    >
+      <NodeCard title={data.name} active={0}>
+        <div className="flex w-full items-stretch justify-between space-x-6">
+          <div className="flex-1">
+            {inputs.map((item, index) => (
+              <div key={index} className="flex items-center">
+                <Slot position="left" isRequired={1} />
+                <span className="text-sm">{startCase(item.name)}</span>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-    </NodeCard>
+          <div className="flex-1 text-right">
+            {outputs.map((item, index) => (
+              <div key={index} className="flex items-center justify-end">
+                <span className="text-sm">{startCase(item.name)}</span>
+                <Slot position="right" isRequired={1} />
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="mt-4">
+          {params.map((item, index) => (
+            <div key={index} className="flex items-center">
+              <Slot position="left" isRequired={0} />
+              <span className="text-sm">{startCase(item.name)}</span>
+            </div>
+          ))}
+        </div>
+      </NodeCard>
+    </motion.div>
   );
 };
 

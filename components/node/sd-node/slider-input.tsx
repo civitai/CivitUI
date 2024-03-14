@@ -9,22 +9,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import styled from "styled-components";
 import { useShallow } from "zustand/react/shallow";
-
-const Row = styled.div`
-  display: flex;
-`;
-
-const Col = styled.div<{ span: number }>`
-  display: flex;
-  flex: ${({ span }) => span};
-  align-items: center;
-  justify-content: flex-start;
-  > * {
-    width: 100%;
-  }
-`;
 
 interface SliderInputProps {
   name: string;
@@ -51,38 +36,35 @@ const SliderInput: React.FC<SliderInputProps> = ({
   const isSeed = name === "seed";
 
   const { iMax, iMin, iStep } = useMemo(() => {
-    let iMax = max;
-    let iMin = min;
-    let iStep = step;
+    let computedMax = max;
+    let computedMin = min;
+    let computedStep = step ?? 1;
     switch (name) {
       case "steps":
-        max = 200;
+        computedMax = 200;
         break;
       case "cfg":
-        max = 32;
-        step = 0.5;
+        computedMax = 32;
+        computedStep = 0.5;
         break;
       case "width":
-        max = 4096;
-        min = 512;
-        step = 4;
-        break;
       case "height":
-        max = 4096;
-        min = 512;
-        step = 4;
+        computedMax = 4096;
+        computedMin = 512;
+        computedStep = 4;
         break;
       default:
         break;
     }
-    return { iMax, iMin, iStep };
+    return { iMax: computedMax, iMin: computedMin, iStep: computedStep };
   }, [name, max, min, step]);
 
   const handleChange = useCallback(
-    (newValue: number | any) => {
-      const val = Number(
-        newValue?.target?.value ? newValue.target.value : newValue
-      );
+    (e: React.ChangeEvent<HTMLInputElement> | any) => {
+      e.stopPropagation();
+
+      const newValue = e.target.value;
+      const val = Number(newValue);
       if (!isNaN(val)) {
         setInputValue(val);
         onChange(val);
@@ -93,6 +75,7 @@ const SliderInput: React.FC<SliderInputProps> = ({
 
   const handleCheckboxChange = useCallback((e: any) => {
     setIsRandom(e.target.checked);
+    console.log(e.target.checked);
   }, []);
 
   useEffect(() => {
@@ -101,23 +84,39 @@ const SliderInput: React.FC<SliderInputProps> = ({
   }, [counter, iMax]);
 
   return (
-    <Row style={style}>
-      <Col span={isSeed ? 12 : 4} style={{ marginRight: 12 }}>
+    <div style={style} className="flex gap-3">
+      <div
+        className={`flex items-center justify-start mr-3 ${
+          isSeed ? "flex-[12]" : "flex-[4]"
+        } w-full`}
+      >
         <Input
           type="number"
-          style={{ width: "100%" }}
           min={iMin}
           max={iMax}
           step={iStep}
           value={Number(inputValue)}
-          onBlur={handleChange}
+          onChange={(e) => handleChange(e)}
+          onBlur={(e) => handleChange(e)}
+          className="nodrag min-w-[100px]"
         />
-      </Col>
-      <Col span={isSeed ? 4 : 12}>
+      </div>
+      <div
+        className={`flex items-center justify-start ${
+          isSeed ? "mr-3 flex-[4]" : "flex-[12]"
+        } w-full`}
+        style={{ marginRight: "12px" }}
+      >
         {isSeed ? (
-          <Checkbox checked={isRandom} onChange={handleCheckboxChange}>
-            Random
-          </Checkbox>
+          <div className="flex space-x-2">
+            <Checkbox checked={isRandom} onChange={handleCheckboxChange} />
+            <label
+              htmlFor="random"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Random
+            </label>
+          </div>
         ) : (
           <Slider
             min={iMin}
@@ -125,10 +124,11 @@ const SliderInput: React.FC<SliderInputProps> = ({
             onChange={handleChange}
             value={[Number(inputValue)]}
             step={iStep}
+            className="nodrag"
           />
         )}
-      </Col>
-    </Row>
+      </div>
+    </div>
   );
 };
 
