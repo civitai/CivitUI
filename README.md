@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Local Development
 
-## Getting Started
+### 1. Set up ComfyUI server
 
-First, run the development server:
+First, clone and setup [ComfyUI](https://github.com/comfyanonymous/ComfyUI) if you haven't already.
+
+```bash
+git clone https://github.com/comfyanonymous/ComfyUI
+```
+
+Then, modify `ComfyUI/server.py` to add CORS (Cross-Origin Resource Sharing) headers to responses from your server. Adding the below code block will allow our Next.js app access resources on the ComfyUI server.
+
+```python
+@web.middleware
+async def cors_handler(request: web.Request, handler):
+    response = await handler(request)
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, x-requested-with'
+    return response
+```
+
+```python
+class PromptServer():
+...
+    self.app = web.Application(client_max_size=20971520, middlewares=[cache_control, cors_handler]) # Add cors_handler middleware
+...
+```
+
+Finally, start the ComfyUI server:
+
+```bash
+python main.py
+```
+
+### 2. Set up CivitUI
+
+Now, clone the CivitUI repository to your local machine:
+
+```bash
+https://github.com/civitai/CivitUI.git
+```
+
+Add a `.env` file with the environment variables from [`.env.example`](.env.example).
+
+```
+NEXT_PUBLIC_COMFYUI_SERVER_URL=http://127.0.0.1:8188
+CIVITAI_API_KEY=
+```
+
+Then, install the dependencies and run the development server:
+
+```bash
+npm install
+# or
+bun install
+```
 
 ```bash
 npm run dev
 # or
-yarn dev
-# or
-pnpm dev
-# or
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+With your ComfyUI server running in `http://127.0.0.1:8188`, open [http://localhost:3000](http://localhost:3000) with your browser to see the result. Voila! 🫡
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Contributing
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+After making your changes:
 
-## Learn More
+1. Push your changes to your fork.
+2. Open a pull request against the main repository.
+3. Describe your changes and how they improve the project or fix issues.
 
-To learn more about Next.js, take a look at the following resources:
+Your contributions will be reviewed, and if accepted, merged into the project.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Thank you for contributing to CivitUI! 🥹🤭
