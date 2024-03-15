@@ -1,4 +1,4 @@
-# CivitUI - A comfier worfklow for generating with Civitai models
+# CivitUI - A comfier GUI for Civitai model generations (WIP)
 
 https://github.com/civitai/CivitUI/assets/34775928/61f8662f-5a52-46ac-aac2-c751b0f8b02d
 
@@ -45,7 +45,7 @@ python main.py
 Now, clone the CivitUI repository to your local machine:
 
 ```bash
-https://github.com/civitai/CivitUI.git
+git clone https://github.com/civitai/CivitUI.git
 ```
 
 Add a `.env` file with the environment variables from [`.env.example`](.env.example).
