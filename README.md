@@ -71,7 +71,7 @@ bun dev
 
 With your ComfyUI server running in `http://127.0.0.1:8188`, open [http://localhost:3000](http://localhost:3000) with your browser to see the result. Voila! 🫡
 
-### Contributing
+## Contributing
 
 After making your changes:
 
