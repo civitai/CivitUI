@@ -1,4 +1,5 @@
 # CivitUI - A comfier worfklow for generating with Civitai models
+
 https://github.com/civitai/CivitUI/assets/34775928/61f8662f-5a52-46ac-aac2-c751b0f8b02d
 
 ## Local Development
@@ -26,7 +27,10 @@ async def cors_handler(request: web.Request, handler):
 ```python
 class PromptServer():
 ...
-    self.app = web.Application(client_max_size=20971520, middlewares=[cache_control, cors_handler]) # Add cors_handler middleware
+    self.app = web.Application(
+        client_max_size=20971520,
+        middlewares=[cache_control, cors_handler] # Add cors_handler middleware
+    )
 ...
 ```
 
