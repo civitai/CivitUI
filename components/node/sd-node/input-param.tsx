@@ -21,7 +21,10 @@ const InputParam = ({ id, name, input }: InputParamProps) => {
   const graph = useAppStore(useShallow((state) => state.graph));
   const onPropChange = useAppStore(useShallow((state) => state.onPropChange));
 
-  const value = graph[id]?.fields[name];
+  const node = graph[id].node;
+  const fieldName = `field${Object.keys(node?.fields || {}).length}`;
+  const value = node?.fields[fieldName];
+
   const onChange = useMemo(
     () =>
       debounce((val: any) => {

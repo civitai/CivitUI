@@ -37,6 +37,7 @@ class PromptServer():
 Finally, start the ComfyUI server:
 
 ```bash
+cd ComfyUI/
 python main.py
 ```
 

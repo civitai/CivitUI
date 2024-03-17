@@ -9,19 +9,13 @@ import {
   readWorkflowFromFile,
   retrieveLocalWorkflows,
 } from "@/utils";
-import {
-  DownloadIcon,
-  FileIcon,
-  UploadIcon,
-  PlusIcon,
-} from "@radix-ui/react-icons";
+
 import React, { useCallback, useEffect, useState } from "react";
 import { useShallow } from "zustand/react/shallow";
 import WorkflowItem from "./workflow-item";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
 import { toast } from "sonner";
 import Dropzone from "../dropzone";
+import { Label } from "../ui/label";
 
 const WorkflowPageComponent = () => {
   const [title, setTitle] = useState<string>();
@@ -142,7 +136,7 @@ const WorkflowPageComponent = () => {
     <div className="flex flex-col gap-4">
       <Dropzone onUpload={handleUpload} />
       <div>
-        <h5>Local Workflows</h5>
+        <Label>Local Workflows</Label>
         {localWorkflowList?.map((item, index) => (
           <li
             key={item.id}

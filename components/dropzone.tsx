@@ -123,7 +123,7 @@ export default function Dropzone({ onUpload }: DropzoneProps) {
             dragOver && "border-blue-600 bg-blue-50"
           )}
         >
-          <div className="flex flex-col justify-start items-center">
+          <div className="flex flex-col p-4 justify-start items-center text-center">
             <UploadCloud
               className={cn(
                 "h-5 w-5 text-neutral-600 my-4",
@@ -136,9 +136,6 @@ export default function Dropzone({ onUpload }: DropzoneProps) {
             <p className="text-neutral-500 text-sm">
               Only JSON files. Up to 100 KB.
             </p>
-            <div className="px-3 py-1 border dark:border-neutral-700 rounded-lg mt-4 mb-2 drop-shadow-sm hover:drop-shadow transition-all hover:cursor-pointer bg-white dark:bg-neutral-700">
-              Select file
-            </div>
           </div>
         </label>
         <input
