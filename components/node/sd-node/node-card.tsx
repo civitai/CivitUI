@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { NodeResizeControl, ResizeControlVariant } from "reactflow";
 
 interface NodeCardProps {
   active: 1 | 0;
@@ -12,12 +13,18 @@ export const NodeCard = ({ active, title, children }: NodeCardProps) => {
 
   return (
     <Card
-      className={`${activeClass} drag-handle hover:shadow-md transition-all duration-200 rounded-xl`}
+      className={`${activeClass} relative drag-handle hover:shadow-md transition-all duration-200 rounded-xl`}
     >
       <CardHeader className="py-3 px-4 bg-muted mb-3 border-b rounded-t-xl">
         <CardTitle className="text-md">{title}</CardTitle>
       </CardHeader>
-      <CardContent className="cursor-pointer">{children}</CardContent>
+
+      <CardContent>{children}</CardContent>
+      <NodeResizeControl
+        position="right"
+        variant={"line" as ResizeControlVariant}
+        style={{ borderWidth: "5px", borderColor: "transparent" }}
+      />
     </Card>
   );
 };

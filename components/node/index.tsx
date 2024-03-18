@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useShallow } from "zustand/react/shallow";
 import { useTheme } from "next-themes";
 import { mix, rgba } from "polished";
-import { NodeResizeControl, type NodeProps } from "reactflow";
+import { NodeResizer, type NodeProps } from "reactflow";
 
 import { useAppStore } from "@/store";
 import { type Widget, ImageItem } from "@/types";
@@ -131,7 +131,6 @@ const NodeComponent = (node: NodeProps<Widget>) => {
       <ContextMenuTrigger>
         <NodeCard active={isInProgress || isSelected ? 1 : 0} title={<Title />}>
           <SdNode {...node} />
-          <NodeResizeControl minWidth={80} minHeight={40} />
         </NodeCard>
       </ContextMenuTrigger>
       <ContextMenuContent className="w-48">
