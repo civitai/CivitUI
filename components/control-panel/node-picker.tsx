@@ -95,7 +95,7 @@ const NodePickerComponent: React.FC = () => {
         </Toggle>
       </div>
 
-      <div className="flex flex-col gap-4 overflow-auto px-2">
+      <div className="flex flex-col gap-4 overflow-auto px-2 pb-4">
         {Object.entries(category).map(([cat, items], index) => (
           <motion.div
             key={cat}

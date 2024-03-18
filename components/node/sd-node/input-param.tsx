@@ -9,22 +9,18 @@ import SelectUploadInput from "./select-upload-input";
 import SliderInput from "./slider-input";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { ModelDialog } from "../model-dialog";
 
-interface InputParamProps {
+interface ParamInputComponentProps {
   id: NodeId;
   name: string;
   input: InputData;
 }
 
-const InputParam = ({ id, name, input }: InputParamProps) => {
+const ParamInputComponent = ({ id, name, input }: ParamInputComponentProps) => {
   const graph = useAppStore(useShallow((state) => state.graph));
   const onPropChange = useAppStore(useShallow((state) => state.onPropChange));
 
-  const node = graph[id].node;
-  const fieldName = `field${Object.keys(node?.fields || {}).length}`;
-  const value = node?.fields[fieldName];
-
+  const value = graph[id]?.fields[name];
   const onChange = useMemo(
     () =>
       debounce((val: any) => {
@@ -33,12 +29,11 @@ const InputParam = ({ id, name, input }: InputParamProps) => {
       }, 100),
     [id, name, onPropChange]
   );
+  /******************************************************
+   *********************** isList ************************
+   ******************************************************/
 
   if (checkInput.isList(input)) {
-    if (name === "ckpt_name") {
-      return <ModelDialog />;
-    }
-
     return (
       <SelectUploadInput
         value={value}
@@ -48,6 +43,9 @@ const InputParam = ({ id, name, input }: InputParamProps) => {
       />
     );
   }
+  /******************************************************
+   ********************** isBool ************************
+   ******************************************************/
 
   if (checkInput.isBool(input)) {
     return (
@@ -55,10 +53,13 @@ const InputParam = ({ id, name, input }: InputParamProps) => {
         value={value}
         defaultChecked={input[1].default}
         onChange={onChange}
-        className="nodrag"
       />
     );
   }
+
+  /******************************************************
+   *********************** isInt ************************
+   ******************************************************/
 
   if (checkInput.isInt(input)) {
     return (
@@ -74,6 +75,10 @@ const InputParam = ({ id, name, input }: InputParamProps) => {
       />
     );
   }
+
+  /******************************************************
+   ********************* isFloat ***********************
+   ******************************************************/
 
   if (checkInput.isFloat(input)) {
     return (
@@ -91,6 +96,10 @@ const InputParam = ({ id, name, input }: InputParamProps) => {
     );
   }
 
+  /******************************************************
+   ********************* isString ***********************
+   ******************************************************/
+
   if (checkInput.isString(input)) {
     const args = input[1];
     if (args.multiline === true) {
@@ -99,16 +108,15 @@ const InputParam = ({ id, name, input }: InputParamProps) => {
           style={{ height: 128, width: "100%" }}
           defaultValue={value}
           onBlur={onChange}
-          className="nodrag"
         />
       );
     }
     return (
-      <Input className="nodrag w-full" value={value} onChange={onChange} />
+      <Input style={{ width: "100%" }} value={value} onChange={onChange} />
     );
   }
 
   return null;
 };
 
-export default React.memo(InputParam);
+export default React.memo(ParamInputComponent);

@@ -1,14 +1,14 @@
-import { StringifiableRecord } from 'query-string'
-import { XYPosition } from 'reactflow'
-import { NodeId, PropertyKey, WidgetKey } from './base'
-import { Widget } from './widget'
+import { StringifiableRecord } from "query-string";
+import { XYPosition } from "reactflow";
+import { NodeId, PropertyKey, WidgetKey } from "./base";
+import { Widget } from "./widget";
 
 /**
  * Node position
  */
 export interface NodePosition {
-  x: number
-  y: number
+  x: number;
+  y: number;
 }
 
 /**
@@ -17,8 +17,8 @@ export interface NodePosition {
  * @property nickname - Nickname
  */
 export interface SDNodeModify {
-  color?: string
-  nickname?: string
+  color?: string;
+  nickname?: string;
 }
 
 /**
@@ -29,10 +29,10 @@ export interface SDNodeModify {
  * @property modify - Modify properties
  */
 export interface SDNode {
-  widget: WidgetKey
-  fields: Record<PropertyKey, any>
-  images?: ImageItem[]
-  modify?: SDNodeModify
+  widget: WidgetKey;
+  fields: Record<PropertyKey, any>;
+  images?: ImageItem[];
+  modify?: SDNodeModify;
 }
 
 /**
@@ -46,13 +46,13 @@ export interface SDNode {
  * @property parentNode - Parent node ID
  */
 export interface NodeItem {
-  widget: Widget
-  node?: SDNode
-  position?: XYPosition
-  key?: string
-  width?: number
-  height?: number
-  parentNode?: string
+  widget: Widget;
+  node?: SDNode;
+  position?: XYPosition;
+  key?: string;
+  width?: number;
+  height?: number;
+  parentNode?: string;
 }
 
 /**
@@ -62,9 +62,9 @@ export interface NodeItem {
  * @property type - File type
  */
 export interface ImageItem extends StringifiableRecord {
-  filename: string
-  subfolder?: string
-  type?: string
+  filename: string;
+  subfolder?: string;
+  type?: string;
 }
 
 /**
@@ -73,8 +73,8 @@ export interface ImageItem extends StringifiableRecord {
  * @property progress - Progress value
  */
 export interface NodeInProgress {
-  id: NodeId
-  progress: number
+  id: NodeId;
+  progress: number;
 }
 
 /**
@@ -83,6 +83,6 @@ export interface NodeInProgress {
  * @property image - Image object
  */
 export interface GalleryItem {
-  prompt?: string
-  image: ImageItem
+  prompt?: string;
+  image: ImageItem;
 }

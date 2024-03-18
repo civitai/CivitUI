@@ -22,7 +22,5 @@ export const Slot = styled.div<{ isRequired: 1 | 0; position: Position }>`
   .react-flow__handle {
     top: unset;
     margin-top: 10px;
-    background: ${({ isRequired, theme }) =>
-      isRequired ? theme.colorPrimary : theme.colorBorder};
   }
 `;

@@ -80,7 +80,6 @@ const PreviewNode = ({ data }: PreviewNodeProps) => {
         <div className="mt-4">
           {params.map((item, index) => (
             <div key={index} className="flex items-center">
-              <Slot position="left" isRequired={0} />
               <span className="text-sm">{startCase(item.name)}</span>
             </div>
           ))}

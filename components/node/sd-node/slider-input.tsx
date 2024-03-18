@@ -85,11 +85,7 @@ const SliderInput: React.FC<SliderInputProps> = ({
 
   return (
     <div style={style} className="flex gap-3">
-      <div
-        className={`flex items-center justify-start mr-3 ${
-          isSeed ? "flex-[12]" : "flex-[4]"
-        } w-full`}
-      >
+      <div className={`flex items-center`}>
         <Input
           type="number"
           min={iMin}
@@ -101,33 +97,10 @@ const SliderInput: React.FC<SliderInputProps> = ({
           className="nodrag min-w-[100px]"
         />
       </div>
-      <div
-        className={`flex items-center justify-start ${
-          isSeed ? "mr-3 flex-[4]" : "flex-[12]"
-        } w-full`}
-        style={{ marginRight: "12px" }}
-      >
-        {isSeed ? (
-          <div className="flex space-x-2">
-            <Checkbox checked={isRandom} onChange={handleCheckboxChange} />
-            <label
-              htmlFor="random"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              Random
-            </label>
-          </div>
-        ) : (
-          <Slider
-            min={iMin}
-            max={iMax}
-            onChange={handleChange}
-            value={[Number(inputValue)]}
-            step={iStep}
-            className="nodrag"
-          />
-        )}
-      </div>
+
+      {isSeed && (
+        <Checkbox checked={isRandom} onChange={handleCheckboxChange} />
+      )}
     </div>
   );
 };

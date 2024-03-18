@@ -27,7 +27,6 @@ import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { AppState } from "./AppState";
 import customWidgets from "./customWidgets";
-import { transformData } from "@/utils/workflow";
 export * from "./AppState";
 
 export const useAppStore = create<AppState>()(
@@ -466,13 +465,10 @@ export const useAppStore = create<AppState>()(
     onLoadWorkflow: (workflow) => {
       console.log("[onLoadWorkflow] Received workflow:", workflow);
 
-      if (!workflow) {
+      if (!workflow || !workflow.data) {
         console.error("[onLoadWorkflow] Invalid workflow data");
         return;
       }
-
-      const transformedWorkflow = transformData(workflow);
-      console.log("transformedWorkflow", transformedWorkflow);
 
       set(
         (st) => {
@@ -485,7 +481,7 @@ export const useAppStore = create<AppState>()(
             graph: {},
           };
 
-          Object.entries(transformedWorkflow.data).forEach(([key, node]) => {
+          Object.entries(workflow.data).forEach(([key, node]) => {
             if (!node.value) {
               console.warn(
                 `[onLoadWorkflow] Node value is undefined or null for key: ${key}`
@@ -511,8 +507,8 @@ export const useAppStore = create<AppState>()(
             }
           });
 
-          if (transformedWorkflow.connections) {
-            transformedWorkflow.connections.forEach((connection) => {
+          if (workflow.connections) {
+            workflow.connections.forEach((connection) => {
               state = addConnection(state, connection);
             });
           } else {

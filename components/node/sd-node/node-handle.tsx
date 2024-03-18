@@ -41,21 +41,25 @@ const NodeHandle = ({
   );
 
   return (
-    <Slot position={position} isRequired={isRequired ? 1 : 0}>
-      <Handle
-        id={label}
-        type={type}
-        position={position}
-        isValidConnection={handleValidCheck}
-        style={{ width: "10px", height: "10px" }}
-      />
-      <h5
-        className="mb-1"
-        title={Array.isArray(slotType) ? "STRING" : slotType}
-      >
-        {startCase(label.toLowerCase())}
-      </h5>
-    </Slot>
+    <>
+      <Slot position={position} isRequired={isRequired ? 1 : 0}>
+        {isRequired ? (
+          <Handle
+            id={label}
+            type={type}
+            position={position}
+            isValidConnection={handleValidCheck}
+            style={{ width: "10px", height: "10px" }}
+          />
+        ) : null}
+        <h5
+          className="mb-1"
+          title={Array.isArray(slotType) ? "STRING" : slotType}
+        >
+          {startCase(label.toLowerCase())}
+        </h5>
+      </Slot>
+    </>
   );
 };
 

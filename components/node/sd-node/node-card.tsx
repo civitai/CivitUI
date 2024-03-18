@@ -11,8 +11,10 @@ export const NodeCard = ({ active, title, children }: NodeCardProps) => {
   const activeClass = active ? "outline-2 outline-primary" : "";
 
   return (
-    <Card className={`${activeClass} drag-handle`}>
-      <CardHeader className="py-3 px-4 bg-muted mb-3 border-b rounded-t-lg">
+    <Card
+      className={`${activeClass} drag-handle hover:shadow-md transition-all duration-200 rounded-xl`}
+    >
+      <CardHeader className="py-3 px-4 bg-muted mb-3 border-b rounded-t-xl">
         <CardTitle className="text-md">{title}</CardTitle>
       </CardHeader>
       <CardContent className="cursor-pointer">{children}</CardContent>
