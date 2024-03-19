@@ -1,5 +1,6 @@
 const config = {
   host: process.env.NEXT_PUBLIC_COMFYUI_SERVER_URL,
+  protocol: "http:",
 };
 
 export default config;

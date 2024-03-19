@@ -57,6 +57,8 @@ const NodeComponent = (node: NodeProps<Widget>) => {
       }))
     );
 
+  console.log("node in progress", node);
+
   const isInProgress = progressBar !== undefined;
   const isSelected = node.selected;
   const name = node.data?.nickname || node.data.name;
@@ -100,7 +102,7 @@ const NodeComponent = (node: NodeProps<Widget>) => {
 
   const Title = () => {
     return (
-      <div className="flex gap-2">
+      <div className="grid grid-cols-2 items-center w-full">
         {nicknameInput ? (
           <Input
             ref={inputRef}
@@ -119,7 +121,10 @@ const NodeComponent = (node: NodeProps<Widget>) => {
 
         {isInProgress
           ? progressBar > 0 && (
-              <Progress value={Math.floor(progressBar * 100)} />
+              <Progress
+                className="h-2 w-full border"
+                value={Math.floor(progressBar * 100)}
+              />
             )
           : null}
       </div>

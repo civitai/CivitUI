@@ -15,7 +15,6 @@ interface NodeParamsProps {
 
 const NodeParams: React.FC<NodeParamsProps> = ({ data, nodeId }) => {
   if (!data?.length) return null;
-  console.log("NodeParams data", data);
   return (
     <div>
       {data.map(({ name, type, input }, index) => (

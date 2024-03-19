@@ -68,3 +68,7 @@
   height: 20px;
   border-radius: 4px;
 }
+
+.react-flow__pane {
+  cursor: default !important;
+}

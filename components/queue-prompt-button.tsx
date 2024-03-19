@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRightIcon, PlayIcon } from "@radix-ui/react-icons";
+import { PlayIcon } from "@radix-ui/react-icons";
 import { MultiStepLoader as Loader } from "@/components/ui/multi-step-loader";
 import { useCallback, useEffect, useState } from "react";
 import { Button } from "./ui/button";
@@ -67,7 +67,8 @@ export const QueuePromptButton = () => {
         className={cn(
           "rounded-2xl shadow-lg bg-gradient-to-b text-white dark:text-black dark:from-white dark:to-blue-50 ring-2 ring-blue-50 ring-opacity-60",
           "from-slate-800 to-slate-700 ring-slate-400",
-          "hover:shadow-xl hover:rounded-lg transition-all duration-300"
+          "hover:shadow-xl hover:rounded-lg transition-all duration-300",
+          "box-shadow-[inset_0_0_10px_rgba(0,0,0,0.3)]" // Add this line for inner shadow
         )}
         onClick={handleRun}
         size={"icon"}
@@ -75,16 +76,7 @@ export const QueuePromptButton = () => {
         <PlayIcon />
       </Button>
 
-      {/* <Loader loadingStates={loadingStates} loading={loading} duration={2000} /> */}
-    </>
-  );
-};
-
-const BottomGradient = () => {
-  return (
-    <>
-      <span className="group-hover/btn:opacity-100 block transition duration-300 opacity-0 absolute h-px w-full -bottom-px inset-x-0 bg-gradient-to-r from-transparent via-cyan-500 to-transparent" />
-      <span className="group-hover/btn:opacity-100 blur-sm block transition duration-300 opacity-0 absolute h-px w-1/2 mx-auto -bottom-px inset-x-10 bg-gradient-to-r from-transparent via-indigo-500 to-transparent" />
+      <Loader loadingStates={loadingStates} loading={loading} duration={2000} />
     </>
   );
 };

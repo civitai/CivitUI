@@ -4,6 +4,7 @@ import "./globals.css";
 
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
+import WsController from "@/components/ws-controller";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -30,6 +31,7 @@ export default function RootLayout({
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
+          <WsController />
         </ThemeProvider>
       </body>
     </html>
