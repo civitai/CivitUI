@@ -77,7 +77,7 @@ const NodePickerGroup = ({
                 key={i.name}
                 className={cn(
                   "cursor-grab shadow-sm mr-1 my-1",
-                  "px-3 py-2 rounded-full border border-neutral-300 dark:border-neutral-600 bg-background text-neutral-700 dark:text-neutral-200 text-xs hover:-translate-y-1 transform transition duration-200 hover:shadow-md"
+                  "px-3 py-2.5 rounded-full border border-neutral-300 dark:border-neutral-600 bg-background text-neutral-700 dark:text-neutral-200 text-xs hover:-translate-y-1 transform transition duration-200 hover:shadow-md"
                 )}
                 onClick={(e) => {
                   e.preventDefault();

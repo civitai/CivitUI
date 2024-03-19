@@ -58,7 +58,7 @@ const PreviewNode = ({ data }: PreviewNodeProps) => {
       }}
       className="relative w-[350px] shadow-xl rounded-lg"
     >
-      <NodeCard title={data.name} active={0}>
+      <NodeCard title={data.name} active={0} preview={true}>
         <div className="flex w-full items-stretch justify-between space-x-6">
           <div className="flex-1">
             {inputs.map((item, index) => (

@@ -9,6 +9,7 @@ import SelectUploadInput from "./select-upload-input";
 import SliderInput from "./slider-input";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { ModelDialog } from "../model-dialog";
 
 interface ParamInputComponentProps {
   id: NodeId;
@@ -29,9 +30,21 @@ const ParamInputComponent = ({ id, name, input }: ParamInputComponentProps) => {
       }, 100),
     [id, name, onPropChange]
   );
-  /******************************************************
-   *********************** isList ************************
-   ******************************************************/
+
+  // if (checkInput.isList(input)) {
+  //   if (name === "ckpt_name") {
+  //     return <ModelDialog />;
+  //   }
+
+  //   return (
+  //     <SelectUploadInput
+  //       value={value}
+  //       name={name}
+  //       input={input}
+  //       onChange={onChange}
+  //     />
+  //   );
+  // }
 
   if (checkInput.isList(input)) {
     return (
@@ -43,9 +56,6 @@ const ParamInputComponent = ({ id, name, input }: ParamInputComponentProps) => {
       />
     );
   }
-  /******************************************************
-   ********************** isBool ************************
-   ******************************************************/
 
   if (checkInput.isBool(input)) {
     return (
@@ -56,10 +66,6 @@ const ParamInputComponent = ({ id, name, input }: ParamInputComponentProps) => {
       />
     );
   }
-
-  /******************************************************
-   *********************** isInt ************************
-   ******************************************************/
 
   if (checkInput.isInt(input)) {
     return (
@@ -76,10 +82,6 @@ const ParamInputComponent = ({ id, name, input }: ParamInputComponentProps) => {
     );
   }
 
-  /******************************************************
-   ********************* isFloat ***********************
-   ******************************************************/
-
   if (checkInput.isFloat(input)) {
     return (
       <SliderInput
@@ -95,10 +97,6 @@ const ParamInputComponent = ({ id, name, input }: ParamInputComponentProps) => {
       />
     );
   }
-
-  /******************************************************
-   ********************* isString ***********************
-   ******************************************************/
 
   if (checkInput.isString(input)) {
     const args = input[1];

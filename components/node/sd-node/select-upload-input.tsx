@@ -77,17 +77,16 @@ const SelectUploadInput: React.FC<SelectUploadInputProps> = ({
           <Input id="picture" type="file" />
         </div>
       )}
-      <Select>
+      <Select
+        defaultValue={value || options[0]?.value}
+        onValueChange={onChange}
+      >
         <SelectTrigger className="w-full">
           <SelectValue placeholder="Select" />
         </SelectTrigger>
         <SelectContent>
           {options.map((option) => (
-            <SelectItem
-              key={option.value}
-              value={option.value}
-              onSelect={() => onChange(option.value)}
-            >
+            <SelectItem key={option.value} value={option.value}>
               {option.label}
             </SelectItem>
           ))}

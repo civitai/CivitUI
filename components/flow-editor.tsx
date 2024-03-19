@@ -195,6 +195,7 @@ const FlowEditor = () => {
       <Background variant={BackgroundVariant.Dots} />
       <Controls showZoom={false} />
       <MiniMap
+        position="bottom-left"
         nodeColor={(n) =>
           n.data.color || (theme === "dark" ? "#2C3E50" : "#ECF0F1")
         }
