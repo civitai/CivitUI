@@ -8,17 +8,18 @@ interface NodeImgPreviewProps {
   data?: ImagePreview[];
 }
 
-const NodeImgPreview: React.FC<NodeImgPreviewProps> = ({ data }) => {
+const NodeImgPreview = ({ data }: NodeImgPreviewProps) => {
   const renderImage = useCallback(
     ({ image, index }: ImagePreview) => (
       <Image
-        width={100}
-        height={100}
+        width={500}
+        height={500}
         key={index}
         alt={"image"}
         src={getBackendUrl(
           queryString.stringifyUrl({ url: `/view`, query: image })
         )}
+        unoptimized
       />
     ),
     []

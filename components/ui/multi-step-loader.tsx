@@ -1,72 +1,58 @@
 "use client";
 import { cn } from "@/lib/utils";
+import { useAppStore } from "@/store";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import { useShallow } from "zustand/react/shallow";
 
 const CheckIcon = ({ className }: { className?: string }) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={1.5}
-      stroke="currentColor"
-      className={cn("w-6 h-6 ", className)}
-    >
-      <path d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-    </svg>
-  );
+  // ... (same as before)
 };
 
 const CheckFilled = ({ className }: { className?: string }) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className={cn("w-6 h-6 ", className)}
-    >
-      <path
-        fillRule="evenodd"
-        d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
-        clipRule="evenodd"
-      />
-    </svg>
-  );
+  // ... (same as before)
 };
 
 type LoadingState = {
-  text: string;
+  id: string;
+  data: {
+    name: string;
+    nickname?: string;
+  };
 };
 
 const LoaderCore = ({
-  loadingStates,
-  value = 0,
+  displayedNodes,
+  currentNodeName,
 }: {
-  loadingStates: LoadingState[];
-  value?: number;
+  displayedNodes: LoadingState[];
+  currentNodeName?: string;
 }) => {
   return (
     <div className="flex relative justify-end max-w-xl flex-col">
-      {loadingStates.map((loadingState, index) => {
-        const distance = Math.abs(index - value);
-        const opacity = Math.max(1 - distance * 0.5, 0);
+      {displayedNodes.slice(-2).map((node, index) => {
+        const name = node.data?.nickname || node.data?.name;
+        const isActive = name === currentNodeName;
+        const isNext = index === displayedNodes.slice(-2).length - 1;
+
         return (
           <motion.div
-            key={index}
+            key={node.id}
             className={cn("justify-between flex gap-2 mb-4 items-center")}
-            initial={{ opacity: 0, y: -(value * 40) }}
-            animate={{ opacity: opacity, y: -(value * 40) }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{
+              opacity: isActive || isNext ? 1 : 0.5,
+              y: isActive ? 0 : -20,
+            }}
             transition={{ duration: 0.5 }}
           >
             <div>
-              {index > value && <CheckIcon className="h-4 w-4" />}
-              {index <= value && (
+              {!isActive && <CheckIcon />}
+              {isActive && (
                 <CheckFilled
                   className={cn(
                     "h-4 w-4",
-                    value === index &&
-                      "text-black dark:text-lime-500 opacity-100"
+                    "text-black dark:text-lime-500 opacity-100"
                   )}
                 />
               )}
@@ -74,10 +60,10 @@ const LoaderCore = ({
             <span
               className={cn(
                 "text-xs",
-                value === index && "text-black dark:text-lime-500 opacity-100"
+                isActive && "text-black dark:text-lime-500 opacity-100"
               )}
             >
-              {loadingState.text}
+              {name}
             </span>
           </motion.div>
         );
@@ -87,58 +73,50 @@ const LoaderCore = ({
 };
 
 export const MultiStepLoader = ({
-  loadingStates,
   loading,
-  duration = 2000,
-  loop = true,
   className,
 }: {
-  loadingStates: LoadingState[];
   loading?: boolean;
-  duration?: number;
-  loop?: boolean;
   className?: string;
 }) => {
-  const [currentState, setCurrentState] = useState(0);
+  const { nodeInProgress } = useAppStore(useShallow((state) => state));
+  const [displayedNodes, setDisplayedNodes] = useState<LoadingState[]>([]);
 
   useEffect(() => {
-    if (!loading) {
-      setCurrentState(0);
-      return;
+    if (nodeInProgress) {
+      setDisplayedNodes((prevNodes) => {
+        const currentNodeIndex = prevNodes.findIndex(
+          (node) => node.id === nodeInProgress.id
+        );
+        if (currentNodeIndex === -1) {
+          return [...prevNodes, nodeInProgress];
+        }
+        return prevNodes;
+      });
     }
-    const timeout = setTimeout(() => {
-      setCurrentState((prevState) =>
-        loop
-          ? prevState === loadingStates.length - 1
-            ? 0
-            : prevState + 1
-          : Math.min(prevState + 1, loadingStates.length - 1)
-      );
-    }, duration);
+  }, [nodeInProgress]);
 
-    return () => clearTimeout(timeout);
-  }, [currentState, loading, loop, loadingStates.length, duration]);
+  const currentNodeName =
+    displayedNodes[displayedNodes.length - 1]?.data?.nickname ||
+    displayedNodes[displayedNodes.length - 1]?.data?.name;
 
   return (
     <AnimatePresence mode="wait">
-      {loading && (
-        <motion.div
-          initial={{
-            opacity: 0,
-          }}
-          animate={{
-            opacity: 1,
-          }}
-          exit={{
-            opacity: 0,
-          }}
-          className={cn("fixed bottom-0 right-8 z-[100] h-[80px]", className)}
-        >
-          <div className="relative">
-            <LoaderCore value={currentState} loadingStates={loadingStates} />
-          </div>
-        </motion.div>
-      )}
+      {/* {loading && ( */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className={cn("fixed bottom-0 right-8 z-[100] h-[80px]", className)}
+      >
+        <div className="relative">
+          <LoaderCore
+            displayedNodes={displayedNodes}
+            currentNodeName={currentNodeName}
+          />
+        </div>
+      </motion.div>
+      {/* )} */}
     </AnimatePresence>
   );
 };

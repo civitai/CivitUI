@@ -5,11 +5,9 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "http",
-        hostname: "127.0.0.1",
-      },
-      {
-        protocol: "http",
         hostname: "localhost",
+        port: "8188",
+        pathname: "/view/**",
       },
       {
         protocol: "https",
@@ -22,4 +20,5 @@ const nextConfig = {
     ],
   },
 };
+
 module.exports = nextConfig;

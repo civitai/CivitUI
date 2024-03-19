@@ -57,8 +57,6 @@ const NodeComponent = (node: NodeProps<Widget>) => {
       }))
     );
 
-  console.log("node in progress", node);
-
   const isInProgress = progressBar !== undefined;
   const isSelected = node.selected;
   const name = node.data?.nickname || node.data.name;
