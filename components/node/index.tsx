@@ -132,7 +132,7 @@ const NodeComponent = (node: NodeProps<Widget>) => {
   return (
     <ContextMenu>
       <ContextMenuTrigger>
-        <NodeCard active={isInProgress || isSelected ? 1 : 0} title={<Title />}>
+        <NodeCard active={isInProgress} selected={isSelected} title={<Title />}>
           <SdNode {...node} />
         </NodeCard>
       </ContextMenuTrigger>
