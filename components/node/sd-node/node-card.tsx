@@ -19,7 +19,7 @@ export const NodeCard = ({
   return (
     <div className="relative p-[1.5px] z-0">
       {active ? (
-        <div className="overflow-hidden absolute inset-0 z-[-1]">
+        <div className="overflow-hidden absolute inset-0 z-[-1] rounded-xl">
           <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
         </div>
       ) : null}

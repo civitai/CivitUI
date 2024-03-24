@@ -40,10 +40,10 @@ const ControlPanel: React.FC = () => {
 
   return (
     <Sheet modal={false}>
-      <div className="fixed top-1/2 right-8 transform -translate-y-1/2 flex flex-col gap-3">
+      <div className="fixed top-1/2 right-8 transform -translate-y-1/2 flex flex-col gap-3 m-2">
         <SheetTrigger asChild>
           <Button
-            className="relative group/btn rounded-2xl shadow-lg hover:bg-background hover:rounded-lg transition-all duration-300"
+            className="relative rounded-2xl shadow-lg hover:bg-background hover:rounded-lg transition-all duration-300"
             variant={"outline"}
             size={"icon"}
           >
@@ -53,7 +53,7 @@ const ControlPanel: React.FC = () => {
 
         <SheetTrigger asChild>
           <Button
-            className="relative group/btn rounded-2xl shadow-lg hover:bg-background hover:rounded-lg transition-all duration-300"
+            className="relative rounded-2xl shadow-lg hover:bg-background hover:rounded-lg transition-all duration-300"
             variant="outline"
             size={"icon"}
           >

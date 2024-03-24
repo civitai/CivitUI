@@ -49,7 +49,7 @@ const NodeHandle = ({
             type={type}
             position={position}
             isValidConnection={handleValidCheck}
-            style={{ width: "10px", height: "10px" }}
+            style={{ width: "12px", height: "12px" }}
           />
         ) : null}
         <h5

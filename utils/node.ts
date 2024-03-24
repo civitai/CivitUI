@@ -74,14 +74,11 @@ export const getPostion = (
   reactFlowRef: any,
   reactFlowInstance: any
 ) => {
-  console.log("getPostion - x:", x, "y:", y); // Debug log
-
   const reactFlowBounds = reactFlowRef.current.getBoundingClientRect();
   const position = reactFlowInstance.project({
     x: x - reactFlowBounds.left,
     y: y - reactFlowBounds.top,
   });
-  console.log("getPostion - calculated position:", position); // Debug log
   return position;
 };
 

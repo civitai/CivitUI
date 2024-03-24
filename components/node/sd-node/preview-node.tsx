@@ -16,8 +16,8 @@ const Slot = ({ isRequired, position }: SlotProps) => (
       isRequired ? "bg-primary" : "bg-border"
     } ${position === "left" ? "mr-2" : "ml-2"}`}
     style={{
-      width: "10px",
-      height: "10px",
+      width: "12px",
+      height: "12px",
       position: "absolute",
       [position]: -3,
     }}
@@ -56,7 +56,7 @@ const PreviewNode = ({ data }: PreviewNodeProps) => {
         damping: 20,
         duration: 0.15,
       }}
-      className="relative w-[350px] shadow-xl rounded-lg"
+      className="relative w-[350px]"
     >
       <NodeCard title={data.name} active={0} preview={true}>
         <div className="flex w-full items-stretch justify-between space-x-6">

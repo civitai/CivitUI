@@ -21,6 +21,8 @@ const ParamInputComponent = ({ id, name, input }: ParamInputComponentProps) => {
   const graph = useAppStore(useShallow((state) => state.graph));
   const onPropChange = useAppStore(useShallow((state) => state.onPropChange));
 
+  console.log("name, input", name, input);
+  console.log("graph", graph);
   const value = graph[id]?.fields[name];
   const onChange = useMemo(
     () =>

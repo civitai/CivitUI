@@ -3,24 +3,12 @@ import { Connection } from "@/types";
 import { Node, PromptRequest, PromptResponse, Queue } from "@/types/client";
 import { checkInput, getBackendUrl } from "@/utils";
 
-/**
- * Get the widget library
- * @returns Widget library
- */
 export const getWidgetLibrary = async (): Promise<Record<string, Widget>> =>
   (await fetch(getBackendUrl("/object_info"))).json();
 
-/**
- * Get the queue
- * @returns Queue
- */
 export const getQueue = async (): Promise<Queue> =>
   (await fetch(getBackendUrl("/queue"))).json();
 
-/**
- * Delete an item from the queue
- * @param id Queue item id
- */
 export const deleteFromQueue = async (id: number): Promise<void> => {
   await fetch(getBackendUrl("/queue"), {
     method: "POST",
@@ -28,18 +16,9 @@ export const deleteFromQueue = async (id: number): Promise<void> => {
   });
 };
 
-/**
- * Get the history
- * @returns History
- */
 export const getHistory = async (): Promise<History> =>
   (await fetch(getBackendUrl("/history"))).json();
 
-/**
- * Send a Prompt request
- * @param prompt Prompt request parameters
- * @returns Prompt response parameters
- */
 export const sendPrompt = async (
   prompt: PromptRequest
 ): Promise<PromptResponse> => {
@@ -51,11 +30,6 @@ export const sendPrompt = async (
   return { error };
 };
 
-/**
- * Reconnect
- * @param oldConnections Connection[] Old connections
- * @returns Connection[] New connections
- */
 const reconnection = (oldConnections: Connection[]): Connection[] => {
   let connections: Connection[] = oldConnections.map((connect) => {
     if (connect.sourceHandle === "*") {
@@ -78,11 +52,6 @@ const reconnection = (oldConnections: Connection[]): Connection[] => {
   }
 };
 
-/**
- * Create Prompt request parameters
- * @param {Props} props - Parameter object
- * @returns Prompt request parameters
- */
 export const createPrompt = ({
   graph,
   widgets,
