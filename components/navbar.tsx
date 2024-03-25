@@ -11,8 +11,10 @@ import {
 } from "./ui/navigation-menu";
 import { ModeToggle } from "./ui/theme-toggle";
 import { Button } from "./ui/button";
+import { DotsVerticalIcon } from "@radix-ui/react-icons";
+import { Settings } from "./settings-nav-dropdown";
 
-export default function Header() {
+export default function Navbar() {
   return (
     <div>
       <div
@@ -30,6 +32,10 @@ export default function Header() {
                 <NavigationMenuList className="gap-4 items-center">
                   <NavigationMenuItem>
                     <ModeToggle />
+                  </NavigationMenuItem>
+
+                  <NavigationMenuItem>
+                    <Settings />
                   </NavigationMenuItem>
                 </NavigationMenuList>
               </NavigationMenu>

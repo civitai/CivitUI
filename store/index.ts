@@ -370,6 +370,7 @@ export const useAppStore = create<AppState>()(
     onEdgesType: (type) => {
       set(
         (st) => ({
+          edgeType: type,
           edges: st.edges.map((e) => ({ ...e, type })),
         }),
         false,
