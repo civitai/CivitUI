@@ -5,14 +5,8 @@ import { checkInput, getBackendUrl } from "@/utils";
 import objectInfo from "@/mock/object_info.json";
 
 export const getWidgetLibrary = async (): Promise<any> => {
-  if (
-    process.env.NODE_ENV === "development" ||
-    process.env.VERCEL_ENV === "preview"
-  ) {
-    return objectInfo;
-  } else {
-    return (await fetch(getBackendUrl("/object_info"))).json();
-  }
+  return objectInfo;
+  // return (await fetch(getBackendUrl("/object_info"))).json();
 };
 
 export const getQueue = async (): Promise<Queue> =>
