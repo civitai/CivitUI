@@ -31,7 +31,8 @@ const FlowEditor = () => {
 
   const { theme } = useTheme();
   const reactFlowRef = useRef<HTMLDivElement>(null);
-  const isWindows = navigator.platform.includes("Win");
+  const isWindows =
+    typeof navigator !== "undefined" && navigator.platform.includes("Win");
   const edgeUpdateSuccessful = useRef(true);
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
 

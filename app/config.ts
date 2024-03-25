@@ -5,6 +5,9 @@ const config = {
 
 export default config;
 
-if (process.env.NODE_ENV === "development") {
+if (
+  process.env.NODE_ENV === "development" ||
+  process.env.VERCEL_ENV === "preview"
+) {
   console.table({ host: config.host, isMock: true });
 }

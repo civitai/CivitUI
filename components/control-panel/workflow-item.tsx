@@ -8,41 +8,12 @@ import { Calculator, Clock, DownloadIcon, SaveIcon } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { Avatar } from "../ui/avatar";
 
-/**
- * @title Workflow Item Properties
- */
 interface WorkflowItemProps {
-  /**
-   * @title Workflow Item Data
-   */
   item: LocalPersistedGraphs;
-  /**
-   * @title Workflow Item Index
-   */
   index: number;
-  /**
-   * @title Rename Event Callback Function
-   * @param id - The ID of the workflow item
-   * @param title - The title of the workflow item
-   */
   handleRename: (id: string, title: string) => void;
-  /**
-   * @title Update Event Callback Function
-   * @param id - The ID of the workflow item
-   * @param title - The title of the workflow item
-   */
   handleUpdate: (id: string, title: string) => void;
-  /**
-   * @title Delete Event Callback Function
-   * @param id - The ID of the workflow item
-   * @param title - The title of the workflow item
-   */
   handleDelete: (id: string, title: string) => void;
-  /**
-   * @title Load Event Callback Function
-   * @param graph - The graph data of the workflow item
-   * @param title - The title of the workflow item
-   */
   handleLoad: (graph: PersistedGraph, title: string) => void;
 }
 

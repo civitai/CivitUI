@@ -27,6 +27,7 @@ import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { AppState } from "./AppState";
 import customWidgets from "./customWidgets";
+import defaultWorkflow from "@/app/defaultWorkflow";
 export * from "./AppState";
 
 export const useAppStore = create<AppState>()(
@@ -452,7 +453,11 @@ export const useAppStore = create<AppState>()(
 
     onLoadLocalWorkflow: (id) => {
       const workflow = getLocalWorkflowFromId(id);
-      if (workflow) get().onLoadWorkflow(workflow);
+      if (workflow) {
+        get().onLoadWorkflow(workflow);
+      } else {
+        get().onLoadWorkflow(defaultWorkflow);
+      }
     },
 
     onUpdateLocalWorkFlowGraph: (id) => {

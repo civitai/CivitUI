@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 
 interface NodeCardProps {
   active: boolean;
-  selected: boolean;
+  selected?: boolean;
   title?: React.ReactNode;
   className?: string;
   preview?: boolean;

@@ -5,7 +5,7 @@ const defaultWorkflow: PersistedGraph = {
     "d6488046-7e3d-45ce-b0cb-fc461ded790d": {
       value: {
         widget: "VAELoader",
-        fields: { vae_name: "[高饱和] vae-ft-mse-840000.safetensors" },
+        fields: { vae_name: "vae-ft-mse-840000-ema-pruned.safetensors" },
       },
       position: { x: 320, y: 1219.5 },
       width: 319,
@@ -63,7 +63,7 @@ const defaultWorkflow: PersistedGraph = {
     "03e009af-40ce-40f8-8678-ee811fe31f41": {
       value: {
         widget: "CLIPTextEncode",
-        fields: { text: "bad had" },
+        fields: { text: "(worst quality:1.2), (low quality:1.2)" },
         modify: { color: "#f5222d", nickname: "Negative" },
       },
       position: { x: 19.384427793327575, y: 280.91726159315385 },
@@ -74,7 +74,9 @@ const defaultWorkflow: PersistedGraph = {
     "18d73b78-7fd7-4411-a39e-b8a17e677892": {
       value: {
         widget: "CLIPTextEncode",
-        fields: { text: "beautiful mountain scenery" },
+        fields: {
+          text: "best quality,masterpiece,highres,original,extremely detailed wallpaper,perfect lighting,extremely detailed CG,blurry background, pbcmf,bodysuit,cleavage,pink hair,coif,bcmf,jacket,red hair,black coif",
+        },
         modify: { color: "#52c41a", nickname: "Positive" },
       },
       position: { x: 20, y: 40.91726159315385 },
@@ -85,7 +87,7 @@ const defaultWorkflow: PersistedGraph = {
     "1ab1ba4a-5dfb-4ced-bc06-2b55af930969": {
       value: {
         widget: "CheckpointLoaderSimple",
-        fields: { ckpt_name: "CmShota\\CmShotaMix-Unreal.safetensors" },
+        fields: { ckpt_name: "Aniverse.safetensors" },
         modify: { color: "#fadb14" },
       },
       position: { x: 321.49999999999994, y: 1041 },

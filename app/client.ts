@@ -2,9 +2,18 @@ import type { NodeId, PersistedGraph, PersistedNode, Widget } from "@/types";
 import { Connection } from "@/types";
 import { Node, PromptRequest, PromptResponse, Queue } from "@/types/client";
 import { checkInput, getBackendUrl } from "@/utils";
+import objectInfo from "@/mock/object_info.json";
 
-export const getWidgetLibrary = async (): Promise<Record<string, Widget>> =>
-  (await fetch(getBackendUrl("/object_info"))).json();
+export const getWidgetLibrary = async (): Promise<any> => {
+  if (
+    process.env.NODE_ENV === "development" ||
+    process.env.VERCEL_ENV === "preview"
+  ) {
+    return objectInfo;
+  } else {
+    return (await fetch(getBackendUrl("/object_info"))).json();
+  }
+};
 
 export const getQueue = async (): Promise<Queue> =>
   (await fetch(getBackendUrl("/queue"))).json();
