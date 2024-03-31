@@ -18,8 +18,12 @@ interface ParamInputComponentProps {
 }
 
 const ParamInputComponent = ({ id, name, input }: ParamInputComponentProps) => {
-  const graph = useAppStore(useShallow((state) => state.graph));
-  const onPropChange = useAppStore(useShallow((state) => state.onPropChange));
+  const { graph, onPropChange } = useAppStore(
+    useShallow((state) => ({
+      graph: state.graph,
+      onPropChange: state.onPropChange,
+    }))
+  );
 
   console.log("name, input", name, input);
   console.log("graph", graph);

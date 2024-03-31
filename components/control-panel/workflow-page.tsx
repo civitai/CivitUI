@@ -29,7 +29,15 @@ const WorkflowPageComponent = () => {
     onSaveLocalWorkFlow,
     onUpdateLocalWorkFlowGraph,
     onUpdateLocalWorkFlowTitle,
-  } = useAppStore(useShallow((st) => st));
+  } = useAppStore(
+    useShallow((st) => ({
+      onLoadWorkflow: st.onLoadWorkflow,
+      onDownloadWorkflow: st.onDownloadWorkflow,
+      onSaveLocalWorkFlow: st.onSaveLocalWorkFlow,
+      onUpdateLocalWorkFlowGraph: st.onUpdateLocalWorkFlowGraph,
+      onUpdateLocalWorkFlowTitle: st.onUpdateLocalWorkFlowTitle,
+    }))
+  );
 
   // Save local workflow
   const handleSave = useCallback(() => {

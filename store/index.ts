@@ -164,17 +164,21 @@ export const useAppStore = create<AppState>()(
 
     onNodesChange: (changes) => {
       set(
-        (st) => ({ nodes: applyNodeChanges(changes, st.nodes) }),
+        (state) => ({
+          nodes: applyNodeChanges(changes, state.nodes),
+        }),
         false,
         "onNodesChange"
       );
     },
 
-    onUpdateNodes: (id, data) => {
+    onEdgesChange: (changes) => {
       set(
-        (st) => ({ nodes: updateNode(id, data, st.nodes) }),
+        (state) => ({
+          edges: applyEdgeChanges(changes, state.edges),
+        }),
         false,
-        "onUpdateNodes"
+        "onEdgesChange"
       );
     },
 
@@ -368,7 +372,7 @@ export const useAppStore = create<AppState>()(
       );
     },
 
-    onEdgesType: (type) => {
+    onEdgesType: (type: EdgeTypes) => {
       set(
         (st) => ({
           edgeType: type,

@@ -23,7 +23,15 @@ export const QueuePromptButton = () => {
   const [count, setCount] = useState(0);
 
   const { onSubmit, queue, onDeleteFromQueue, promptError, onEdgesAnimate } =
-    useAppStore(useShallow((state) => state));
+    useAppStore(
+      useShallow((state) => ({
+        onSubmit: state.onSubmit,
+        queue: state.queue,
+        onDeleteFromQueue: state.onDeleteFromQueue,
+        promptError: state.promptError,
+        onEdgesAnimate: state.onEdgesAnimate,
+      }))
+    );
 
   console.log("nodes", nodes);
 

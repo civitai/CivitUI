@@ -30,7 +30,7 @@ const SliderInput: React.FC<SliderInputProps> = ({
   style,
   onChange,
 }) => {
-  const { counter } = useAppStore(useShallow((st) => st));
+  const counter = useAppStore(useShallow((st) => st.counter));
   const [inputValue, setInputValue] = useState<number>(value);
   const [isRandom, setIsRandom] = useState<boolean>(false);
   const isSeed = name === "seed";

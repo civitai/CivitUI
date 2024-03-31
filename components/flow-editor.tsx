@@ -32,7 +32,8 @@ const FlowEditor = () => {
   const { theme } = useTheme();
   const reactFlowRef = useRef<HTMLDivElement>(null);
   const isWindows =
-    typeof navigator !== "undefined" && navigator.platform.includes("Win");
+    typeof navigator !== "undefined" &&
+    navigator.userAgent.toLowerCase().includes("win");
   const edgeUpdateSuccessful = useRef(true);
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
 
@@ -51,9 +52,18 @@ const FlowEditor = () => {
     onCreateGroup,
   } = useAppStore(
     useShallow((st) => ({
-      ...st,
-      onEdgesChange: debounce(st.onEdgesChange, 20),
-      onNodesChange: debounce(st.onNodesChange, 20),
+      nodes: st.nodes,
+      edges: st.edges,
+      onInit: st.onInit,
+      onNodesChange: debounce(st.onNodesChange, 1),
+      onEdgesChange: debounce(st.onEdgesChange, 1),
+      onConnect: st.onConnect,
+      onAddNode: st.onAddNode,
+      onCopyNode: st.onCopyNode,
+      onPasteNode: st.onPasteNode,
+      onSetNodesGroup: st.onSetNodesGroup,
+      onDeleteNode: st.onDeleteNode,
+      onCreateGroup: st.onCreateGroup,
     }))
   );
 
@@ -114,9 +124,8 @@ const FlowEditor = () => {
             (n.parentNode === node.id || !n.parentNode)
         )
         .map((n: any) => n.id);
-      onSetNodesGroup(intersections, node);
     },
-    [reactFlowInstance, onSetNodesGroup]
+    [reactFlowInstance]
   );
 
   const handleCopy = useCallback(() => {

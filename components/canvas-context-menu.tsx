@@ -24,7 +24,12 @@ export default function CanvasContextMenu({
 }: {
   children: React.ReactNode;
 }) {
-  const { edgeType, onEdgesType } = useAppStore(useShallow((state) => state));
+  const { edgeType, onEdgesType } = useAppStore(
+    useShallow((state) => ({
+      edgeType: state.edgeType,
+      onEdgesType: state.onEdgesType,
+    }))
+  );
 
   return (
     <ContextMenu>

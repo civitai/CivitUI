@@ -49,14 +49,15 @@ const NodeComponent = (node: NodeProps<Widget>) => {
   const { progressBar, onDuplicateNode, onDeleteNode, onModifyChange } =
     useAppStore(
       useShallow((st) => ({
-        ...st,
         progressBar:
           st.nodeInProgress?.id === node.id
             ? st.nodeInProgress.progress
             : undefined,
+        onDuplicateNode: st.onDuplicateNode,
+        onDeleteNode: st.onDeleteNode,
+        onModifyChange: st.onModifyChange,
       }))
     );
-
   const isInProgress = progressBar !== undefined;
   const isSelected = node.selected;
   const name = node.data?.nickname || node.data.name;

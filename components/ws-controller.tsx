@@ -13,17 +13,21 @@ console.log("WS_HOST", WS_HOST);
 const WsController = () => {
   const {
     clientId,
-    nodeIdInProgress,
     onNewClientId,
     onQueueUpdate,
     onNodeInProgress,
     onImageSave,
   } = useAppStore(
     useShallow((st) => ({
-      ...st,
-      nodeIdInProgress: st.nodeInProgress?.id,
+      clientId: st.clientId,
+      onNewClientId: st.onNewClientId,
+      onQueueUpdate: st.onQueueUpdate,
+      onNodeInProgress: st.onNodeInProgress,
+      onImageSave: st.onImageSave,
     }))
   );
+
+  const nodeIdInProgress = useAppStore((state) => state.nodeInProgress?.id);
 
   // Handle WebSocket messages
   const handleWebSocketMessage = useCallback(

@@ -12,8 +12,7 @@ const ImgList = styled.div`
 `;
 
 const GalleryComponent: React.FC = () => {
-  const { gallery } = useAppStore(useShallow((state) => state));
-
+  const gallery = useAppStore((state) => state.gallery);
   const renderImage = useCallback(({ image }: any) => {
     const src = getBackendUrl(
       queryString.stringifyUrl({ url: `/view`, query: image })
