@@ -5,22 +5,17 @@
  */
 export const colorList: Array<string> = [
   "",
-  "#f5222d",
-  "#fa541c",
-  "#fa8c16",
-  "#faad14",
-  "#fadb14",
-  "#a0d911",
-  "#52c41a",
-  "#13c2c2",
-  "#1677ff",
+  "red",
+  "orange",
+  "yellow",
+  "green",
+  "cyan",
+  "blue",
+  "indigo",
+  "purple",
+  "pink",
 ];
 
-/**
- * @title Color Selection Menu
- * @type {Array}
- * @ignore
- */
 export const ColorMenu = colorList.map((c: string | null, i: number) => ({
   label: (
     <div
@@ -32,5 +27,6 @@ export const ColorMenu = colorList.map((c: string | null, i: number) => ({
       }}
     />
   ),
+  name: c,
   key: i,
 }));

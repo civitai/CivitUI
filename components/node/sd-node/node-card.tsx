@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { NodeResizeControl, ResizeControlVariant } from "reactflow";
@@ -8,10 +8,10 @@ import { useEffect, useState } from "react";
 
 interface NodeCardProps {
   active: boolean;
-  selected?: boolean;
   title?: React.ReactNode;
   className?: string;
   preview?: boolean;
+  color: string;
   children: React.ReactNode;
 }
 
@@ -40,14 +40,16 @@ const highlight =
 
 export const NodeCard = ({
   active,
-  selected,
   title,
   preview = false,
+  color,
   children,
 }: NodeCardProps) => {
   const [hovered, setHovered] = useState<boolean>(false);
   const [direction, setDirection] = useState<Direction>("TOP");
   const activeClass = active ? "shadow-lg" : "";
+
+  console.log("color", color);
 
   useEffect(() => {
     if (!hovered) {
@@ -62,15 +64,20 @@ export const NodeCard = ({
     <Card
       className={cn(
         `${activeClass} drag-handle relative hover:shadow-lg`,
-        "rounded-xl transition duration-500 overflow-visible"
+        "rounded-xl transition duration-200 overflow-visible bg-background dark:bg-[#101015]"
       )}
       onMouseEnter={(event: React.MouseEvent<HTMLDivElement>) => {
         setHovered(true);
       }}
       onMouseLeave={() => setHovered(false)}
     >
-      <CardHeader className="relative py-3 px-4 bg-muted border-b rounded-t-xl z-10">
-        <CardTitle className="text-md">{title}</CardTitle>
+      <CardHeader
+        className={cn(
+          "relative py-4 px-5 rounded-t-xl z-10 bg-transparent",
+          `bg-gradient-to-br from-${color}-300 via-transparent to-transparent dark:from-${color}-900 dark:via-transparent dark:to-transparent`
+        )}
+      >
+        {title}
         {!preview && (
           <NodeResizeControl
             position="right"
@@ -80,7 +87,7 @@ export const NodeCard = ({
         )}
       </CardHeader>
 
-      <CardContent className="relative h-full w-full pt-5 bg-background z-10 rounded-b-xl">
+      <CardContent className="relative h-full w-full pt-5 bg-transparent z-10 rounded-b-xl">
         {children}
       </CardContent>
 

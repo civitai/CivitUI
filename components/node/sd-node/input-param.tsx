@@ -25,8 +25,6 @@ const ParamInputComponent = ({ id, name, input }: ParamInputComponentProps) => {
     }))
   );
 
-  console.log("name, input", name, input);
-  console.log("graph", graph);
   const value = graph[id]?.fields[name];
   const onChange = useMemo(
     () =>

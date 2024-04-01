@@ -62,6 +62,7 @@ const NodeComponent = (node: NodeProps<Widget>) => {
   const isSelected = node.selected;
   const name = node.data?.nickname || node.data.name;
   const isGroup = node.data.name === "Group";
+  const color = node.data?.color || colorList[0];
 
   const handleNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
     const nickname = e.target.value;
@@ -115,7 +116,9 @@ const NodeComponent = (node: NodeProps<Widget>) => {
             className="nodrag"
           />
         ) : (
-          name
+          <div className="bg-muted/45 w-fit py-1.5 border border-opacity-40 backdrop-blur-sm px-4 rounded-full text-sm">
+            {name}
+          </div>
         )}
 
         {isInProgress
@@ -133,7 +136,7 @@ const NodeComponent = (node: NodeProps<Widget>) => {
   return (
     <ContextMenu>
       <ContextMenuTrigger>
-        <NodeCard active={isInProgress} selected={isSelected} title={<Title />}>
+        <NodeCard active={isInProgress} title={<Title />} color={color}>
           <SdNode {...node} />
         </NodeCard>
       </ContextMenuTrigger>
@@ -152,11 +155,10 @@ const NodeComponent = (node: NodeProps<Widget>) => {
             <ShadowIcon />
             Colors
           </ContextMenuSubTrigger>
-          <ContextMenuSubContent className="w-48">
+          <ContextMenuSubContent className="flex">
             {ColorMenu.map((child, index) => (
               <ContextMenuItem
                 key={index}
-                className="gap-2"
                 onClick={() => handleNodeColor(colorList[child.key])}
               >
                 {child.label}

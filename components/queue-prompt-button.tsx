@@ -33,8 +33,6 @@ export const QueuePromptButton = () => {
       }))
     );
 
-  console.log("nodes", nodes);
-
   useEffect(() => {
     if (promptError !== undefined) {
       toast.error(promptError);

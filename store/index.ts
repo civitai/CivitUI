@@ -21,7 +21,7 @@ import {
   updateNode,
   writeWorkflowToFile,
 } from "@/utils";
-import { Node, applyEdgeChanges, applyNodeChanges } from "reactflow";
+import { Edge, Node, applyEdgeChanges, applyNodeChanges } from "reactflow";
 import { v4 as uuid } from "uuid";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
@@ -38,7 +38,7 @@ export const useAppStore = create<AppState>()(
     customWidgets: Object.keys(customWidgets),
     graph: {},
     nodes: [] as Node[],
-    edges: [],
+    edges: [] as Edge[],
     queue: [],
     gallery: [],
     edgeType: "default",
@@ -164,21 +164,17 @@ export const useAppStore = create<AppState>()(
 
     onNodesChange: (changes) => {
       set(
-        (state) => ({
-          nodes: applyNodeChanges(changes, state.nodes),
-        }),
+        (st) => ({ nodes: applyNodeChanges(changes, st.nodes) }),
         false,
         "onNodesChange"
       );
     },
 
-    onEdgesChange: (changes) => {
+    onUpdateNodes: (id, data) => {
       set(
-        (state) => ({
-          edges: applyEdgeChanges(changes, state.edges),
-        }),
+        (st) => ({ nodes: updateNode(id, data, st.nodes) }),
         false,
-        "onEdgesChange"
+        "onUpdateNodes"
       );
     },
 
