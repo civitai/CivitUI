@@ -115,7 +115,7 @@ const NodeComponent = (node: NodeProps<Widget>) => {
             className="nodrag"
           />
         ) : (
-          <div className="bg-muted/45 w-fit py-1.5 border border-opacity-40 backdrop-blur-sm px-4 rounded-full text-sm">
+          <div className="bg-muted/55 w-fit py-1.5 border border-opacity-40 backdrop-blur-sm px-4 rounded-full text-sm">
             {name}
           </div>
         )}
@@ -161,7 +161,7 @@ const NodeComponent = (node: NodeProps<Widget>) => {
                 className="gap-3"
                 onClick={() => handleNodeColor(child.name as string)}
               >
-                {child.name !== "none" ? child.label : null}
+                {child.name ? child.label : "None"}
                 {/* @ts-ignore */}
                 {child.name.charAt(0).toUpperCase() + child.name.slice(1)}
               </ContextMenuItem>

@@ -2,7 +2,7 @@ import NodeHandle from "@/components/node/sd-node/node-handle";
 import { Flow } from "@/types";
 import React from "react";
 import { Position } from "reactflow";
-import InputParam from "./input-param";
+import InputParams from "./input-param";
 
 interface NodeParamsProps {
   nodeId: string;
@@ -26,7 +26,7 @@ const NodeParams: React.FC<NodeParamsProps> = ({ data, nodeId }) => {
             position={Position.Left}
             isRequired={false}
           />
-          <InputParam name={name} id={nodeId} input={input} />
+          <InputParams name={name} id={nodeId} input={input} />
           <div style={{ height: 4 }} />
         </div>
       ))}

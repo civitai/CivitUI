@@ -11,13 +11,13 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ModelDialog } from "../model-dialog";
 
-interface ParamInputComponentProps {
+interface InputParamsProps {
   id: NodeId;
   name: string;
   input: InputData;
 }
 
-const ParamInputComponent = ({ id, name, input }: ParamInputComponentProps) => {
+const InputParams = ({ id, name, input }: InputParamsProps) => {
   const { graph, onPropChange } = useAppStore(
     useShallow((state) => ({
       graph: state.graph,
@@ -121,4 +121,4 @@ const ParamInputComponent = ({ id, name, input }: ParamInputComponentProps) => {
   return null;
 };
 
-export default React.memo(ParamInputComponent);
+export default React.memo(InputParams);

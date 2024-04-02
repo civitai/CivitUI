@@ -6,6 +6,8 @@ import { cn } from "@/lib/utils";
 import { NodeProps, NodeResizeControl, ResizeControlVariant } from "reactflow";
 import React, { useState } from "react";
 import { Widget } from "@/types";
+import { useTheme } from "next-themes";
+import { colorMap } from "../color-menu";
 
 interface NodeCardProps {
   active: boolean;
@@ -46,30 +48,39 @@ const NodeCard = ({
   node,
   children,
 }: NodeCardProps) => {
+  const { theme } = useTheme();
   const [hovered, setHovered] = useState<boolean>(false);
   const [direction, setDirection] = useState<Direction>("TOP");
   const activeClass = active ? "shadow-lg" : "";
 
   const color = node?.data?.color || "";
+  const bgColor = theme === "dark" ? "#101015" : "white";
 
   return (
     <Card
       className={cn(
         `${activeClass} drag-handle relative hover:shadow-lg`,
-        "rounded-xl transition duration-200 overflow-visible bg-background dark:bg-[#101015]"
+        "rounded-xl transition duration-200 overflow-visible"
       )}
       onMouseEnter={(event: React.MouseEvent<HTMLDivElement>) => {
         setHovered(true);
       }}
       onMouseLeave={() => setHovered(false)}
+      style={{
+        background: color
+          ? `radial-gradient(circle at 0% -50%, ${colorMap[color]} 0%, ${bgColor} 50%, ${bgColor} 100%)`
+          : bgColor,
+      }}
     >
       <CardHeader
-        className="relative py-4 px-5 rounded-t-xl z-10 bg-transparent"
         style={{
-          background:
-            color || color !== "none"
-              ? `linear-gradient(to bottom right, ${color} 0%, transparent 50%, transparent 100%)`
-              : "none",
+          position: "relative",
+          padding: "1rem 1.25rem",
+          borderTopLeftRadius: "0.75rem",
+          borderTopRightRadius: "0.75rem",
+          zIndex: 10,
+          transition: "all 200ms",
+          overflow: "visible",
         }}
       >
         {title}
@@ -82,7 +93,17 @@ const NodeCard = ({
         )}
       </CardHeader>
 
-      <CardContent className="relative h-full w-full pt-5 bg-transparent z-10 rounded-b-xl">
+      <CardContent
+        style={{
+          position: "relative",
+          height: "100%",
+          width: "100%",
+          paddingTop: "1.25rem",
+          zIndex: 10,
+          borderBottomLeftRadius: "0.75rem",
+          borderBottomRightRadius: "0.75rem",
+        }}
+      >
         {children}
       </CardContent>
 
