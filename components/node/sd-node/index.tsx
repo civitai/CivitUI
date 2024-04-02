@@ -1,3 +1,4 @@
+import React, { useMemo } from "react";
 import { NodeProps } from "reactflow";
 import { useShallow } from "zustand/react/shallow";
 
@@ -6,10 +7,16 @@ import NodeInputs from "./node-inputs";
 import NodeOutputs from "./node-ouputs";
 import NodeParams from "./node-params";
 
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+
 import { useAppStore } from "@/store";
 import { Widget } from "@/types";
 import { checkInput } from "@/utils";
-import React, { useMemo } from "react";
 
 const SdNode = ({ id, data: { input, output } }: NodeProps<Widget>) => {
   const { imagePreviews, inputImgPreviews } = useAppStore(
@@ -53,13 +60,32 @@ const SdNode = ({ id, data: { input, output } }: NodeProps<Widget>) => {
     return inputsList;
   }, [input]);
 
+  const { expanded, onExpand } = useAppStore((state) => ({
+    expanded: state.expanded,
+    onExpand: state.onExpand,
+  }));
+  // Determine if the current node's accordion should be expanded
+  const isExpanded = expanded.includes(id);
+  const handleAccordionChange = () => onExpand(id);
+
   return (
     <>
       <div className="flex items-stretch justify-stretch w-full space-x-6">
         <NodeInputs data={inputs} />
         <NodeOutputs data={output} />
       </div>
-      <NodeParams data={params} nodeId={id} />
+      <Accordion
+        type="multiple"
+        value={isExpanded ? [id] : []}
+        onValueChange={handleAccordionChange}
+      >
+        <AccordionItem value={id}>
+          <AccordionTrigger>Parameters</AccordionTrigger>
+          <AccordionContent>
+            <NodeParams data={params} nodeId={id} />
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
       <NodeImgPreview data={imagePreviews || inputImgPreviews} />
     </>
   );

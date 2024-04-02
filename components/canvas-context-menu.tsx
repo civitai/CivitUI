@@ -28,6 +28,11 @@ export default function CanvasContextMenu({
     }))
   );
 
+  const { onExpand, expanded } = useAppStore((state) => ({
+    onExpand: state.onExpand,
+    expanded: state.expanded,
+  }));
+
   return (
     <ContextMenu>
       <ContextMenuTrigger>{children}</ContextMenuTrigger>
@@ -63,7 +68,10 @@ export default function CanvasContextMenu({
           </ContextMenuSubContent>
         </ContextMenuSub>
         <ContextMenuSeparator />
-        <ContextMenuCheckboxItem checked>
+        <ContextMenuCheckboxItem
+          checked={expanded.length > 0}
+          onCheckedChange={() => onExpand()}
+        >
           Show parameters
           <ContextMenuShortcut>⌘⇧B</ContextMenuShortcut>
         </ContextMenuCheckboxItem>

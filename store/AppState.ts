@@ -58,6 +58,8 @@ export interface AppState {
     workflow: PersistedGraph,
     position: { x: number; y: number }
   ) => void;
+  expanded: string[];
+  onExpand: (id?: string) => void;
 
   onEdgesChange: OnEdgesChange;
   onEdgesAnimate: (animated: boolean) => void;

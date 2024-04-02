@@ -338,6 +338,27 @@ export const useAppStore = create<AppState>()(
       );
     },
 
+    expanded: [],
+    onExpand: (id?: string) => {
+      const { expanded, graph } = get();
+      if (id) {
+        // Toggle individual accordion
+        const isExpanded = expanded.includes(id);
+        set({
+          expanded: isExpanded
+            ? expanded.filter((itemId) => itemId !== id)
+            : [...expanded, id],
+        });
+      } else {
+        // Expand all if any are collapsed, otherwise collapse all
+        const allNodeIds = Object.keys(graph);
+        const shouldExpandAll = expanded.length !== allNodeIds.length;
+        set({
+          expanded: shouldExpandAll ? allNodeIds : [],
+        });
+      }
+    },
+
     /******************************************************
      *********************** Edges *************************
      ******************************************************/
