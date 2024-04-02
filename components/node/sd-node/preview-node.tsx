@@ -3,7 +3,7 @@ import { checkInput } from "@/utils";
 import { startCase } from "lodash-es";
 import { motion } from "framer-motion";
 import React, { useMemo } from "react";
-import { NodeCard } from "./node-card";
+import NodeCard from "./node-card";
 
 interface SlotProps {
   isRequired: 1 | 0;

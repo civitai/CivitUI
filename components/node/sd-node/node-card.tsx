@@ -3,15 +3,16 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { NodeResizeControl, ResizeControlVariant } from "reactflow";
-import { useEffect, useState } from "react";
+import { NodeProps, NodeResizeControl, ResizeControlVariant } from "reactflow";
+import React, { useState } from "react";
+import { Widget } from "@/types";
 
 interface NodeCardProps {
   active: boolean;
   title?: React.ReactNode;
   className?: string;
   preview?: boolean;
-  color: string;
+  node?: NodeProps<Widget>;
   children: React.ReactNode;
 }
 
@@ -38,27 +39,18 @@ const movingMap: Record<Direction, string> = {
 const highlight =
   "radial-gradient(75% 181.15942028985506% at 50% 50%, #3275F8 0%, rgba(255, 255, 255, 0) 100%)";
 
-export const NodeCard = ({
+const NodeCard = ({
   active,
   title,
   preview = false,
-  color,
+  node,
   children,
 }: NodeCardProps) => {
   const [hovered, setHovered] = useState<boolean>(false);
   const [direction, setDirection] = useState<Direction>("TOP");
   const activeClass = active ? "shadow-lg" : "";
 
-  console.log("color", color);
-
-  useEffect(() => {
-    if (!hovered) {
-      const interval = setInterval(() => {
-        setDirection((prevState) => rotateDirection(prevState));
-      }, duration * 1000);
-      return () => clearInterval(interval);
-    }
-  }, [hovered]);
+  const color = node?.data?.color || "";
 
   return (
     <Card
@@ -72,10 +64,13 @@ export const NodeCard = ({
       onMouseLeave={() => setHovered(false)}
     >
       <CardHeader
-        className={cn(
-          "relative py-4 px-5 rounded-t-xl z-10 bg-transparent",
-          `bg-gradient-to-br from-${color}-300 via-transparent to-transparent dark:from-${color}-900 dark:via-transparent dark:to-transparent`
-        )}
+        className="relative py-4 px-5 rounded-t-xl z-10 bg-transparent"
+        style={{
+          background:
+            color || color !== "none"
+              ? `linear-gradient(to bottom right, ${color} 0%, transparent 50%, transparent 100%)`
+              : "none",
+        }}
       >
         {title}
         {!preview && (
@@ -114,3 +109,5 @@ export const NodeCard = ({
     </Card>
   );
 };
+
+export default React.memo(NodeCard);

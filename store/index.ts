@@ -252,30 +252,22 @@ export const useAppStore = create<AppState>()(
       );
     },
 
-    onModifyChange: (id, key, val) => {
-      set(
-        (st) => {
-          st.onUpdateNodes(id, { [key]: val });
-          const updatedModify = {
-            ...st.graph[id]?.modify,
-            [key]: val,
-          };
-          const updatedNode = {
-            ...st.graph[id],
-            modify: updatedModify,
-          };
-          const updatedGraph = {
-            ...st.graph,
-            [id]: updatedNode,
-          };
-          return {
-            ...st,
-            graph: updatedGraph,
-          };
-        },
-        false,
-        "onModifyChange"
-      );
+    onModifyChange: (id: string, key: string, value: any) => {
+      set((state) => {
+        const nodes = state.nodes.map((node) => {
+          if (node.id === id) {
+            return {
+              ...node,
+              data: {
+                ...node.data,
+                [key]: value,
+              },
+            };
+          }
+          return node;
+        });
+        return { nodes };
+      });
     },
 
     onGetNodeFieldsData: (id, key) => {
@@ -432,11 +424,11 @@ export const useAppStore = create<AppState>()(
     },
 
     onQueueUpdate: async () => {
-      set(
-        { queue: await getQueueItems(get().clientId) },
-        false,
-        "onQueueUpdate"
-      );
+      // set(
+      //   { queue: await getQueueItems(get().clientId) },
+      //   false,
+      //   "onQueueUpdate"
+      // );
     },
 
     /******************************************************

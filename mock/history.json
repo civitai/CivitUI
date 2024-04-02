@@ -164,7 +164,7 @@
                     "text": "best quality,masterpiece,highres,original,extremely detailed wallpaper,perfect lighting,extremely detailed CG,blurry background, pbcmf,bodysuit,cleavage,pink hair,coif,bcmf,jacket,red hair,black coif`",
                     "clip": ["1", 1]
                   },
-                  "modify": { "color": "#52c41a" }
+                  "modify": { "color": "#green" }
                 }
               },
               "3": {
@@ -430,7 +430,7 @@
                     "text": "best quality,masterpiece,highres,original,extremely detailed wallpaper,perfect lighting,extremely detailed CG,blurry background, pbcmf,bodysuit,cleavage,pink hair,coif,bcmf,jacket,red hair,black coif`",
                     "clip": ["1", 1]
                   },
-                  "modify": { "color": "#52c41a" }
+                  "modify": { "color": "#green" }
                 }
               },
               "3": {
@@ -660,7 +660,7 @@
                     "text": "best quality,masterpiece,highres,original,extremely detailed wallpaper,perfect lighting,extremely detailed CG,blurry background, pbcmf,bodysuit,cleavage,pink hair,coif,bcmf,jacket,red hair,black coif`",
                     "clip": ["1", 1]
                   },
-                  "modify": { "color": "#52c41a" }
+                  "modify": { "color": "#green" }
                 }
               },
               "3": {
@@ -863,7 +863,7 @@
                     "text": "best quality,masterpiece,highres,original,extremely detailed wallpaper,perfect lighting,extremely detailed CG,blurry background, pbcmf,bodysuit,cleavage,pink hair,coif,bcmf,jacket,red hair,black coif`",
                     "clip": ["1", 1]
                   },
-                  "modify": { "color": "#52c41a" }
+                  "modify": { "color": "#green" }
                 }
               },
               "3": {
@@ -1066,7 +1066,7 @@
                     "text": "best quality,masterpiece,highres,original,extremely detailed wallpaper,perfect lighting,extremely detailed CG,blurry background, pbcmf,bodysuit,cleavage,pink hair,coif,bcmf,jacket,red hair,black coif`",
                     "clip": ["1", 1]
                   },
-                  "modify": { "color": "#52c41a" }
+                  "modify": { "color": "green" }
                 }
               },
               "3": {

@@ -1,10 +1,5 @@
-/**
- * @title Color List
- * @type {Array}
- * @ignore
- */
 export const colorList: Array<string> = [
-  "",
+  "none",
   "red",
   "orange",
   "yellow",

@@ -14,7 +14,7 @@ import { Progress } from "@/components/ui/progress";
 
 import SdNode from "./sd-node";
 import { GroupCard } from "./style";
-import { NodeCard } from "./sd-node/node-card";
+import NodeCard from "./sd-node/node-card";
 import {
   ContextMenu,
   ContextMenuContent,
@@ -62,7 +62,6 @@ const NodeComponent = (node: NodeProps<Widget>) => {
   const isSelected = node.selected;
   const name = node.data?.nickname || node.data.name;
   const isGroup = node.data.name === "Group";
-  const color = node.data?.color || colorList[0];
 
   const handleNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
     const nickname = e.target.value;
@@ -71,7 +70,7 @@ const NodeComponent = (node: NodeProps<Widget>) => {
   };
 
   const handleNodeColor = (key: string) => {
-    onModifyChange(node.id, "color", colorList[key as keyof typeof colorList]);
+    onModifyChange(node.id, "color", key);
   };
 
   const background = isGroup
@@ -136,7 +135,7 @@ const NodeComponent = (node: NodeProps<Widget>) => {
   return (
     <ContextMenu>
       <ContextMenuTrigger>
-        <NodeCard active={isInProgress} title={<Title />} color={color}>
+        <NodeCard active={isInProgress} title={<Title />} node={node}>
           <SdNode {...node} />
         </NodeCard>
       </ContextMenuTrigger>
@@ -155,13 +154,16 @@ const NodeComponent = (node: NodeProps<Widget>) => {
             <ShadowIcon />
             Colors
           </ContextMenuSubTrigger>
-          <ContextMenuSubContent className="flex">
+          <ContextMenuSubContent>
             {ColorMenu.map((child, index) => (
               <ContextMenuItem
                 key={index}
-                onClick={() => handleNodeColor(colorList[child.key])}
+                className="gap-3"
+                onClick={() => handleNodeColor(child.name as string)}
               >
-                {child.label}
+                {child.name !== "none" ? child.label : null}
+                {/* @ts-ignore */}
+                {child.name.charAt(0).toUpperCase() + child.name.slice(1)}
               </ContextMenuItem>
             ))}
           </ContextMenuSubContent>
