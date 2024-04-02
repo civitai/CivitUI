@@ -73,18 +73,6 @@ const NodeComponent = (node: NodeProps<Widget>) => {
     onModifyChange(node.id, "color", key);
   };
 
-  const background = isGroup
-    ? node.data?.color
-      ? rgba(node.data.color, 0.2)
-      : theme === "dark"
-      ? "#2C3E50"
-      : "#ECF0F1"
-    : node.data?.color
-    ? mix(0.8, theme === "dark" ? "#2C3E50" : "#ECF0F1", node.data.color)
-    : theme === "dark"
-    ? "#2C3E50"
-    : "#ECF0F1";
-
   useEffect(() => {
     if (ref.current) {
       const parent = ref.current.parentNode as HTMLElement;

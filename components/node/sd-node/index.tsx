@@ -74,18 +74,20 @@ const SdNode = ({ id, data: { input, output } }: NodeProps<Widget>) => {
         <NodeInputs data={inputs} />
         <NodeOutputs data={output} />
       </div>
-      <Accordion
-        type="multiple"
-        value={isExpanded ? [id] : []}
-        onValueChange={handleAccordionChange}
-      >
-        <AccordionItem value={id}>
-          <AccordionTrigger>Parameters</AccordionTrigger>
-          <AccordionContent>
-            <NodeParams data={params} nodeId={id} />
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
+      {params.length > 0 && (
+        <Accordion
+          type="multiple"
+          value={isExpanded ? [id] : []}
+          onValueChange={handleAccordionChange}
+        >
+          <AccordionItem value={id}>
+            <AccordionTrigger>Parameters</AccordionTrigger>
+            <AccordionContent>
+              <NodeParams data={params} nodeId={id} />
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      )}
       <NodeImgPreview data={imagePreviews || inputImgPreviews} />
     </>
   );

@@ -54,7 +54,7 @@ const NodeCard = ({
   const activeClass = active ? "shadow-lg" : "";
 
   const color = node?.data?.color || "";
-  const bgColor = theme === "dark" ? "#101015" : "white";
+  const bgColor = theme === "dark" ? "black" : "white";
 
   return (
     <Card

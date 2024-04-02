@@ -3,7 +3,7 @@
 import NodePickerComponent from "./node-picker";
 import WorkflowPageComponent from "./workflow-page";
 import GalleryComponent from "./gallery";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -16,7 +16,19 @@ enum TABS {
   GALLERY = "Gallery",
 }
 
-const ControlPanel: React.FC = () => {
+const ControlPanel = () => {
+  const [activeTab, setActiveTab] = useState(TABS.NODES);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+
+  const handleSheetTriggerClick = (tab: TABS) => {
+    if (activeTab === tab) {
+      setIsSheetOpen(!isSheetOpen);
+    } else {
+      setActiveTab(tab);
+      setIsSheetOpen(true);
+    }
+  };
+
   const tabs = useMemo(
     () => [
       {
@@ -39,11 +51,12 @@ const ControlPanel: React.FC = () => {
   );
 
   return (
-    <Sheet modal={false}>
-      <div className="fixed top-1/2 right-8 transform -translate-y-1/2 flex flex-col gap-3 m-2">
+    <Sheet modal={false} open={isSheetOpen}>
+      <div className="fixed left-1/2 bottom-12 transform -translate-y-1/2 flex gap-3 m-2">
         <SheetTrigger asChild>
           <Button
-            className="relative rounded-2xl shadow-lg hover:bg-background hover:rounded-lg transition-all duration-300"
+            onClick={() => handleSheetTriggerClick(TABS.NODES)}
+            className="relative rounded-3xl shadow-lg hover:bg-background hover:rounded-lg transition-all duration-300"
             variant={"outline"}
             size={"icon"}
           >
@@ -53,7 +66,8 @@ const ControlPanel: React.FC = () => {
 
         <SheetTrigger asChild>
           <Button
-            className="relative rounded-2xl shadow-lg hover:bg-background hover:rounded-lg transition-all duration-300"
+            onClick={() => handleSheetTriggerClick(TABS.WORKFLOW)}
+            className="relative rounded-3xl shadow-lg hover:bg-background hover:rounded-lg transition-all duration-300"
             variant="outline"
             size={"icon"}
           >
@@ -63,9 +77,12 @@ const ControlPanel: React.FC = () => {
 
         <QueuePromptButton />
       </div>
-
       <SheetContent side={"left"} className="overflow-y-scroll">
-        <Tabs defaultValue={TABS.NODES} className="mt-8">
+        <Tabs
+          value={activeTab}
+          onValueChange={(value) => setActiveTab(value as TABS)}
+          className="mt-8"
+        >
           <div className="px-2">
             <TabsList className="w-full mb-4">
               {tabs.map((tab) => (
@@ -75,7 +92,6 @@ const ControlPanel: React.FC = () => {
               ))}
             </TabsList>
           </div>
-
           {tabs.map((tab) => (
             <TabsContent key={tab.key} value={tab.key}>
               {tab.children}
