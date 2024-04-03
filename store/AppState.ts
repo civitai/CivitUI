@@ -78,6 +78,6 @@ export interface AppState {
   onLoadLocalWorkflow: (id: string) => void;
   onUpdateLocalWorkFlowGraph: (id: string) => void;
   onUpdateLocalWorkFlowTitle: (id: string, title: string) => void;
-  onLoadWorkflow: (persisted: PersistedGraph) => void;
+  onLoadWorkflow: (persisted: any) => void;
   onDownloadWorkflow: () => void;
 }
