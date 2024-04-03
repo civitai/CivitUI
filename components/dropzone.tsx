@@ -11,15 +11,12 @@ import {
 
 import useDragDrop from "@/hooks/use-drag-drop";
 import { cn, formatBytes } from "@/lib/utils";
-import { useWorkflowForm } from "@/hooks/use-form";
 
 interface DropzoneProps {
   onUpload: (file: File) => void;
 }
 
 export default function Dropzone({ onUpload }: DropzoneProps) {
-  const form = useWorkflowForm();
-
   const [file, setFile] = useState<File | null>(null);
   const [loadingState, setLoadingState] = useState<boolean>(false);
   const [fileDropError, setFileDropError] = useState<string>("");

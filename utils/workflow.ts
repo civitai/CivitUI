@@ -2,6 +2,31 @@
 
 import { NodeItem } from "@/types";
 import { v4 as uuid } from "uuid";
+import { toast } from "sonner";
+import objectInfo from "../mock/object_info.json";
+
+interface ObjectInfo {
+  [key: string]: {
+    input?: {
+      required?: {
+        [key: string]: (string | number | boolean | object)[];
+      };
+      optional?: {
+        [key: string]: (string | number | boolean | object)[];
+      };
+    };
+    output?: (string | object)[];
+    output_is_list?: boolean[];
+    output_name?: string[];
+    name?: string;
+    display_name?: string;
+    description?: string;
+    category?: string;
+    output_node?: boolean;
+  };
+}
+
+const objectInfoTyped: ObjectInfo = objectInfo;
 
 const requiredTopLevelProperties = [
   "last_node_id",
@@ -64,57 +89,87 @@ export function transformData(inputJson: any): any {
 
   // Map node IDs to their corresponding keys in the output JSON
   const nodeIdMap: Record<string, string> = {};
+  const missingNodeTypes: string[] = [];
 
   // Process nodes
   inputJson.nodes.forEach((node: any) => {
     const nodeKey = `node-${node.id}`;
     nodeIdMap[node.id] = nodeKey;
 
+    const nodeInfo = objectInfoTyped[node.type];
+    if (!nodeInfo) {
+      missingNodeTypes.push(node.type);
+      return; // Skip further processing for this node
+    }
+
     const nodeItem: NodeItem = {
       widget: node.type,
       node: {
         widget: node.type,
         fields: {},
+        modify: {},
       },
-      position: {
-        x: node.pos[0],
-        y: node.pos[1],
-      },
+      position: { x: node.pos[0], y: node.pos[1] },
       width: node.size[0],
       height: node.size[1],
     };
 
     if (node.properties && node.properties["Node name for S&R"]) {
-      nodeItem.node!.modify = {
-        nickname: node.properties["Node name for S&R"],
-      };
+      if (!nodeItem.node) {
+        nodeItem.node = { widget: node.type, fields: {} };
+      }
+      nodeItem.node.modify = { nickname: node.properties["Node name for S&R"] };
     }
 
-    if (node.widgets_values) {
-      nodeItem.node!.fields = node.widgets_values.reduce(
-        (acc: any, value: any, index: number) => {
-          acc[`field${index + 1}`] = value;
-          return acc;
-        },
-        {}
-      );
+    // Handling widgets_values as an array
+    if (nodeInfo.input && node.widgets_values) {
+      const inputs = { ...nodeInfo.input.required, ...nodeInfo.input.optional };
+      const inputKeys = Object.keys(inputs);
+
+      inputKeys.forEach((inputKey: string, index: number) => {
+        if (index < node.widgets_values.length) {
+          if (!nodeItem.node) {
+            // Ensure the node property exists
+            nodeItem.node = { widget: node.type, fields: {} }; // Initialize if necessary
+          }
+          nodeItem.node.fields[inputKey] = node.widgets_values[index];
+        }
+      });
     }
 
-    outputJson.data[nodeKey] = { value: nodeItem };
+    outputJson.data[nodeKey] = {
+      value: nodeItem,
+      position: { x: node.pos[0], y: node.pos[1] },
+      width: node.size[0],
+      height: node.size[1],
+    };
+
+    if (node.parentNode) {
+      outputJson.data[nodeKey].parentNode = `node-${node.parentNode}`;
+    }
   });
 
   // Process links
-  inputJson.links.forEach((link: any) => {
-    const sourceNodeKey = nodeIdMap[link[1]];
-    const targetNodeKey = nodeIdMap[link[3]];
+  if (Array.isArray(inputJson.links)) {
+    inputJson.links.forEach((link: any) => {
+      const sourceNodeKey = nodeIdMap[link[1]];
+      const targetNodeKey = nodeIdMap[link[3]];
 
-    outputJson.connections.push({
-      source: sourceNodeKey,
-      sourceHandle: link[4],
-      target: targetNodeKey,
-      targetHandle: link[2],
+      outputJson.connections.push({
+        source: sourceNodeKey,
+        sourceHandle: link[4],
+        target: targetNodeKey,
+        targetHandle: link[2],
+      });
     });
-  });
+  }
+
+  if (missingNodeTypes.length > 0) {
+    const missingTypesMessage = missingNodeTypes.join(", ");
+    toast.error("The following node types are missing:", {
+      description: `${missingTypesMessage}`,
+    });
+  }
 
   return outputJson;
 }

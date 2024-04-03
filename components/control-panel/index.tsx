@@ -51,12 +51,12 @@ const ControlPanel = () => {
   );
 
   return (
-    <Sheet modal={false} open={isSheetOpen}>
+    <Sheet modal={false} open={isSheetOpen} onOpenChange={setIsSheetOpen}>
       <div className="fixed left-1/2 bottom-12 transform -translate-y-1/2 flex gap-3 m-2">
         <SheetTrigger asChild>
           <Button
             onClick={() => handleSheetTriggerClick(TABS.NODES)}
-            className="relative rounded-3xl shadow-lg hover:bg-background hover:rounded-lg transition-all duration-300"
+            className="relative rounded-3xl shadow-lg hover:bg-background hover:rounded-lg transition-all duration-200"
             variant={"outline"}
             size={"icon"}
           >
@@ -67,7 +67,7 @@ const ControlPanel = () => {
         <SheetTrigger asChild>
           <Button
             onClick={() => handleSheetTriggerClick(TABS.WORKFLOW)}
-            className="relative rounded-3xl shadow-lg hover:bg-background hover:rounded-lg transition-all duration-300"
+            className="relative rounded-3xl shadow-lg hover:bg-background hover:rounded-lg transition-all duration-200"
             variant="outline"
             size={"icon"}
           >

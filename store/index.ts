@@ -4,7 +4,7 @@ import {
   getWidgetLibrary as getWidgets,
   sendPrompt,
 } from "@/app/client";
-import type { EdgeTypes, PersistedGraph } from "@/types";
+import type { Connection, EdgeTypes, PersistedGraph } from "@/types";
 import {
   addConnection,
   addNode,
@@ -28,6 +28,7 @@ import { devtools } from "zustand/middleware";
 import { AppState } from "./AppState";
 import customWidgets from "./customWidgets";
 import defaultWorkflow from "@/app/defaultWorkflow";
+import { transformData } from "@/utils/workflow";
 export * from "./AppState";
 
 export const useAppStore = create<AppState>()(
@@ -484,10 +485,13 @@ export const useAppStore = create<AppState>()(
     onLoadWorkflow: (workflow) => {
       console.log("[onLoadWorkflow] Received workflow:", workflow);
 
-      if (!workflow || !workflow.data) {
+      if (!workflow) {
         console.error("[onLoadWorkflow] Invalid workflow data");
         return;
       }
+
+      const transformedWorkflow = transformData(workflow);
+      console.log("transformedWorkflow", transformedWorkflow);
 
       set(
         (st) => {
@@ -500,36 +504,40 @@ export const useAppStore = create<AppState>()(
             graph: {},
           };
 
-          Object.entries(workflow.data).forEach(([key, node]) => {
-            if (!node.value) {
-              console.warn(
-                `[onLoadWorkflow] Node value is undefined or null for key: ${key}`
-              );
-              return;
-            }
+          Object.entries(transformedWorkflow.data).forEach(
+            ([key, node]: any) => {
+              if (!node.value) {
+                console.warn(
+                  `[onLoadWorkflow] Node value is undefined or null for key: ${key}`
+                );
+                return;
+              }
 
-            const widget = widgets?.[node.value.widget];
-            if (widget) {
-              state = addNode(state, {
-                widget,
-                node: node.value,
-                position: node.position,
-                width: node.width,
-                height: node.height,
-                key,
-                parentNode: node.parentNode,
-              });
-            } else {
-              console.warn(
-                `[onLoadWorkflow] Unknown widget: ${node.value.widget}`
-              );
+              const widget = widgets?.[node.value.widget];
+              if (widget) {
+                state = addNode(state, {
+                  widget,
+                  node: node.value,
+                  position: node.position,
+                  width: node.width,
+                  height: node.height,
+                  key,
+                  parentNode: node.parentNode,
+                });
+              } else {
+                console.warn(
+                  `[onLoadWorkflow] Unknown widget: ${node.value.widget}`
+                );
+              }
             }
-          });
+          );
 
-          if (workflow.connections) {
-            workflow.connections.forEach((connection) => {
-              state = addConnection(state, connection);
-            });
+          if (transformedWorkflow.connections) {
+            transformedWorkflow.connections.forEach(
+              (connection: Connection) => {
+                state = addConnection(state, connection);
+              }
+            );
           } else {
             console.warn(
               "[onLoadWorkflow] Workflow connections is undefined or null"

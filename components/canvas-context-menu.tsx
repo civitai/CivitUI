@@ -45,10 +45,6 @@ export default function CanvasContextMenu({
           Redo
           <ContextMenuShortcut>⌘ShiftZ</ContextMenuShortcut>
         </ContextMenuItem>
-        <ContextMenuItem inset>
-          Reload
-          <ContextMenuShortcut>⌘R</ContextMenuShortcut>
-        </ContextMenuItem>
         <ContextMenuItem inset>Export worfklow</ContextMenuItem>
         <ContextMenuSub>
           <ContextMenuSubTrigger inset>Change edge type</ContextMenuSubTrigger>
