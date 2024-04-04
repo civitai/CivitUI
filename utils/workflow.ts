@@ -114,9 +114,25 @@ export function transformData(inputJson: any): any {
     if (nodeInfo.input && node.widgets_values) {
       const inputs = { ...nodeInfo.input.required, ...nodeInfo.input.optional };
       const inputKeys = Object.keys(inputs);
-      inputKeys.forEach((inputKey: string, index: number) => {
-        if (index < node.widgets_values.length) {
-          nodeItem.fields[inputKey] = node.widgets_values[index];
+      let widgetValueIndex = 0; // Index to track position in widgets_values
+
+      inputKeys.forEach((inputKey: string) => {
+        const inputDefinition = inputs[inputKey];
+        // Check if the inputDefinition meets the criteria:
+        // 1. It is an array with more than one item
+        // 2. The single item in the array is itself an array
+        const meetsCriteria =
+          Array.isArray(inputDefinition) &&
+          (inputDefinition.length > 1 ||
+            (inputDefinition.length === 1 &&
+              Array.isArray(inputDefinition[0])));
+
+        if (meetsCriteria) {
+          // Ensure we do not exceed the widgets_values array length
+          if (widgetValueIndex < node.widgets_values.length) {
+            nodeItem.fields[inputKey] = node.widgets_values[widgetValueIndex];
+            widgetValueIndex++; // Increment only if the input meets the criteria
+          }
         }
       });
     }
@@ -161,7 +177,6 @@ export function transformData(inputJson: any): any {
             sourceHandle: sourceOutput.name,
             target: targetNodeKey,
             targetHandle: targetInput.name,
-            type: link[5],
           };
           outputJson.connections.push(connectionObj);
         }

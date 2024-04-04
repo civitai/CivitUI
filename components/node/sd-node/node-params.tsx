@@ -15,19 +15,26 @@ interface NodeParamsProps {
 
 const NodeParams: React.FC<NodeParamsProps> = ({ data, nodeId }) => {
   if (!data?.length) return null;
+  console.log("NodeParams data:", data);
   return (
-    <div>
+    <div className="space-y-2">
       {data.map(({ name, type, input }, index) => (
-        <div key={name}>
-          <NodeHandle
-            slotType={type}
-            label={name}
-            type="target"
-            position={Position.Left}
-            isRequired={false}
-          />
+        <div
+          key={name}
+          className={`grid ${
+            name === "text" ? "grid-cols-1" : "grid-cols-2"
+          } items-center gap-2`}
+        >
+          {name !== "text" && (
+            <NodeHandle
+              slotType={type}
+              label={name}
+              type="target"
+              position={Position.Left}
+              isRequired={false}
+            />
+          )}
           <InputParams name={name} id={nodeId} input={input} />
-          <div style={{ height: 4 }} />
         </div>
       ))}
     </div>

@@ -98,9 +98,9 @@ const SliderInput: React.FC<SliderInputProps> = ({
         />
       </div>
 
-      {isSeed && (
+      {/* {isSeed && (
         <Checkbox checked={isRandom} onChange={handleCheckboxChange} />
-      )}
+      )} */}
     </div>
   );
 };

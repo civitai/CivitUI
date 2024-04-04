@@ -7576,6 +7576,9 @@
             "max": 1.8446744073709552e19
           }
         ],
+        "control_after_generate": [
+          ["fixed", "increment", "decrement", "randomize"]
+        ],
         "steps": [
           "INT",
           {
@@ -11474,6 +11477,9 @@
             "min": 0,
             "max": 1.8446744073709552e19
           }
+        ],
+        "control_after_generate": [
+          ["fixed", "increment", "decrement", "randomize"]
         ],
         "steps": [
           "INT",
