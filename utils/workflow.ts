@@ -88,7 +88,6 @@ export function transformData(inputJson: any): any {
   // Map node IDs to their corresponding keys in the output JSON
   const nodeIdMap: Record<string, string> = {};
   const missingNodeTypes: string[] = [];
-  const problematicCases: any[] = [];
 
   // Process nodes
   inputJson.nodes.forEach((node: any) => {
@@ -190,9 +189,6 @@ export function transformData(inputJson: any): any {
       description: `${missingTypesMessage}`,
     });
   }
-  console.log("Problematic Cases:", problematicCases);
-
-  console.log("outputJson.connections:", outputJson.connections);
 
   return outputJson;
 }

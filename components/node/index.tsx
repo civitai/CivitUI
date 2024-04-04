@@ -103,7 +103,11 @@ const NodeComponent = (node: NodeProps<Widget>) => {
             className="nodrag"
           />
         ) : (
-          <div className="bg-muted/55 w-fit py-1.5 border border-opacity-40 backdrop-blur-sm px-4 rounded-full text-sm">
+          <div
+            className={`w-fit inline-flex h-9 px-4 ${
+              isInProgress ? "animate-shimmer" : ""
+            } text-sm items-center justify-center rounded-full border border-opacity-40 dark:border-slate-800 bg-[linear-gradient(110deg,rgba(240,241,243,0.5),45%,rgba(254,254,254,0.5),55%,rgba(240,241,243,0.5))] dark:bg-[linear-gradient(110deg,rgba(0,1,3,0.5),45%,rgba(30,38,49,0.5),55%,rgba(0,1,3,0.5))] bg-[length:200%_100%]`}
+          >
             {name}
           </div>
         )}

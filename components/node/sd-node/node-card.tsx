@@ -70,6 +70,7 @@ const NodeCard = ({
         background: color
           ? `radial-gradient(circle at 0% -50%, ${colorMap[color]} 0%, ${bgColor} 50%, ${bgColor} 100%)`
           : bgColor,
+        boxShadow: color ? `inset 0 0 0 0.1px ${colorMap[color]}` : "none",
       }}
     >
       <CardHeader
