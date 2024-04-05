@@ -1,18 +1,21 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import ModelGallery from "./gallery";
 
 export function ModelDialog() {
   return (
-    <Dialog>
-      <DialogTrigger asChild>
+    <Drawer>
+      <DrawerTrigger asChild>
         <Button variant="outline" className="w-full">
           Select
         </Button>
-      </DialogTrigger>
-      <DialogContent className="md:max-w-6xl h-[900px] p-0 border-0 rounded-lg">
-        <ModelGallery />
-      </DialogContent>
-    </Dialog>
+      </DrawerTrigger>
+      <DrawerContent className="h-[90vh]">
+        <div className="mx-auto w-full py-4 px-32 overflow-y-scroll">
+          <ModelGallery />
+        </div>
+      </DrawerContent>
+    </Drawer>
   );
 }

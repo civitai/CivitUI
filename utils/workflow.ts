@@ -81,6 +81,8 @@ export function validateNonAPIFormat(data: any) {
   return true;
 }
 
+const control = ["fixed", "increment", "decrement", "randomize"];
+
 export function transformData(inputJson: any): any {
   console.log("inputJson.links:", inputJson.links);
 
@@ -114,8 +116,21 @@ export function transformData(inputJson: any): any {
       const inputs = { ...nodeInfo.input.required, ...nodeInfo.input.optional };
       const inputKeys = Object.keys(inputs);
       let widgetValueIndex = 0; // Index to track position in widgets_values
+      let inputKeyIndex = 0; // Index to track position in inputKeys
 
-      inputKeys.forEach((inputKey: string) => {
+      while (
+        widgetValueIndex < node.widgets_values.length &&
+        inputKeyIndex < inputKeys.length
+      ) {
+        const widgetValue = node.widgets_values[widgetValueIndex];
+
+        // If the widgetValue is one of the control values, skip it and move to the next
+        if (control.includes(widgetValue)) {
+          widgetValueIndex++; // Skip this widget value
+          continue; // Move to the next iteration without incrementing inputKeyIndex
+        }
+
+        const inputKey = inputKeys[inputKeyIndex];
         const inputDefinition = inputs[inputKey];
         // Check if the inputDefinition meets the criteria:
         // 1. It is an array with more than one item
@@ -127,13 +142,12 @@ export function transformData(inputJson: any): any {
               Array.isArray(inputDefinition[0])));
 
         if (meetsCriteria) {
-          // Ensure we do not exceed the widgets_values array length
-          if (widgetValueIndex < node.widgets_values.length) {
-            nodeItem.fields[inputKey] = node.widgets_values[widgetValueIndex];
-            widgetValueIndex++; // Increment only if the input meets the criteria
-          }
+          // Assign the widgetValue to the current inputKey
+          nodeItem.fields[inputKey] = widgetValue;
+          widgetValueIndex++; // Move to the next widget value
         }
-      });
+        inputKeyIndex++; // Move to the next input definition regardless of whether the current one met the criteria
+      }
     }
 
     outputJson.data[nodeKey] = {

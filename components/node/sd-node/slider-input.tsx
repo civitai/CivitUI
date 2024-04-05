@@ -84,7 +84,7 @@ const SliderInput: React.FC<SliderInputProps> = ({
   }, [counter, iMax]);
 
   return (
-    <div style={style} className="flex gap-3">
+    <div style={style}>
       <div className={`flex items-center`}>
         <Input
           type="number"

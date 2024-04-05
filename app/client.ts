@@ -89,7 +89,6 @@ export const createPrompt = ({
   });
 
   // Reconnection
-
   let connections = reconnection(graph.connections);
   console.log(connections);
 

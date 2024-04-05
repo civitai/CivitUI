@@ -9,6 +9,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { FilePlusIcon, PlusIcon } from "@radix-ui/react-icons";
 import { QueuePromptButton } from "../queue-prompt-button";
+import { Progress } from "../ui/progress";
 
 enum TABS {
   NODES = "Nodes",
@@ -52,13 +53,12 @@ const ControlPanel = () => {
 
   return (
     <Sheet modal={false} open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-      <div className="fixed left-1/2 bottom-12 transform -translate-y-1/2 flex gap-3 m-2">
+      <div className="fixed left-1/2 bottom-20 transform -translate-y-1/2 flex gap-3 m-2">
         <SheetTrigger asChild>
           <Button
             onClick={() => handleSheetTriggerClick(TABS.NODES)}
-            className="relative rounded-3xl shadow-lg hover:bg-background hover:rounded-lg transition-all duration-200"
+            className="relative rounded-3xl shadow-lg hover:bg-background hover:rounded-lg transition-all duration-200 h-12 w-12"
             variant={"outline"}
-            size={"icon"}
           >
             <PlusIcon />
           </Button>
@@ -67,9 +67,8 @@ const ControlPanel = () => {
         <SheetTrigger asChild>
           <Button
             onClick={() => handleSheetTriggerClick(TABS.WORKFLOW)}
-            className="relative rounded-3xl shadow-lg hover:bg-background hover:rounded-lg transition-all duration-200"
+            className="relative rounded-3xl shadow-lg hover:bg-background hover:rounded-lg transition-all duration-200 h-12 w-12"
             variant="outline"
-            size={"icon"}
           >
             <FilePlusIcon />
           </Button>

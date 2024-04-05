@@ -8,24 +8,46 @@ import { Separator } from "@/components/ui/separator";
 import { ModelItem } from "./model-item";
 import { data } from "./data/data";
 import { useEffect, useState } from "react";
+import {
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
+
+interface Model {
+  id: number;
+  name: string;
+  description: string;
+  modelVersions: {
+    id: number;
+    name: string;
+    images: {
+      url: string;
+    }[];
+    stats: {
+      downloadCount: number;
+    };
+  }[];
+}
 
 export default function Gallery() {
-  const [models, setModels] = useState([]);
+  const [models, setModels] = useState<Model[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchModels = async () => {
+      setIsLoading(true);
       try {
         const response = await fetch(
           "/api/models?type=Checkpoint&limit=5&sort=Most%20Downloaded&period=AllTime"
         );
         const data = await response.json();
         console.log("Response data:", data);
-        setModels(data);
-        setIsLoading(false);
+        setModels(data.items);
       } catch (error) {
         console.error("Error fetching models:", error);
+      } finally {
         setIsLoading(false);
       }
     };
@@ -34,25 +56,26 @@ export default function Gallery() {
   }, []);
 
   return (
-    <div className="grid max-w-6xl py-12 px-4 overflow-auto">
-      <div className="h-full lg:px-8">
-        <div className="flex items-center justify-between">
-          <div className="space-y-1">
-            <h2 className="text-2xl font-semibold tracking-tight">
-              Featured Models
-            </h2>
-            <p className="text-sm text-muted-foreground">
-              Top picks for you. Updated weekly.
-            </p>
+    <div>
+      <DrawerHeader className="px-0">
+        <DrawerTitle>Featured Models</DrawerTitle>
+        <DrawerDescription>
+          Top picks for you. Updated weekly.
+        </DrawerDescription>
+      </DrawerHeader>
+      <Separator className="my-4" />
+      <div className="grid grid-cols-4 gap-4 pb-4">
+        {models?.map((model) => (
+          <ModelItem key={model.id} model={model} />
+        ))}
+
+        {isLoading && (
+          <div className="col-span-4 flex justify-center items-center">
+            <p>Loading...</p>
           </div>
-        </div>
-        <Separator className="my-4" />
-        <div className="grid grid-cols-4 gap-4 pb-4">
-          {data.map((model) => (
-            <ModelItem key={model.id} model={model} />
-          ))}
-        </div>
-        {/* <div className="mt-6 space-y-1">
+        )}
+      </div>
+      {/* <div className="mt-6 space-y-1">
           <h2 className="text-2xl font-semibold tracking-tight">
             Made for You
           </h2>
@@ -71,7 +94,6 @@ export default function Gallery() {
             <ScrollBar orientation="horizontal" />
           </ScrollArea>
         </div> */}
-      </div>
     </div>
   );
 }

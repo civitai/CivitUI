@@ -82,7 +82,7 @@ const SdNode = ({ id, data: { input, output } }: NodeProps<Widget>) => {
         >
           <AccordionItem value={id}>
             <AccordionTrigger>Parameters</AccordionTrigger>
-            <AccordionContent>
+            <AccordionContent className="m-0.5">
               <NodeParams data={params} nodeId={id} />
             </AccordionContent>
           </AccordionItem>

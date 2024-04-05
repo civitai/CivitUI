@@ -10,30 +10,32 @@ import {
 } from "@/components/ui/context-menu";
 import { useState } from "react";
 
-interface ModelItemProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface ModelItemProps {
   model: {
     id: number;
     name: string;
-    images: {
-      url: string;
-    }[];
-    stats: {
-      downloadCount: number;
-    };
-    model: {
+    description: string;
+    modelVersions: {
+      id: number;
       name: string;
-    };
+      images: {
+        url: string;
+      }[];
+      stats: {
+        downloadCount: number;
+      };
+    }[];
   };
 }
 
-export function ModelItem({ model, className, ...props }: ModelItemProps) {
+export function ModelItem({ model }: ModelItemProps) {
   const [isLoading, setIsLoading] = useState(true);
 
-  const imageUrl = model.images[0]?.url;
-  const downloadCount = model.stats.downloadCount;
+  const imageUrl = model.modelVersions[0].images[0].url;
+  const downloadCount = model.modelVersions[0].stats.downloadCount;
 
   return (
-    <div className={cn("space-y-3", className)} {...props}>
+    <div className="space-y-3">
       <ContextMenu>
         <ContextMenuTrigger asChild>
           <div className="relative overflow-hidden rounded-md aspect-portrait">
@@ -56,7 +58,7 @@ export function ModelItem({ model, className, ...props }: ModelItemProps) {
         </ContextMenuContent>
       </ContextMenu>
       <div className="space-y-1 text-sm">
-        <h3 className="font-medium leading-none">{model.model.name}</h3>
+        <h3 className="font-medium leading-none">{model.name}</h3>
         <p className="flex gap-2 text-xs text-muted-foreground">
           {downloadCount} downloads
         </p>

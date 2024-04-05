@@ -35,20 +35,20 @@ const InputParams = ({ id, name, input }: InputParamsProps) => {
     [id, name, onPropChange]
   );
 
-  // if (checkInput.isList(input)) {
-  //   if (name === "ckpt_name") {
-  //     return <ModelDialog />;
-  //   }
+  if (checkInput.isList(input)) {
+    if (name === "ckpt_name") {
+      return <ModelDialog />;
+    }
 
-  //   return (
-  //     <SelectUploadInput
-  //       value={value}
-  //       name={name}
-  //       input={input}
-  //       onChange={onChange}
-  //     />
-  //   );
-  // }
+    return (
+      <SelectUploadInput
+        value={value}
+        name={name}
+        input={input}
+        onChange={onChange}
+      />
+    );
+  }
 
   if (checkInput.isList(input)) {
     return (

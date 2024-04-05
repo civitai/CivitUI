@@ -58,12 +58,11 @@ export const QueuePromptButton = () => {
 
       <Button
         className={cn(
-          "relative rounded-3xl shadow-lg bg-gradient-to-b text-white dark:text-black dark:from-white dark:to-blue-50 ring-2 ring-blue-50 ring-opacity-60",
+          "relative h-12 w-12 rounded-3xl shadow-lg bg-gradient-to-b text-white dark:text-black dark:from-white dark:to-blue-50 ring-2 ring-blue-50 ring-opacity-60",
           "from-slate-800 to-slate-700 ring-slate-400",
           "hover:rounded-lg transition-all duration-200"
         )}
         onClick={handleRun}
-        size={"icon"}
       >
         <PlayIcon />
       </Button>

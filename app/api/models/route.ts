@@ -7,7 +7,7 @@ export async function GET(request: Request) {
   const sort = searchParams.get("sort") || "Most Downloaded";
   const period = searchParams.get("period") || "AllTime";
 
-  const url = `https://civitai.com/api/v1/models?limit=${limit}&types=${modelType}&sort=${sort}&period=${period}&page=-1`;
+  const url = `https://civitai.com/api/v1/models?limit=${limit}&types=${modelType}&sort=${sort}&period=${period}`;
   const apiKey = process.env.CIVITAI_API_KEY;
 
   try {

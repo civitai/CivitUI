@@ -13,9 +13,8 @@ interface NodeParamsProps {
   }[];
 }
 
-const NodeParams: React.FC<NodeParamsProps> = ({ data, nodeId }) => {
+const NodeParams = ({ data, nodeId }: NodeParamsProps) => {
   if (!data?.length) return null;
-  console.log("NodeParams data:", data);
   return (
     <div className="space-y-2">
       {data.map(({ name, type, input }, index) => (
