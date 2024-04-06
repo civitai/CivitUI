@@ -1,18 +1,25 @@
 "use client";
 
-import Image from "next/image";
-
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
-
 import { ModelItem } from "./model-item";
-import { data } from "./data/data";
 import { useEffect, useState } from "react";
 import {
   DrawerDescription,
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+import { ArrowDownWideNarrow, Clock4, ListFilter, Search } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { BoxesContainer } from "@/components/ui/interactive-bg-boxes";
 
 interface Model {
   id: number;
@@ -26,6 +33,7 @@ interface Model {
     }[];
     stats: {
       downloadCount: number;
+      thumbsUpCount: number;
     };
   }[];
 }
@@ -56,14 +64,59 @@ export default function Gallery() {
   }, []);
 
   return (
-    <div>
-      <DrawerHeader className="px-0">
-        <DrawerTitle>Featured Models</DrawerTitle>
-        <DrawerDescription>
-          Top picks for you. Updated weekly.
-        </DrawerDescription>
-      </DrawerHeader>
-      <Separator className="my-4" />
+    <div className="flex flex-col gap-6">
+      <div className="flex justify-between">
+        <div className="relative flex-1 md:grow-0">
+          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Input
+            type="search"
+            placeholder="Search..."
+            className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[320px]"
+          />
+        </div>
+
+        <div className="flex gap-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="gap-2">
+                <ArrowDownWideNarrow className="h-3.5 w-3.5" />
+                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                  Most downloaded
+                </span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Filter by</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuCheckboxItem checked>
+                Active
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem>Draft</DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem>Archived</DropdownMenuCheckboxItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="gap-2">
+                <Clock4 className="h-3.5 w-3.5" />
+                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                  All time
+                </span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Filter by</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuCheckboxItem checked>
+                Active
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem>Draft</DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem>Archived</DropdownMenuCheckboxItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </div>
       <div className="grid grid-cols-4 gap-4 pb-4">
         {models?.map((model) => (
           <ModelItem key={model.id} model={model} />
@@ -75,25 +128,6 @@ export default function Gallery() {
           </div>
         )}
       </div>
-      {/* <div className="mt-6 space-y-1">
-          <h2 className="text-2xl font-semibold tracking-tight">
-            Made for You
-          </h2>
-          <p className="text-sm text-muted-foreground">
-            Your personal favourites.
-          </p>
-        </div>
-        <Separator className="my-4" />
-        <div className="relative">
-          <ScrollArea>
-            <div className="grid grid-cols-5 gap-4 pb-4">
-              {data.map((model) => (
-                <ModelItem key={model.id} model={model} />
-              ))}
-            </div>
-            <ScrollBar orientation="horizontal" />
-          </ScrollArea>
-        </div> */}
     </div>
   );
 }

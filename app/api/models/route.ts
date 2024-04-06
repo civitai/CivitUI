@@ -1,3 +1,8 @@
+/**
+ * We're only using the REST API in development for users to run CivitUI in their local environment.
+ * CivitUI in production will use MeiliSearch to fetch models.
+ */
+
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {

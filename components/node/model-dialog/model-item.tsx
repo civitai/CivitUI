@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { cn } from "@/lib/utils";
+import { cn, formatCount } from "@/lib/utils";
 import {
   ContextMenu,
   ContextMenuContent,
@@ -9,6 +9,7 @@ import {
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
 import { useState } from "react";
+import { Download, ThumbsUp } from "lucide-react";
 
 export interface ModelItemProps {
   model: {
@@ -23,6 +24,7 @@ export interface ModelItemProps {
       }[];
       stats: {
         downloadCount: number;
+        thumbsUpCount: number;
       };
     }[];
   };
@@ -33,6 +35,7 @@ export function ModelItem({ model }: ModelItemProps) {
 
   const imageUrl = model.modelVersions[0].images[0].url;
   const downloadCount = model.modelVersions[0].stats.downloadCount;
+  const thumbsUpCount = model.modelVersions[0].stats.thumbsUpCount;
 
   return (
     <div className="space-y-3">
@@ -57,11 +60,16 @@ export function ModelItem({ model }: ModelItemProps) {
           <ContextMenuItem>View model</ContextMenuItem>
         </ContextMenuContent>
       </ContextMenu>
-      <div className="space-y-1 text-sm">
+      <div className="space-y-2 text-sm">
         <h3 className="font-medium leading-none">{model.name}</h3>
-        <p className="flex gap-2 text-xs text-muted-foreground">
-          {downloadCount} downloads
-        </p>
+        <div className="flex gap-4 items-center">
+          <p className="flex gap-1 text-xs text-muted-foreground items-center">
+            <Download className="h-3 w-3" /> {formatCount(downloadCount)}
+          </p>
+          <p className="flex gap-1 text-xs text-muted-foreground items-center">
+            <ThumbsUp className="h-3 w-3" /> {formatCount(thumbsUpCount)}
+          </p>
+        </div>
       </div>
     </div>
   );

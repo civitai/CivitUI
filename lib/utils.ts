@@ -16,3 +16,10 @@ export function formatBytes(bytes: number, decimals: number = 2): string {
 
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
 }
+
+export function formatCount(count: number): string {
+  if (count < 1000) return count.toString();
+  if (count < 1000000) return `${(count / 1000).toFixed(1)}K`;
+  if (count < 1000000000) return `${(count / 1000000).toFixed(1)}M`;
+  return `${(count / 1000000000).toFixed(1)}B`;
+}
