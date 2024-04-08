@@ -4,7 +4,6 @@ import Image from "next/image";
 import queryString from "query-string";
 import React, { useCallback } from "react";
 import styled from "styled-components";
-import { useShallow } from "zustand/react/shallow";
 
 const ImgList = styled.div`
   display: flex;

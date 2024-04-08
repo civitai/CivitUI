@@ -2,7 +2,7 @@
 
 import NodePickerComponent from "./node-picker";
 import WorkflowPageComponent from "./workflow-page";
-import GalleryComponent from "./gallery";
+import GalleryComponent from "./generation-history";
 import React, { useMemo, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";

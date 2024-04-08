@@ -30,12 +30,12 @@ export interface ModelItemProps {
   };
 }
 
-export function ModelItem({ model }: ModelItemProps) {
+export function ModelItem({ hit }: { hit: any }) {
   const [isLoading, setIsLoading] = useState(true);
 
-  const imageUrl = model.modelVersions[0].images[0].url;
-  const downloadCount = model.modelVersions[0].stats.downloadCount;
-  const thumbsUpCount = model.modelVersions[0].stats.thumbsUpCount;
+  const imageUrl = hit.modelVersions[0].images[0].url;
+  const downloadCount = hit.modelVersions[0].stats.downloadCount;
+  const thumbsUpCount = hit.modelVersions[0].stats.thumbsUpCount;
 
   return (
     <div className="space-y-3">
@@ -45,7 +45,7 @@ export function ModelItem({ model }: ModelItemProps) {
             <Image
               fill={true}
               src={imageUrl}
-              alt={model.name}
+              alt={hit.name}
               className={cn(
                 "object-cover object-top duration-200 ease-in-out hover:scale-105 cursor-pointer",
                 isLoading
@@ -61,7 +61,7 @@ export function ModelItem({ model }: ModelItemProps) {
         </ContextMenuContent>
       </ContextMenu>
       <div className="space-y-2 text-sm">
-        <h3 className="font-medium leading-none">{model.name}</h3>
+        <h3 className="font-medium leading-none">{hit.name}</h3>
         <div className="flex gap-4 items-center">
           <p className="flex gap-1 text-xs text-muted-foreground items-center">
             <Download className="h-3 w-3" /> {formatCount(downloadCount)}
