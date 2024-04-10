@@ -1,10 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
-import ModelGallery from "./gallery";
 import { BoxesContainer } from "@/components/ui/interactive-bg-boxes";
+import { Search } from "@/components/search";
 
-export function ModelDialog() {
+export function ModelDrawer() {
   return (
     <Drawer>
       <DrawerTrigger asChild>
@@ -36,7 +35,8 @@ export function ModelDialog() {
           </div>
 
           <div className="flex mb-12 w-full h-[1px] bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-800 to-transparent" />
-          <ModelGallery />
+
+          <Search />
         </div>
       </DrawerContent>
     </Drawer>

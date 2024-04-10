@@ -1,7 +1,5 @@
-"use client";
-
 import Image from "next/image";
-import { cn, formatCount } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import {
   ContextMenu,
   ContextMenuContent,
@@ -9,33 +7,18 @@ import {
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
 import { useState } from "react";
-import { Download, ThumbsUp } from "lucide-react";
 
 export interface ModelItemProps {
-  model: {
-    id: number;
-    name: string;
-    description: string;
-    modelVersions: {
-      id: number;
-      name: string;
-      images: {
-        url: string;
-      }[];
-      stats: {
-        downloadCount: number;
-        thumbsUpCount: number;
-      };
-    }[];
-  };
+  hit: any;
 }
 
-export function ModelItem({ hit }: { hit: any }) {
+export function Hit({ hit }: ModelItemProps) {
+  console.log("hit", hit);
   const [isLoading, setIsLoading] = useState(true);
 
-  const imageUrl = hit.modelVersions[0].images[0].url;
-  const downloadCount = hit.modelVersions[0].stats.downloadCount;
-  const thumbsUpCount = hit.modelVersions[0].stats.thumbsUpCount;
+  // todo: limit to jpg (some mp4 files are being returned); filter to only checkpoints and onsite generators
+  const imageUrl = `https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/${hit.images[0].url}/${hit.images[0].name}.jpeg`;
+  const downloadCount = hit.metrics.downloadCount;
 
   return (
     <div className="space-y-3">
@@ -60,16 +43,11 @@ export function ModelItem({ hit }: { hit: any }) {
           <ContextMenuItem>View model</ContextMenuItem>
         </ContextMenuContent>
       </ContextMenu>
-      <div className="space-y-2 text-sm">
+      <div className="space-y-1 text-sm">
         <h3 className="font-medium leading-none">{hit.name}</h3>
-        <div className="flex gap-4 items-center">
-          <p className="flex gap-1 text-xs text-muted-foreground items-center">
-            <Download className="h-3 w-3" /> {formatCount(downloadCount)}
-          </p>
-          <p className="flex gap-1 text-xs text-muted-foreground items-center">
-            <ThumbsUp className="h-3 w-3" /> {formatCount(thumbsUpCount)}
-          </p>
-        </div>
+        <p className="flex gap-2 text-xs text-muted-foreground">
+          {downloadCount} downloads
+        </p>
       </div>
     </div>
   );

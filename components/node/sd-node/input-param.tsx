@@ -9,7 +9,7 @@ import SelectUploadInput from "./select-upload-input";
 import SliderInput from "./slider-input";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { ModelDialog } from "../model-dialog";
+import { ModelDrawer } from "../model-drawer";
 
 interface InputParamsProps {
   id: NodeId;
@@ -37,7 +37,7 @@ const InputParams = ({ id, name, input }: InputParamsProps) => {
 
   if (checkInput.isList(input)) {
     if (name === "ckpt_name") {
-      return <ModelDialog />;
+      return <ModelDrawer />;
     }
 
     return (

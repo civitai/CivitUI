@@ -1,15 +1,9 @@
-"use client";
-
 import { InstantSearchProps } from "react-instantsearch";
 import { instantMeiliSearch } from "@meilisearch/instant-meilisearch";
 import { InstantSearchNext } from "react-instantsearch-nextjs";
-import {
-  Hits,
-  Highlight,
-  RefinementList,
-  DynamicWidgets,
-} from "react-instantsearch";
-import { SearchInput } from "./search-input";
+import { Hits } from "react-instantsearch";
+import { SearchBy } from "./search-input";
+import { Hit } from "./hit";
 export const dynamic = "force-dynamic";
 
 export const MODELS_SEARCH_INDEX = "models_v8";
@@ -27,15 +21,6 @@ const searchClient: InstantSearchProps["searchClient"] = {
   },
 };
 
-function Hit({ hit }: any) {
-  return (
-    <>
-      <Highlight hit={hit} attribute="name" className="Hit-label" />
-      <span className="Hit-price">${hit.price}</span>
-    </>
-  );
-}
-
 export function Search() {
   return (
     <InstantSearchNext
@@ -43,19 +28,15 @@ export function Search() {
       indexName={MODELS_SEARCH_INDEX}
       routing={false}
     >
-      <div className="Container">
-        <div>
-          <DynamicWidgets fallbackComponent={FallbackComponent} />
-        </div>
-        <div>
-          <SearchInput />
-          <Hits hitComponent={Hit} />
-        </div>
+      <div className="flex flex-col gap-5">
+        <SearchBy />
+        <Hits
+          hitComponent={Hit}
+          classNames={{
+            list: "grid grid-cols-4 gap-4",
+          }}
+        />
       </div>
     </InstantSearchNext>
   );
-}
-
-function FallbackComponent({ attribute }: { attribute: string }) {
-  return <RefinementList attribute={attribute} />;
 }
