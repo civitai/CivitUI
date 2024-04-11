@@ -1,7 +1,11 @@
-import { InstantSearchProps } from "react-instantsearch";
+import {
+  InstantSearchProps,
+  RefinementList,
+  Hits,
+  Configure,
+} from "react-instantsearch";
 import { instantMeiliSearch } from "@meilisearch/instant-meilisearch";
 import { InstantSearchNext } from "react-instantsearch-nextjs";
-import { Hits } from "react-instantsearch";
 import { SearchBy } from "./search-input";
 import { Hit } from "./hit";
 export const dynamic = "force-dynamic";
@@ -21,7 +25,12 @@ const searchClient: InstantSearchProps["searchClient"] = {
   },
 };
 
-export function Search() {
+interface SearchProps {
+  type: string;
+}
+
+// todo: pass argument for model type, e.g. checkpoints, loras, etc.
+export function Search({ type }: SearchProps) {
   return (
     <InstantSearchNext
       searchClient={searchClient}
@@ -29,11 +38,12 @@ export function Search() {
       routing={false}
     >
       <div className="flex flex-col gap-5">
-        <SearchBy />
+        <SearchBy type={type} />
+        <Configure filters={`type=${type}`} />
         <Hits
           hitComponent={Hit}
           classNames={{
-            list: "grid grid-cols-4 gap-4",
+            list: "grid grid-cols-4 gap-6",
           }}
         />
       </div>

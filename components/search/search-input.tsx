@@ -11,25 +11,29 @@ import {
 import { Button } from "@/components/ui/button";
 import { useSearchBox, useSortBy, useRange } from "react-instantsearch";
 import { ModelSearchIndexSortBy } from "./model.parser";
+import { BrowsingLevel } from "./browsing-level";
 
-export const SearchBy = () => {
+export const SearchBy = ({ type }: { type: string }) => {
   const { refine } = useSearchBox();
 
   return (
     <div className="flex justify-between">
-      <div className="relative">
-        <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-        <Input
-          type="search"
-          onChange={(event) => {
-            refine(event.currentTarget.value);
-          }}
-          onKeyDown={(event) => {
-            event.stopPropagation();
-          }}
-          placeholder="Search"
-          className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[320px]"
-        />
+      <div className="flex gap-3">
+        <div className="relative">
+          <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Input
+            type="search"
+            onChange={(event) => {
+              refine(event.currentTarget.value);
+            }}
+            onKeyDown={(event) => {
+              event.stopPropagation();
+            }}
+            placeholder="Search"
+            className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[320px]"
+          />
+        </div>
+        <BrowsingLevel filters={type} />
       </div>
 
       <div className="flex gap-2">
@@ -43,10 +47,10 @@ export const SearchBy = () => {
 export const SortBy = () => {
   const { currentRefinement, options, refine } = useSortBy({
     items: [
-      { label: "Most Downloaded", value: ModelSearchIndexSortBy[1] },
-      { label: "Most Recent", value: ModelSearchIndexSortBy[0] },
-      { label: "Most Liked", value: ModelSearchIndexSortBy[2] },
-      { label: "Most Favorited", value: ModelSearchIndexSortBy[3] },
+      { label: "Highest Rated", value: ModelSearchIndexSortBy[0] as string },
+      { label: "Most Downloaded", value: ModelSearchIndexSortBy[2] as string },
+      { label: "Most Liked", value: ModelSearchIndexSortBy[3] as string },
+      { label: "Newest", value: ModelSearchIndexSortBy[7] as string },
     ],
   });
 

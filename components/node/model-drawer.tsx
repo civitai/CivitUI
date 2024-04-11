@@ -3,7 +3,10 @@ import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { BoxesContainer } from "@/components/ui/interactive-bg-boxes";
 import { Search } from "@/components/search";
 
-export function ModelDrawer() {
+interface ModelDrawerProps {
+  type: string;
+}
+export function ModelDrawer({ type }: ModelDrawerProps) {
   return (
     <Drawer>
       <DrawerTrigger asChild>
@@ -33,10 +36,8 @@ export function ModelDrawer() {
               Select a model to use in the workflow.
             </p>
           </div>
-
           <div className="flex mb-12 w-full h-[1px] bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-800 to-transparent" />
-
-          <Search />
+          <Search type={type} />
         </div>
       </DrawerContent>
     </Drawer>
