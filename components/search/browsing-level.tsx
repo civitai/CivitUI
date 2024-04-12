@@ -30,6 +30,7 @@ import {
   useConfigure,
   useRefinementList,
 } from "react-instantsearch";
+import { useState } from "react";
 
 enum NsfwLevel {
   PG = 1,
@@ -65,10 +66,8 @@ const browsingLevels = [
 
 export const BrowsingLevel = ({
   attributeName = "nsfwLevel",
-  filters = "",
 }: {
   attributeName?: string;
-  filters?: string;
 }) => {
   const { items, refine } = useRefinementList({
     attribute: attributeName,
@@ -83,19 +82,14 @@ export const BrowsingLevel = ({
     .filter((item) => item.isRefined)
     .map((item) => item.value);
 
-  // Construct the nsfwLevel filter
-  const nsfwLevelFilter = selectedValues
-    .map((value) => `${attributeName}:${value}`)
-    .join(" OR ");
-
-  // Combine the nsfwLevel filter with the existing filters
-  const combinedFilters = nsfwLevelFilter
-    ? `${filters} AND (${nsfwLevelFilter})`
-    : filters;
+  const nsfwLevelFilter = selectedValues.map(
+    (value) => `${attributeName}=${value}`
+  );
+  console.log(nsfwLevelFilter);
 
   // Apply the combined filters using useConfigure
   useConfigure({
-    filters: combinedFilters,
+    numericFilters: nsfwLevelFilter,
   });
 
   return (
