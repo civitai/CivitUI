@@ -30,7 +30,7 @@ export function ModelDrawer({ type }: ModelDrawerProps) {
                 "w-fit md:text-4xl text-xl font-semibold relative z-20"
               }
             >
-              Checkpoint Models
+              {type.charAt(0).toUpperCase() + type.slice(1)} Models
             </h1>
             <p className="w-fit text-muted-foreground font-light mt-2 relative z-20 tracking-wide">
               Select a model to use in the workflow.

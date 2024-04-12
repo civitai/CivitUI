@@ -3,7 +3,6 @@ import {
   CheckCircledIcon,
   CheckIcon,
   CircleIcon,
-  CrossCircledIcon,
   PlusCircledIcon,
   QuestionMarkCircledIcon,
   StopwatchIcon,
@@ -28,7 +27,7 @@ import {
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import {
-  Configure,
+  useClearRefinements,
   useConfigure,
   useRefinementList,
 } from "react-instantsearch";
@@ -42,7 +41,7 @@ enum NsfwLevel {
   Blocked = 32,
 }
 
-const brow = [
+const browsingLevels = [
   {
     value: NsfwLevel.PG,
     label: "PG",
@@ -76,6 +75,10 @@ export const BrowsingLevel = ({
     attribute: attributeName,
   });
 
+  const { refine: clearRefinements } = useClearRefinements({
+    includedAttributes: [attributeName],
+  });
+
   // Determine selected values based on the refinement state
   const selectedValues = items
     .filter((item) => item.isRefined)
@@ -96,7 +99,8 @@ export const BrowsingLevel = ({
     filters: combinedFilters,
   });
 
-  // todo: fix command items to be selectable and store browsing level in cookies
+  // todo: 1. fix command items to be selectable and store browsing level in cookies
+  // 2. add browsing level to the search params
 
   return (
     <>
@@ -124,7 +128,7 @@ export const BrowsingLevel = ({
                     </Badge>
                   ) : (
                     selectedValues.map((value) => {
-                      const option = brow.find(
+                      const option = browsingLevels.find(
                         (opt) => opt.value === Number(value)
                       );
                       return (
@@ -149,12 +153,15 @@ export const BrowsingLevel = ({
             <CommandList>
               <CommandEmpty>No results found.</CommandEmpty>
               <CommandGroup>
-                {brow.map((option) => {
-                  const isSelected = selectedValues.includes(option.label);
+                {browsingLevels.map((option) => {
+                  const isSelected = selectedValues.includes(
+                    option.value.toString()
+                  );
                   return (
                     <CommandItem
                       key={option.value}
                       onSelect={() => refine(option.value.toString())}
+                      className="data-[disabled]:pointer-events-auto data-[disabled]:opacity-100"
                     >
                       <div
                         className={cn(
@@ -179,8 +186,10 @@ export const BrowsingLevel = ({
                   <CommandSeparator />
                   <CommandGroup>
                     <CommandItem
-                      onSelect={() => refine("")}
-                      className="justify-center text-center"
+                      onSelect={() => {
+                        clearRefinements();
+                      }}
+                      className="justify-center text-center data-[disabled]:pointer-events-auto data-[disabled]:opacity-100"
                     >
                       Clear filters
                     </CommandItem>

@@ -13,11 +13,10 @@ export interface ModelItemProps {
 }
 
 export function Hit({ hit }: ModelItemProps) {
-  console.log("hit", hit);
   const [isLoading, setIsLoading] = useState(true);
 
-  // todo: filter to only checkpoints and onsite generators
-  const imageUrl = `https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/${hit.images[0].url}/${hit.images[0].name}.jpeg`;
+  // todo: filter to only onsite generators
+  const imageUrl = `https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/${hit.images[0]?.url}/${hit.images[0]?.name}.jpeg`;
   const downloadCount = hit.metrics.downloadCount;
 
   return (

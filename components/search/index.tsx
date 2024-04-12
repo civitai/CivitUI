@@ -29,7 +29,6 @@ interface SearchProps {
   type: string;
 }
 
-// todo: pass argument for model type, e.g. checkpoints, loras, etc.
 export function Search({ type }: SearchProps) {
   return (
     <InstantSearchNext
