@@ -12,9 +12,21 @@ import { Button } from "@/components/ui/button";
 import { useSearchBox, useSortBy, useRange } from "react-instantsearch";
 import { ModelSearchIndexSortBy } from "./model.parser";
 import { BrowsingLevel } from "./browsing-level";
+import { useCallback, useRef } from "react";
 
 export const SearchBy = ({ type }: { type: string }) => {
-  const { refine } = useSearchBox();
+  const timerIdRef = useRef<any>(null);
+  const timeoutRef = useRef<number>(500);
+
+  const queryHook = useCallback(
+    (query: string, refine: (query: string) => void) => {
+      clearTimeout(timerIdRef.current);
+      timerIdRef.current = setTimeout(() => refine(query), timeoutRef.current);
+    },
+    []
+  );
+
+  const { refine } = useSearchBox({ queryHook });
 
   return (
     <div className="flex justify-between">

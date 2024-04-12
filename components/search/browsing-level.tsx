@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
   CheckCircledIcon,
   CheckIcon,
@@ -98,9 +97,6 @@ export const BrowsingLevel = ({
   useConfigure({
     filters: combinedFilters,
   });
-
-  // todo: 1. fix command items to be selectable and store browsing level in cookies
-  // 2. add browsing level to the search params
 
   return (
     <>
