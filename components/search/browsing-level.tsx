@@ -82,14 +82,10 @@ export const BrowsingLevel = ({
     .filter((item) => item.isRefined)
     .map((item) => item.value);
 
-  const nsfwLevelFilter = selectedValues.map(
-    (value) => `${attributeName}=${value}`
-  );
-  console.log(nsfwLevelFilter);
-
-  // Apply the combined filters using useConfigure
   useConfigure({
-    numericFilters: nsfwLevelFilter,
+    filters: selectedValues
+      .map((value) => `${attributeName}=${value}`)
+      .join(" OR "),
   });
 
   return (

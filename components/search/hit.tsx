@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { cn } from "@/lib/utils";
+import { cn, formatCount } from "@/lib/utils";
 import {
   ContextMenu,
   ContextMenuContent,
@@ -7,6 +7,7 @@ import {
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
 import { useState } from "react";
+import { Download, ThumbsUp } from "lucide-react";
 
 export interface ModelItemProps {
   hit: any;
@@ -18,6 +19,7 @@ export function Hit({ hit }: ModelItemProps) {
   // todo: filter to only onsite generators
   const imageUrl = `https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/${hit.images[0]?.url}/${hit.images[0]?.name}.jpeg`;
   const downloadCount = hit.metrics.downloadCount;
+  const thumbsUpCount = hit.metrics.thumbsUpCount;
 
   return (
     <div className="space-y-3">
@@ -42,11 +44,16 @@ export function Hit({ hit }: ModelItemProps) {
           <ContextMenuItem>View model</ContextMenuItem>
         </ContextMenuContent>
       </ContextMenu>
-      <div className="space-y-1 text-sm">
+      <div className="space-y-1.5 text-sm">
         <h3 className="font-medium leading-none">{hit.name}</h3>
-        <p className="flex gap-2 text-xs text-muted-foreground">
-          {downloadCount} downloads
-        </p>
+        <div className="flex gap-4 items-center">
+          <p className="flex gap-1 text-xs text-muted-foreground items-center">
+            <Download className="h-3 w-3" /> {formatCount(downloadCount)}
+          </p>
+          <p className="flex gap-1 text-xs text-muted-foreground items-center">
+            <ThumbsUp className="h-3 w-3" /> {formatCount(thumbsUpCount)}
+          </p>
+        </div>
       </div>
     </div>
   );
