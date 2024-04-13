@@ -14,7 +14,10 @@ export function ModelDrawer({ type }: ModelDrawerProps) {
           Select
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="h-[90vh]">
+      <DrawerContent
+        className="h-[90vh]"
+        onContextMenu={(e) => e.preventDefault()}
+      >
         <div className="mx-auto w-full py-4 px-32 overflow-y-scroll">
           <div className="relative w-full overflow-hidden bg-background flex flex-col justify-start pt-20 pb-14">
             <div

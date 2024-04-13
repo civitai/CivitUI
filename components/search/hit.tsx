@@ -4,7 +4,7 @@ import Image from "next/image";
 import { cn, formatCount } from "@/lib/utils";
 import { motion, useAnimation } from "framer-motion";
 import { Download, ThumbsUp } from "lucide-react";
-import { PlayIcon } from "@radix-ui/react-icons";
+import { CheckIcon, PlayIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -24,12 +24,14 @@ export function Hit({ hit }: ModelItemProps) {
   console.log(hit);
 
   // todo:  1. filter to only onsite generators
-  //        2. fix mp4 urls
-  const imageUrl = `https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/${hit.images[0]?.url}/${hit.images[0]?.name}.jpeg`;
-  const downloadCount = hit.metrics.downloadCount;
-  const thumbsUpCount = hit.metrics.thumbsUpCount;
-  const creator = hit.user.username;
-  const modelVersion = hit.version.id;
+  const {
+    metrics: { downloadCount, thumbsUpCount },
+    user: { username: creator },
+    version: { id: modelVersion },
+    images: [firstAsset],
+  } = hit;
+  const isVideo = firstAsset?.type === "video";
+  const assetUrl = `https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/${firstAsset?.url}/${firstAsset?.name}`;
 
   return (
     <div className="space-y-3">
@@ -42,18 +44,29 @@ export function Hit({ hit }: ModelItemProps) {
           onHoverStart={() => controls.start({ y: 0, opacity: 1 })}
           onHoverEnd={() => controls.start({ y: 20, opacity: 0 })}
         >
-          <Image
-            fill={true}
-            src={imageUrl}
-            alt={hit.name}
-            className={cn(
-              "object-cover object-top duration-200 ease-in-out group-hover:scale-105 cursor-pointer",
-              isLoading
-                ? "scale-120 blur-3xl grayscale"
-                : "scale-100 blur-0 grayscale-0"
-            )}
-            onLoad={() => setIsLoading(false)}
-          />
+          {isVideo ? (
+            <video
+              src={assetUrl}
+              className="object-cover object-top duration-200 ease-in-out hover:scale-105 cursor-pointer"
+              autoPlay
+              loop
+              muted
+              onLoadStart={() => setIsLoading(false)}
+            />
+          ) : (
+            <Image
+              fill={true}
+              src={assetUrl}
+              alt={hit.name}
+              className={cn(
+                "object-cover object-top duration-200 ease-in-out hover:scale-105 cursor-pointer",
+                isLoading
+                  ? "scale-120 blur-3xl grayscale"
+                  : "scale-100 blur-0 grayscale-0"
+              )}
+              onLoad={() => setIsLoading(false)}
+            />
+          )}
           <motion.div
             initial={{ y: 20, opacity: 0 }}
             animate={controls}
@@ -66,15 +79,17 @@ export function Hit({ hit }: ModelItemProps) {
                   <Button
                     size="icon"
                     className={cn(
-                      "h-12 w-12 rounded-3xl shadow-xl bg-gradient-to-b text-white dark:text-black dark:from-white dark:to-blue-50 ring-2 ring-blue-50 ring-opacity-60",
+                      "h-11 w-11 rounded-3xl shadow-xl bg-gradient-to-b text-white dark:text-black dark:from-white dark:to-blue-50 ring-2 ring-blue-50 ring-opacity-60",
                       "from-slate-800 to-slate-700 ring-slate-400",
                       "hover:rounded-lg transition-all duration-200"
                     )}
                   >
-                    <PlayIcon />
+                    <CheckIcon className="h-5 w-5" />
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent side="left">Use model</TooltipContent>
+                <TooltipContent side="left" className="text-xs">
+                  Use model
+                </TooltipContent>
               </Tooltip>
             </TooltipProvider>
           </motion.div>
