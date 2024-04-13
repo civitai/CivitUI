@@ -1,9 +1,4 @@
-import {
-  InstantSearchProps,
-  RefinementList,
-  Hits,
-  Configure,
-} from "react-instantsearch";
+import { InstantSearchProps, Hits, Configure, useInfiniteHits } from "react-instantsearch";
 import { instantMeiliSearch } from "@meilisearch/instant-meilisearch";
 import { InstantSearchNext } from "react-instantsearch-nextjs";
 import { SearchBy } from "./search-input";
@@ -29,6 +24,7 @@ interface SearchProps {
   type: string;
 }
 
+// todo: inifite hit scroll
 export function Search({ type }: SearchProps) {
   return (
     <InstantSearchNext

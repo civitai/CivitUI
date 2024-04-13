@@ -30,7 +30,6 @@ import {
   useConfigure,
   useRefinementList,
 } from "react-instantsearch";
-import { useState } from "react";
 
 enum NsfwLevel {
   PG = 1,

@@ -1,3 +1,4 @@
+import { useCallback, useRef } from "react";
 import { ArrowDownWideNarrow, Clock4, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
@@ -12,7 +13,6 @@ import { Button } from "@/components/ui/button";
 import { useSearchBox, useSortBy, useRange } from "react-instantsearch";
 import { ModelSearchIndexSortBy } from "./model.parser";
 import { BrowsingLevel } from "./browsing-level";
-import { useCallback, useRef } from "react";
 
 export const SearchBy = ({ type }: { type: string }) => {
   const timerIdRef = useRef<any>(null);
