@@ -1,9 +1,13 @@
-import { InstantSearchProps, Hits, Configure, useInfiniteHits } from "react-instantsearch";
+import {
+  InstantSearchProps,
+  Configure,
+  useInfiniteHits,
+} from "react-instantsearch";
 import { instantMeiliSearch } from "@meilisearch/instant-meilisearch";
 import { InstantSearchNext } from "react-instantsearch-nextjs";
 import { SearchBy } from "./search-input";
 import { Hit } from "./hit";
-export const dynamic = "force-dynamic";
+import { useEffect, useRef } from "react";
 
 export const MODELS_SEARCH_INDEX = "models_v8";
 
@@ -24,7 +28,6 @@ interface SearchProps {
   type: string;
 }
 
-// todo: inifite hit scroll
 export function Search({ type }: SearchProps) {
   return (
     <InstantSearchNext
@@ -35,13 +38,48 @@ export function Search({ type }: SearchProps) {
       <div className="flex flex-col gap-5">
         <SearchBy type={type} />
         <Configure filters={`type=${type}`} />
-        <Hits
-          hitComponent={Hit}
-          classNames={{
-            list: "grid grid-cols-4 gap-6",
-          }}
-        />
+        <InfiniteHits />
       </div>
     </InstantSearchNext>
+  );
+}
+
+function InfiniteHits() {
+  const { hits, isLastPage, showMore } = useInfiniteHits();
+  const sentinelRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      // Only call showMore if:
+      // - The sentinel comes into view (isIntersecting)
+      // - It's not the last page (meaning there are more results to load)
+      if (entries[0].isIntersecting && !isLastPage) {
+        showMore();
+      }
+    });
+
+    const currentSentinel = sentinelRef.current;
+    if (currentSentinel) {
+      observer.observe(currentSentinel);
+    }
+
+    // Cleanup the observer on component unmount
+    return () => {
+      if (currentSentinel) {
+        observer.unobserve(currentSentinel);
+      }
+    };
+  }, [isLastPage, showMore]);
+
+  return (
+    <div className="grid grid-cols-4 gap-2 space-y-2">
+      {hits.map((hit) => (
+        <div key={hit.objectID}>
+          <Hit hit={hit} />
+        </div>
+      ))}
+
+      <div ref={sentinelRef} style={{ width: "100%", height: "1px" }}></div>
+    </div>
   );
 }

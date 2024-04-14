@@ -4,7 +4,7 @@ import Image from "next/image";
 import { cn, formatCount } from "@/lib/utils";
 import { motion, useAnimation } from "framer-motion";
 import { Download, ThumbsUp } from "lucide-react";
-import { CheckIcon, PlayIcon } from "@radix-ui/react-icons";
+import { CheckIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -13,17 +13,12 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-export interface ModelItemProps {
-  hit: any;
-}
-
-export function Hit({ hit }: ModelItemProps) {
+export function Hit({ hit }: any) {
   const [isLoading, setIsLoading] = useState(true);
   const controls = useAnimation();
 
   console.log(hit);
 
-  // todo:  1. filter to only onsite generators
   const {
     metrics: { downloadCount, thumbsUpCount },
     user: { username: creator },
@@ -34,16 +29,16 @@ export function Hit({ hit }: ModelItemProps) {
   const assetUrl = `https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/${firstAsset?.url}/${firstAsset?.name}`;
 
   return (
-    <div className="space-y-3">
+    <motion.div
+      className="space-y-3 p-2 group cursor-pointer hover:bg-muted transition duration-200 rounded-lg"
+      onHoverStart={() => controls.start({ y: 0, opacity: 1 })}
+      onHoverEnd={() => controls.start({ y: 20, opacity: 0 })}
+    >
       <Link
         href={`https://civitai.com/model-versions/${modelVersion}`}
         target="_blank"
       >
-        <motion.div
-          className="relative overflow-hidden rounded-md aspect-portrait group"
-          onHoverStart={() => controls.start({ y: 0, opacity: 1 })}
-          onHoverEnd={() => controls.start({ y: 20, opacity: 0 })}
-        >
+        <div className="relative overflow-hidden rounded-md aspect-portrait">
           {isVideo ? (
             <video
               src={assetUrl}
@@ -93,7 +88,7 @@ export function Hit({ hit }: ModelItemProps) {
               </Tooltip>
             </TooltipProvider>
           </motion.div>
-        </motion.div>
+        </div>
       </Link>
 
       <div className="space-y-1.5 text-sm">
@@ -112,6 +107,6 @@ export function Hit({ hit }: ModelItemProps) {
           </p>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
