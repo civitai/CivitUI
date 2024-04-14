@@ -38,7 +38,7 @@ export function Hit({ hit }: any) {
         href={`https://civitai.com/model-versions/${modelVersion}`}
         target="_blank"
       >
-        <div className="relative overflow-hidden rounded-md aspect-portrait">
+        <div className="relative overflow-hidden rounded-md aspect-[4/5]">
           {isVideo ? (
             <video
               src={assetUrl}

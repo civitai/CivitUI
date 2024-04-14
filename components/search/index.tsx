@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useRef } from "react";
 import {
   InstantSearchProps,
   Configure,
@@ -7,7 +10,6 @@ import { instantMeiliSearch } from "@meilisearch/instant-meilisearch";
 import { InstantSearchNext } from "react-instantsearch-nextjs";
 import { SearchBy } from "./search-input";
 import { Hit } from "./hit";
-import { useEffect, useRef } from "react";
 
 export const MODELS_SEARCH_INDEX = "models_v8";
 
@@ -37,7 +39,7 @@ export function Search({ type }: SearchProps) {
     >
       <div className="flex flex-col gap-5">
         <SearchBy type={type} />
-        <Configure filters={`type=${type}`} />
+        <Configure filters={`type=${type} AND canGenerate=true`} />
         <InfiniteHits />
       </div>
     </InstantSearchNext>
