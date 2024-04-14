@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   InstantSearchProps,
   Configure,
@@ -10,6 +10,7 @@ import { instantMeiliSearch } from "@meilisearch/instant-meilisearch";
 import { InstantSearchNext } from "react-instantsearch-nextjs";
 import { SearchBy } from "./search-input";
 import { Hit } from "./hit";
+import { Icons } from "../ui/icons";
 
 export const MODELS_SEARCH_INDEX = "models_v8";
 
@@ -50,13 +51,18 @@ export function Search({ type }: SearchProps) {
 function InfiniteHits() {
   const { hits, isLastPage, showMore } = useInfiniteHits();
   const sentinelRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (hits.length > 0) {
+      setIsLoading(false); // Set loading false when initial hits are loaded
+    }
+  }, [hits]);
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
-      // Only call showMore if:
-      // - The sentinel comes into view (isIntersecting)
-      // - It's not the last page (meaning there are more results to load)
       if (entries[0].isIntersecting && !isLastPage) {
+        setIsLoading(true); // Set loading true when requesting more items
         showMore();
       }
     });
@@ -66,7 +72,6 @@ function InfiniteHits() {
       observer.observe(currentSentinel);
     }
 
-    // Cleanup the observer on component unmount
     return () => {
       if (currentSentinel) {
         observer.unobserve(currentSentinel);
@@ -81,7 +86,11 @@ function InfiniteHits() {
           <Hit hit={hit} />
         </div>
       ))}
-
+      {isLoading && (
+        <div className="col-span-4 flex justify-center mt-14">
+          <Icons.spinner className="w-5 h-5 animate-spin" />
+        </div>
+      )}
       <div ref={sentinelRef} style={{ width: "100%", height: "1px" }}></div>
     </div>
   );
