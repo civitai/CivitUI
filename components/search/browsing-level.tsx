@@ -65,8 +65,10 @@ const browsingLevels = [
 
 export const BrowsingLevel = ({
   attributeName = "nsfwLevel",
+  type = "",
 }: {
   attributeName?: string;
+  type?: string;
 }) => {
   const { items, refine } = useRefinementList({
     attribute: attributeName,
@@ -81,10 +83,16 @@ export const BrowsingLevel = ({
     .filter((item) => item.isRefined)
     .map((item) => item.value);
 
+  // Construct the combined filter string
+  const browsingLevelFilter = selectedValues
+    .map((value) => `${attributeName}=${value}`)
+    .join(" OR ");
+
+  const combinedFilters = `type=${type} AND (${browsingLevelFilter})`;
+
+  // Apply the combined filters
   useConfigure({
-    filters: selectedValues
-      .map((value) => `${attributeName}=${value}`)
-      .join(" OR "),
+    filters: combinedFilters,
   });
 
   return (

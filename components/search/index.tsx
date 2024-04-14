@@ -30,6 +30,7 @@ interface SearchProps {
   type: string;
 }
 
+// todo: 1. add suspense when loading data
 export function Search({ type }: SearchProps) {
   return (
     <InstantSearchNext

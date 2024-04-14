@@ -17,8 +17,6 @@ export function Hit({ hit }: any) {
   const [isLoading, setIsLoading] = useState(true);
   const controls = useAnimation();
 
-  console.log(hit);
-
   const {
     metrics: { downloadCount, thumbsUpCount },
     user: { username: creator },
