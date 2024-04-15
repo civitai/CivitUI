@@ -64,7 +64,7 @@ const defaultWorkflow: PersistedGraph = {
       value: {
         widget: "CLIPTextEncode",
         fields: { text: "(worst quality:1.2), (low quality:1.2)" },
-        modify: { color: "#f5222d", nickname: "Negative" },
+        modify: { nickname: "Negative" },
       },
       position: { x: 19.384427793327575, y: 280.91726159315385 },
       width: 280,
@@ -77,7 +77,7 @@ const defaultWorkflow: PersistedGraph = {
         fields: {
           text: "best quality,masterpiece,highres,original,extremely detailed wallpaper,perfect lighting,extremely detailed CG,blurry background, pbcmf,bodysuit,cleavage,pink hair,coif,bcmf,jacket,red hair,black coif",
         },
-        modify: { color: "#52c41a", nickname: "Positive" },
+        modify: { nickname: "Positive" },
       },
       position: { x: 20, y: 40.91726159315385 },
       width: 278,
@@ -88,7 +88,6 @@ const defaultWorkflow: PersistedGraph = {
       value: {
         widget: "CheckpointLoaderSimple",
         fields: { ckpt_name: "Aniverse.safetensors" },
-        modify: { color: "#fadb14" },
       },
       position: { x: 321.49999999999994, y: 1041 },
       width: 317,

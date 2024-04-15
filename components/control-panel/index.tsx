@@ -2,14 +2,22 @@
 
 import NodePickerComponent from "./node-picker";
 import WorkflowPageComponent from "./workflow-page";
-import GalleryComponent from "./generation-history";
 import React, { useMemo, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { FilePlusIcon, PlusIcon } from "@radix-ui/react-icons";
 import { QueuePromptButton } from "../queue-prompt-button";
-import { Progress } from "../ui/progress";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Player } from "../music-player";
+import { Music } from "lucide-react";
 
 enum TABS {
   NODES = "Nodes",
@@ -73,6 +81,20 @@ const ControlPanel = () => {
             <FilePlusIcon />
           </Button>
         </SheetTrigger>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              className="relative rounded-3xl shadow-lg hover:bg-background hover:rounded-lg transition-all duration-200 h-12 w-12"
+              variant="outline"
+            >
+              <Music strokeWidth={1.25} />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent sideOffset={20} className="rounded-xl">
+            <Player />
+          </DropdownMenuContent>
+        </DropdownMenu>
 
         <QueuePromptButton />
       </div>
