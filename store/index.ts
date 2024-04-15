@@ -490,7 +490,9 @@ export const useAppStore = create<AppState>()(
         return;
       }
 
-      const transformedWorkflow = transformData(workflow);
+      const transformedWorkflow = workflow.data
+        ? workflow
+        : transformData(workflow);
       console.log("Transformed workflow:", transformedWorkflow);
 
       set(
