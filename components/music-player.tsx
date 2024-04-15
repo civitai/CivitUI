@@ -91,7 +91,7 @@ const Visualizer = ({ player }: { player: MusicPlayer }) => {
       {freqArray.slice(1, 15).map((f, i) => {
         return (
           <div key={i} className="col-span-1 flex flex-col gap-[3px]">
-            {Array.from(Array(15)).map((_, j) => (
+            {Array.from(Array(10)).map((_, j) => (
               <div
                 key={j}
                 data-on={(f + 1) / j > 16}

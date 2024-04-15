@@ -1,23 +1,20 @@
 "use client";
 
-import NodePickerComponent from "./node-picker";
-import WorkflowPageComponent from "./workflow-page";
 import React, { useMemo, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { FilePlusIcon, PlusIcon } from "@radix-ui/react-icons";
-import { QueuePromptButton } from "../queue-prompt-button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Player } from "../music-player";
 import { Music } from "lucide-react";
+import { FilePlusIcon, PlusIcon } from "@radix-ui/react-icons";
+import NodePickerComponent from "./node-picker";
+import WorkflowPageComponent from "./workflow-page";
+import { Player } from "../music-player";
+import { QueuePromptButton } from "../queue-prompt-button";
 
 enum TABS {
   NODES = "Nodes",
@@ -91,7 +88,10 @@ const ControlPanel = () => {
               <Music strokeWidth={1.25} />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent sideOffset={20} className="rounded-xl">
+          <DropdownMenuContent
+            sideOffset={20}
+            className="rounded-2xl bg-zinc-800 dark:bg-background shadow-lg"
+          >
             <Player />
           </DropdownMenuContent>
         </DropdownMenu>
