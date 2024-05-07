@@ -112,11 +112,17 @@ const InputParams = ({ id, name, input }: InputParamsProps) => {
           style={{ height: 128, width: "100%" }}
           defaultValue={value}
           onBlur={onChange}
+          onKeyDown={(e) => e.stopPropagation()}
         />
       );
     }
     return (
-      <Input style={{ width: "100%" }} value={value} onChange={onChange} />
+      <Input
+        style={{ width: "100%" }}
+        value={value}
+        onChange={onChange}
+        onKeyDown={(e) => e.stopPropagation()}
+      />
     );
   }
 
