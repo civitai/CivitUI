@@ -184,8 +184,6 @@ const FlowEditor = () => {
       minZoom={0.05}
       multiSelectionKeyCode={["Shift"]}
       deleteKeyCode={[]}
-      panOnScroll={!isWindows}
-      zoomOnScroll={isWindows}
       disableKeyboardA11y
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
@@ -209,6 +207,7 @@ const FlowEditor = () => {
         nodeColor={(n) =>
           n.data.color || (theme === "dark" ? "#2C3E50" : "#ECF0F1")
         }
+        style={{ width: 150, height: 100 }}
       />
     </ReactFlow>
   );
