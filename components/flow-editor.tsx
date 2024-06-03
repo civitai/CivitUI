@@ -21,20 +21,18 @@ import { useShallow } from "zustand/react/shallow";
 import { useTheme } from "next-themes";
 
 import NodeComponent, { NODE_IDENTIFIER } from "@/components/node";
-import { useAppStore } from "@/store";
 import { getPostion, getPostionCenter } from "@/utils";
+import useUndoRedo from "@/hooks/use-undo-redo";
+import { useAppStore } from "@/store";
 
 import "reactflow/dist/style.css";
 
 const FlowEditor = () => {
   const nodeTypes = useMemo(() => ({ [NODE_IDENTIFIER]: NodeComponent }), []);
-
   const { theme } = useTheme();
   const reactFlowRef = useRef<HTMLDivElement>(null);
-  const isWindows =
-    typeof navigator !== "undefined" &&
-    navigator.userAgent.toLowerCase().includes("win");
   const edgeUpdateSuccessful = useRef(true);
+  const { undo, redo, canUndo, canRedo, takeSnapshot } = useUndoRedo();
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
 
   const {
@@ -73,11 +71,13 @@ const FlowEditor = () => {
 
   const onEdgeUpdate = useCallback(
     (oldEdge: Edge, newConnection: Connection) => {
+      // 👇 make adding edges undoable
+      takeSnapshot();
       edgeUpdateSuccessful.current = true;
       onEdgesChange([{ id: oldEdge.id, type: "remove" }]);
       onConnect(newConnection);
     },
-    [onEdgesChange, onConnect]
+    [onEdgesChange, onConnect, takeSnapshot]
   );
 
   const onEdgeUpdateEnd = useCallback(
@@ -108,14 +108,19 @@ const FlowEditor = () => {
         reactFlowRef,
         reactFlowInstance
       );
+      // 👇 make adding nodes undoable
+      takeSnapshot();
       onAddNode({ widget, position });
     },
-    [reactFlowInstance, onAddNode]
+    [reactFlowInstance, onAddNode, takeSnapshot]
   );
 
   const onNodeDrag: NodeDragHandler = useCallback(
     (_, node, nodes) => {
+      takeSnapshot();
+
       if (nodes.length > 2 || node.data.name !== "Group") return;
+      // 👇 make moving nodes undoable
       const intersections = reactFlowInstance
         .getIntersectingNodes(node)
         .filter(
@@ -125,7 +130,7 @@ const FlowEditor = () => {
         )
         .map((n: any) => n.id);
     },
-    [reactFlowInstance]
+    [reactFlowInstance, takeSnapshot]
   );
 
   const handleCopy = useCallback(() => {
@@ -191,7 +196,6 @@ const FlowEditor = () => {
       onEdgeUpdateStart={onEdgeUpdateStart}
       onEdgeUpdateEnd={onEdgeUpdateEnd}
       onConnect={onConnect}
-      onNodeDragStop={onNodeDrag}
       onNodeDragStart={onNodeDrag}
       onDrop={onDrop}
       onDragOver={onDragOver}
@@ -213,4 +217,4 @@ const FlowEditor = () => {
   );
 };
 
-export default React.memo(FlowEditor);
+export default FlowEditor;
