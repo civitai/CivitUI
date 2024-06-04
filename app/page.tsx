@@ -10,11 +10,11 @@ export default function Home() {
   return (
     <div className="h-screen">
       <Navbar />
-      <CanvasContextMenu>
-        <ReactFlowProvider>
+      <ReactFlowProvider>
+        <CanvasContextMenu>
           <FlowEditor />
-        </ReactFlowProvider>
-      </CanvasContextMenu>
+        </CanvasContextMenu>
+      </ReactFlowProvider>
 
       <ControlPanel />
     </div>

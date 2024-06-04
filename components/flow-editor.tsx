@@ -26,14 +26,17 @@ import useUndoRedo from "@/hooks/use-undo-redo";
 import { useAppStore } from "@/store";
 
 import "reactflow/dist/style.css";
+import useForceLayout from "@/hooks/use-force-layout";
 
-const FlowEditor = () => {
+const FlowEditor = ({ strength = -1000, distance = 1000 }) => {
   const nodeTypes = useMemo(() => ({ [NODE_IDENTIFIER]: NodeComponent }), []);
   const { theme } = useTheme();
   const reactFlowRef = useRef<HTMLDivElement>(null);
   const edgeUpdateSuccessful = useRef(true);
-  const { undo, redo, canUndo, canRedo, takeSnapshot } = useUndoRedo();
+  const { takeSnapshot } = useUndoRedo();
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
+
+  // useForceLayout({ strength, distance });
 
   const {
     nodes,
@@ -117,10 +120,10 @@ const FlowEditor = () => {
 
   const onNodeDrag: NodeDragHandler = useCallback(
     (_, node, nodes) => {
+      // 👇 make dragging nodes undoable
       takeSnapshot();
 
       if (nodes.length > 2 || node.data.name !== "Group") return;
-      // 👇 make moving nodes undoable
       const intersections = reactFlowInstance
         .getIntersectingNodes(node)
         .filter(
