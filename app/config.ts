@@ -1,7 +1,7 @@
 const config = {
   // host: process.env.NEXT_PUBLIC_COMFYUI_SERVER_URL,
-  host: "localhost:8188",
-  protocol: "https:",
+  host: "127.0.0.1:8188",
+  protocol: "http:",
 };
 
 export default config;
