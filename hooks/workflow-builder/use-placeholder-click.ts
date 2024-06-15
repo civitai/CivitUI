@@ -1,6 +1,5 @@
 import { NodeProps, useReactFlow } from "reactflow";
-
-import { uuid, randomLabel } from "../utils";
+import { v4 as uuid } from "uuid";
 
 // this hook implements the logic for clicking a placeholder node
 // on placeholder node click: turn the placeholder and connecting edge into a workflow node
@@ -44,7 +43,7 @@ export function usePlaceholderClick(id: NodeProps["id"]) {
             return {
               ...node,
               type: "workflow",
-              data: { label: randomLabel() },
+              data: { label: uuid() },
             };
           }
           return node;
