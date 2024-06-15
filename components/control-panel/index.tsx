@@ -58,16 +58,8 @@ const ControlPanel = () => {
 
   return (
     <Sheet modal={false} open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-      <div className="fixed left-1/2 bottom-20 transform -translate-y-1/2 flex gap-3 m-2">
-        <SheetTrigger asChild>
-          <Button
-            onClick={() => handleSheetTriggerClick(TABS.NODES)}
-            className="relative rounded-3xl shadow-lg hover:bg-background hover:rounded-lg transition-all duration-200 h-12 w-12"
-            variant={"outline"}
-          >
-            <PlusIcon />
-          </Button>
-        </SheetTrigger>
+      <div className="fixed right-4 top-4 flex flex-col gap-3 m-2">
+        <QueuePromptButton />
 
         <SheetTrigger asChild>
           <Button
@@ -95,10 +87,8 @@ const ControlPanel = () => {
             <Player />
           </DropdownMenuContent>
         </DropdownMenu>
-
-        <QueuePromptButton />
       </div>
-      <SheetContent side={"left"} className="overflow-y-scroll">
+      <SheetContent side={"right"} className="overflow-y-scroll">
         <Tabs
           value={activeTab}
           onValueChange={(value) => setActiveTab(value as TABS)}
