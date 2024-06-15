@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { BoxesContainer } from "@/components/ui/interactive-bg-boxes";
-import { Search } from "@/components/search";
+// import { Search } from "@/components/search";
 
 interface ModelDrawerProps {
   type: string;
@@ -40,7 +40,7 @@ export function ModelDrawer({ type }: ModelDrawerProps) {
             </p>
           </div>
           <div className="flex mb-12 w-full h-[1px] bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-800 to-transparent" />
-          <Search type={type} />
+          {/* <Search type={type} /> */}
         </div>
       </DrawerContent>
     </Drawer>
