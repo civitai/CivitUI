@@ -36,3 +36,6 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "An error occurred" }, { status: 500 });
   }
 }
+
+// per https://github.com/vercel/next.js/issues/50999#issuecomment-1727941641
+export async function POST(req: Request) {}
