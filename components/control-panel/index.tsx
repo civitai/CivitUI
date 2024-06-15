@@ -9,11 +9,9 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Music } from "lucide-react";
 import { FilePlusIcon, PlusIcon } from "@radix-ui/react-icons";
 import NodePickerComponent from "./node-picker";
 import WorkflowPageComponent from "./workflow-page";
-import { Player } from "../music-player";
 import { QueuePromptButton } from "../queue-prompt-button";
 
 enum TABS {
@@ -70,23 +68,6 @@ const ControlPanel = () => {
             <FilePlusIcon />
           </Button>
         </SheetTrigger>
-
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              className="relative rounded-3xl shadow-lg hover:bg-background hover:rounded-lg transition-all duration-200 h-12 w-12"
-              variant="outline"
-            >
-              <Music strokeWidth={1.25} />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            sideOffset={20}
-            className="rounded-2xl bg-zinc-800 dark:bg-background shadow-lg"
-          >
-            <Player />
-          </DropdownMenuContent>
-        </DropdownMenu>
       </div>
       <SheetContent side={"right"} className="overflow-y-scroll">
         <Tabs
