@@ -18,7 +18,7 @@ import Dropzone from "../dropzone";
 import { Label } from "../ui/label";
 import { Button } from "../ui/button";
 
-export const WorkflowPageComponent = React.memo(() => {
+const WorkflowPageComponent = () => {
   const [title, setTitle] = useState<string>();
   const [localWorkflowList, setLocalWorkflowList] =
     useState<LocalPersistedGraphs[]>();
@@ -165,4 +165,8 @@ export const WorkflowPageComponent = React.memo(() => {
       </div>
     </div>
   );
-});
+};
+
+const WorkflowPage = React.memo(WorkflowPageComponent);
+
+export { WorkflowPage };

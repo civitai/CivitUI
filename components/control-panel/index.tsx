@@ -6,7 +6,7 @@ import { Dialog, DialogTrigger } from '@radix-ui/react-dialog';
 import { Button } from "@/components/ui/button";
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { PlayIcon, FilePlusIcon, MoveIcon, PinTopIcon, PinBottomIcon, TrashIcon, GearIcon } from "@radix-ui/react-icons";
-import { WorkflowPageComponent } from "./workflow-page";
+import { WorkflowPage } from "./workflow-page";
 import { ClearDialog } from "./clear-dialog";
 import { SettingsModal } from "./settings-modal";
 import { MultiStepLoader as Loader } from "@/components/ui/multi-step-loader";
@@ -126,7 +126,7 @@ const ControlPanel = () => {
                 </SheetTrigger>
               </TooltipButton>
           <SheetContent side={"left"} className="overflow-y-scroll">
-            <WorkflowPageComponent />
+            <WorkflowPage />
           </SheetContent>
         </Sheet>
         <TooltipButton content="Recalculate node positions">
