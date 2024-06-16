@@ -1,6 +1,5 @@
 "use client";
 
-import { File, Loader2, Trash2, UploadCloud } from "lucide-react";
 import { useEffect, useState } from "react";
 import {
   Tooltip,
@@ -8,6 +7,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { UploadIcon } from "@radix-ui/react-icons";
+import { File, Loader2, Trash2 } from "lucide-react";
 
 import useDragDrop from "@/hooks/use-drag-drop";
 import { cn, formatBytes } from "@/lib/utils";
@@ -96,20 +97,7 @@ export default function Dropzone({ onUpload }: DropzoneProps) {
 
   return (
     <>
-      <div className="mb-4">
-        <div className="border-b">
-          <div className="flex flex-row justify-start items-center px-4 py-2.5 gap-2">
-            <div className="rounded-full border p-2 flex flex-row justify-center items-center dark:border-neutral-700">
-              <UploadCloud className="h-5 w-5 text-neutral-600" />
-            </div>
-            <div className="space-y-0.5">
-              <p className="font-semibold mb-0">Upload ComfyUI Workflow</p>
-              <p className="text-sm text-neutral-500 -mt-1">
-                Drop your ComfyUI JSON API file.
-              </p>
-            </div>
-          </div>
-        </div>
+      <div className="border-b">
         <label
           htmlFor="file"
           onDragOver={onDragOver}
@@ -121,14 +109,14 @@ export default function Dropzone({ onUpload }: DropzoneProps) {
           )}
         >
           <div className="flex flex-col p-4 justify-start items-center text-center">
-            <UploadCloud
+            <UploadIcon
               className={cn(
                 "h-5 w-5 text-neutral-600 my-4",
                 dragOver && "text-blue-500"
               )}
             />
             <p className="font-semibold">
-              Choose a file or drag & drop it here
+              Load a workspace or drag & drop it here
             </p>
             <p className="text-neutral-500 text-sm">
               Only JSON files. Up to 100 KB.
@@ -143,6 +131,7 @@ export default function Dropzone({ onUpload }: DropzoneProps) {
           onChange={fileSelect}
           accept="application/json"
         />
+        </div>
 
         {file && (
           <div className="w-full px-4 py-2 gap-2 flex flex-col justify-start items-center border-t dark:border-neutral-700 overflow-auto">
@@ -190,7 +179,6 @@ export default function Dropzone({ onUpload }: DropzoneProps) {
             </p>
           </div>
         )}
-      </div>
     </>
   );
 }

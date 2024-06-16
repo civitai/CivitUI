@@ -1,12 +1,11 @@
-import type { LocalPersistedGraphs, PersistedGraph } from "@/types";
-import { writeWorkflowToFile } from "@/utils";
 import React, { useCallback, useState } from "react";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { CommitIcon, Pencil1Icon, TrashIcon } from "@radix-ui/react-icons";
-import { Calculator, Clock, DownloadIcon, SaveIcon } from "lucide-react";
-import { Badge } from "../ui/badge";
-import { Avatar } from "../ui/avatar";
+import type { LocalPersistedGraphs, PersistedGraph } from "@/types";
+import { MaskOffIcon, ClockIcon, Cross1Icon, DownloadIcon, InputIcon, Link2Icon, Pencil2Icon } from "@radix-ui/react-icons";
+import { writeWorkflowToFile } from "@/utils";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import { Separator } from "@/components/ui/separator";
 
 interface WorkflowItemProps {
   item: LocalPersistedGraphs;
@@ -41,8 +40,8 @@ const WorkflowItem: React.FC<WorkflowItemProps> = ({
   }, [handleLoad, item.graph, item.title]);
 
   const handleEditClick = useCallback(() => {
-    setShowRename(true);
-  }, []);
+    setShowRename(!showRename);
+  }, [showRename]);
 
   const handleUpdateClick = useCallback(() => {
     handleUpdate(item.id, item.title);
@@ -58,87 +57,109 @@ const WorkflowItem: React.FC<WorkflowItemProps> = ({
 
   const renderTitle = useCallback(() => {
     if (showRename) {
-      return <Input defaultValue={item.title} onBlur={handleRenameDone} />;
+      return <Input defaultValue={item.title} 
+        onBlur={handleRenameDone} 
+        onKeyDown={e => ["Enter", "Escape"].includes(e.key) && (e.target as HTMLElement).blur()} 
+      />;
     } else {
       return (
-        <a title="Load" onClick={handleLoadClick}>
+        <a className="flex" title="Load" onClick={handleLoadClick}>
           {item.title}
-          {index === 0 && (
-            <Badge color="blue" style={{ marginLeft: 4 }}>
-              Recent
-            </Badge>
-          )}
         </a>
       );
     }
   }, [showRename, item.title, index, handleRenameDone, handleLoadClick]);
 
   return (
-    <ul className="list-none p-0 m-0">
-      <li key={item.id} className="border-b border-gray-200 last:border-b-0">
-        <div className="flex justify-between">
-          <div>
-            <a
-              title="Load"
-              onClick={handleLoadClick}
-              className="flex items-center space-x-2"
-            >
-              <Avatar className="inline-block">
-                {item.title[0].toUpperCase()}
-              </Avatar>
-              <span>{renderTitle()}</span>
-            </a>
-            <div className="text-sm text-gray-600">
-              <div className="flex space-x-4">
-                <div className="flex items-center space-x-2">
-                  <Calculator />
-                  <span>{Object.keys(item.graph.data).length}</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <CommitIcon />
-                  <span>{item.graph.connections.length}</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Clock />
-                  <span>
-                    {(() => {
-                      const date = new Date(item.time);
-                      const formattedDate =
-                        date.getFullYear() +
-                        "-" +
-                        ("0" + (date.getMonth() + 1)).slice(-2) +
-                        "-" +
-                        ("0" + date.getDate()).slice(-2) +
-                        " " +
-                        ("0" + date.getHours()).slice(-2) +
-                        ":" +
-                        ("0" + date.getMinutes()).slice(-2) +
-                        ":" +
-                        ("0" + date.getSeconds()).slice(-2);
-                      return formattedDate;
-                    })()}
-                  </span>
-                </div>
+    <TooltipProvider delayDuration={0}>
+      <ul className="list-none p-0 m-0">
+        <li key={item.id} className="border-b border-gray-200 last:border-b-0">
+          <div className="flex flex-col justify-between">
+            <div className="flex justify-between">
+              <div>
+                <a
+                  title="Load"
+                  onClick={handleLoadClick}
+                  className="flex items-center space-x-2 my-4"
+                >
+                  <span>{renderTitle()}</span>
+                </a>
+              </div>
+              <div className="flex justify-end items-center">
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button className="bg-transparent text-white hover:bg-primary hover:text-black p-2 m-0" onClick={handleEditClick}>
+                      <InputIcon />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Rename workflow</TooltipContent>
+                </Tooltip>
+                <Separator orientation="vertical" decorative/>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button className="bg-transparent text-white hover:bg-primary hover:text-black p-2 m-0" onClick={handleUpdateClick}>
+                      <Pencil2Icon />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Overwrite with current</TooltipContent>
+                </Tooltip>
+                <Separator orientation="vertical" decorative/>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button className="bg-transparent text-white hover:bg-primary hover:text-black p-2 m-0" onClick={handleDownloadClick}>
+                      <DownloadIcon />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Download to disk</TooltipContent>
+                </Tooltip>
+                <Separator orientation="vertical" decorative/>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button className="bg-transparent text-white hover:bg-primary hover:text-black p-2 m-0" onClick={handleDeleteClick}>
+                      <Cross1Icon />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Delete workflow</TooltipContent>
+                </Tooltip>
               </div>
             </div>
+            <div className="text-sm text-gray-600">
+                <div className="flex space-x-4">
+                  <div className="flex items-center space-x-2">
+                    <MaskOffIcon />
+                    <span>{Object.keys(item.graph.data).length}</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Link2Icon />
+                    <span>{item.graph.connections.length}</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <ClockIcon />
+                    <span>
+                      {(() => {
+                        const date = new Date(item.time);
+                        const formattedDate =
+                          date.getFullYear() +
+                          "-" +
+                          ("0" + (date.getMonth() + 1)).slice(-2) +
+                          "-" +
+                          ("0" + date.getDate()).slice(-2) +
+                          " " +
+                          ("0" + date.getHours()).slice(-2) +
+                          ":" +
+                          ("0" + date.getMinutes()).slice(-2) +
+                          ":" +
+                          ("0" + date.getSeconds()).slice(-2);
+                        return formattedDate;
+                      })()}
+                    </span>
+                  </div>
+                </div>
+              </div>
           </div>
-          <div className="flex space-x-2">
-            <Button onClick={handleEditClick}>
-              <Pencil1Icon />
-            </Button>
-            <Button onClick={handleUpdateClick}>
-              <SaveIcon />
-            </Button>
-            <Button onClick={handleDownloadClick}>
-              <DownloadIcon />
-            </Button>
-            <Button onClick={handleDeleteClick}>
-              <TrashIcon />
-            </Button>
-          </div>
-        </div>
-      </li>
-    </ul>
+        </li>
+      </ul>
+    </TooltipProvider>
   );
 };
 
