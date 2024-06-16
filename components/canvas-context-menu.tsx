@@ -43,23 +43,6 @@ export default function CanvasContextMenu({
           <ContextMenuShortcut>⌘ShiftZ</ContextMenuShortcut>
         </ContextMenuItem>
         <ContextMenuItem inset>Export worfklow</ContextMenuItem>
-        <ContextMenuSub>
-          <ContextMenuSubTrigger inset>Change edge type</ContextMenuSubTrigger>
-          <ContextMenuSubContent className="w-48">
-            {EdgeTypeList({ onEdgesType }).map(
-              ({ icon, label, key, onClick }: any) => (
-                <ContextMenuCheckboxItem
-                  key={key}
-                  onSelect={onClick}
-                  checked={edgeType === key}
-                >
-                  {icon}
-                  <span className="ml-2">{label}</span>
-                </ContextMenuCheckboxItem>
-              )
-            )}
-          </ContextMenuSubContent>
-        </ContextMenuSub>
       </ContextMenuContent>
     </ContextMenu>
   );
