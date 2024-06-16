@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { useShallow } from "zustand/react/shallow";
 import NodePickerGroup from "./node-picker-group";
 import { CaretSortIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
-import { Toggle } from "../ui/toggle";
+import { Toggle } from "./ui/toggle";
 
 const NodePickerComponent: React.FC = () => {
   const { widgets, onAddNode } = useAppStore(

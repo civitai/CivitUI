@@ -1,6 +1,6 @@
 "use client";
 
-import PreviewNode from "../node/sd-node/preview-node";
+import PreviewNode from "./node/sd-node/preview-node";
 import { NodeItem, Widget } from "@/types";
 import { startCase } from "lodash-es";
 import React, { useCallback, useState, useEffect } from "react";

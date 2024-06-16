@@ -12,6 +12,7 @@ import {
   ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
+import NodePicker from "./node-picker";
 
 export default function CanvasContextMenu({
   children,
@@ -21,6 +22,7 @@ export default function CanvasContextMenu({
   return (
     <ContextMenu>
       <ContextMenuTrigger>{children}</ContextMenuTrigger>
+      <NodePicker />
     </ContextMenu>
   );
 }
