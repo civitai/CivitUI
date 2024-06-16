@@ -38,7 +38,7 @@ export const QueuePromptButton = () => {
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(0);
 
-  const { onSubmit, queue, onDeleteFromQueue, promptError, onEdgesAnimate } =
+  const { onSubmit, queue, onDeleteFromQueue, promptError, onEdgesAnimate, expanded, onExpand } =
     useAppStore(
       useShallow((state) => ({
         onSubmit: state.onSubmit,
@@ -46,6 +46,8 @@ export const QueuePromptButton = () => {
         onDeleteFromQueue: state.onDeleteFromQueue,
         promptError: state.promptError,
         onEdgesAnimate: state.onEdgesAnimate,
+        onExpand: state.onExpand,
+        expanded: state.expanded,
       }))
     );
 
@@ -93,8 +95,19 @@ export const QueuePromptButton = () => {
 
 const ControlPanel = () => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [isClearDialogOpen, setIsClearDialogOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
+
+  const { expanded, onExpand } = useAppStore((state) => ({
+    expanded: state.expanded,
+    onExpand: state.onExpand,
+  }));
+
+  const handleExpand = () => {
+    setIsExpanded(!isExpanded);
+    onExpand();
+  }
 
   return (
     <TooltipProvider delayDuration={0}>
@@ -128,11 +141,11 @@ const ControlPanel = () => {
 
         <TooltipButton content="Toggle parameter dropdowns">
           <Button
-            onClick={() => {}}
+            onClick={() => handleExpand()}
             className="relative rounded-3xl shadow-lg hover:bg-background hover:rounded-lg transition-all duration-200 h-12 w-12"
             variant="outline"
           >
-            <PinBottomIcon />
+            {isExpanded ? <PinTopIcon /> : <PinBottomIcon />}
           </Button>
         </TooltipButton>
         <Dialog open={isClearDialogOpen} onOpenChange={setIsClearDialogOpen}>
