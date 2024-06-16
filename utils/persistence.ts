@@ -134,7 +134,7 @@ export const saveLocalWorkflow = (
     localWorkflows.push({
       title: title ? title : `Local-${time}`,
       time: time,
-      id: `civitui-${time}-${Math.floor(Math.random() * 1000000)}`,
+      id: `comfyui-${time}-${Math.floor(Math.random() * 1000000)}`,
       graph,
     });
     localStorage.setItem(LOCAL_KEY, JSON.stringify(localWorkflows));

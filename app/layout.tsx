@@ -12,8 +12,8 @@ const fontSans = FontSans({
 });
 
 export const metadata: Metadata = {
-  title: "CivitUI",
-  description: "A comfier GUI for Civitai generations",
+  title: "SabreUI",
+  description: "A complete redesign of the ComfyUI interface.",
 };
 
 export default function RootLayout({
