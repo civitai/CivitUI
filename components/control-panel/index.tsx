@@ -1,20 +1,25 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
-import { FilePlusIcon, UpdateIcon, PinTopIcon, PinBottomIcon, TrashIcon, GearIcon } from "@radix-ui/react-icons";
-import NodePickerComponent from "./node-picker";
-import WorkflowPageComponent from "./workflow-page";
-import { QueuePromptButton } from "../queue-prompt-button";
+import { PlayIcon, FilePlusIcon, UpdateIcon, PinTopIcon, PinBottomIcon, TrashIcon, GearIcon } from "@radix-ui/react-icons";
+import { WorkflowPageComponent } from "./workflow-page";
+import { MultiStepLoader as Loader } from "@/components/ui/multi-step-loader";
+import { useAppStore } from "@/store";
+import { useShallow } from "zustand/react/shallow";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
-enum TABS {
-  NODES = "Nodes",
-  WORKFLOW = "Workflow",
-  GALLERY = "Gallery",
-}
+const nodes = [
+  {
+    text: "CheckpointLoaderSimple",
+  },
+  {
+    text: "KSampler",
+  },
+];
 
 const TooltipButton = ({ content, children }: any) => 
   <Tooltip>
@@ -26,52 +31,80 @@ const TooltipButton = ({ content, children }: any) =>
     </TooltipContent>
   </Tooltip>
 
-const ControlPanel = () => {
-  const [activeTab, setActiveTab] = useState(TABS.NODES);
-  const [isSheetOpen, setIsSheetOpen] = useState(false);
+export const QueuePromptButton = () => {
+  const [loading, setLoading] = useState(false);
+  const [count, setCount] = useState(0);
 
-  const handleSheetTriggerClick = (tab: TABS) => {
-    if (activeTab === tab) {
-      setIsSheetOpen(!isSheetOpen);
-    } else {
-      setActiveTab(tab);
-      setIsSheetOpen(true);
+  const { onSubmit, queue, onDeleteFromQueue, promptError, onEdgesAnimate } =
+    useAppStore(
+      useShallow((state) => ({
+        onSubmit: state.onSubmit,
+        queue: state.queue,
+        onDeleteFromQueue: state.onDeleteFromQueue,
+        promptError: state.promptError,
+        onEdgesAnimate: state.onEdgesAnimate,
+      }))
+    );
+
+  useEffect(() => {
+    if (promptError !== undefined) {
+      toast.error(promptError);
     }
-  };
+  }, [promptError, count]);
 
-  const tabs = useMemo(
-    () => [
-      {
-        label: TABS.NODES,
-        key: TABS.NODES,
-        children: <NodePickerComponent />,
-      },
-      {
-        label: TABS.WORKFLOW,
-        key: TABS.WORKFLOW,
-        children: <WorkflowPageComponent />,
-      },
-      // {
-      //   label: TABS.GALLERY,
-      //   key: TABS.GALLERY,
-      //   children: <GalleryComponent />,
-      // },
-    ],
-    []
-  );
+  useEffect(() => {
+    onEdgesAnimate(queue.length > 0);
+  }, [queue, onEdgesAnimate]);
+
+  const handleRun = useCallback(() => {
+    setLoading(true);
+    onSubmit();
+    setCount((prevCount) => prevCount + 1);
+  }, [onSubmit]);
+
+  const queueHasItems = queue.length > 0;
 
   return (
-    <Sheet modal={false} open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+    <Tooltip>
+      {/* TODO: Fix MultiStepLoader */}
+      <Loader loadingStates={nodes} loading={loading} />
+
+      <TooltipTrigger asChild>
+        <Button
+          className={cn(
+            "relative h-12 w-12 rounded-3xl shadow-lg bg-gradient-to-b text-white dark:text-black dark:from-white dark:to-blue-50 ring-2 ring-blue-50 ring-opacity-60",
+            "from-slate-800 to-slate-700 ring-slate-400",
+            "hover:rounded-lg transition-all duration-200"
+          )}
+          onClick={handleRun}
+        >
+          <PlayIcon />
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent side="left" className="text-xs bg-white text-black">
+        Queue prompt
+      </TooltipContent>
+    </Tooltip>
+  );
+};
+
+const ControlPanel = () => {
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+
+  const handleSheetTriggerClick = () => {
+    setIsSheetOpen(!isSheetOpen);
+  };
+
+  return (
+    <Sheet modal={true} open={isSheetOpen} onOpenChange={setIsSheetOpen}>
       <div className="fixed right-4 top-4 flex flex-col gap-3 m-2">
-        <TooltipProvider delayDuration={50}>
-          <TooltipButton content="Queue prompt">
-            <QueuePromptButton />
-          </TooltipButton>
+        <TooltipProvider delayDuration={0}>
+          <QueuePromptButton />
 
           <TooltipButton content="Save/load workflows">
             <SheetTrigger asChild>
               <Button
-                onClick={() => handleSheetTriggerClick(TABS.WORKFLOW)}
+                onClick={() => handleSheetTriggerClick()}
                 className="relative rounded-3xl shadow-lg hover:bg-background hover:rounded-lg transition-all duration-200 h-12 w-12"
                 variant="outline"
               >
@@ -83,7 +116,7 @@ const ControlPanel = () => {
           <TooltipButton content="Recalculate node positions">
             <SheetTrigger asChild>
               <Button
-                onClick={() => handleSheetTriggerClick(TABS.WORKFLOW)}
+                onClick={() => handleSheetTriggerClick()}
                 className="relative rounded-3xl shadow-lg hover:bg-background hover:rounded-lg transition-all duration-200 h-12 w-12"
                 variant="outline"
               >
@@ -95,7 +128,7 @@ const ControlPanel = () => {
           <TooltipButton content="Toggle parameter dropdowns">
             <SheetTrigger asChild>
               <Button
-                onClick={() => handleSheetTriggerClick(TABS.WORKFLOW)}
+                onClick={() => handleSheetTriggerClick()}
                 className="relative rounded-3xl shadow-lg hover:bg-background hover:rounded-lg transition-all duration-200 h-12 w-12"
                 variant="outline"
               >
@@ -104,10 +137,10 @@ const ControlPanel = () => {
             </SheetTrigger>
           </TooltipButton>
 
-          <TooltipButton content="Clear">
+          <TooltipButton content="Clear graph">
             <SheetTrigger asChild>
               <Button
-                onClick={() => handleSheetTriggerClick(TABS.WORKFLOW)}
+                onClick={() => handleSheetTriggerClick()}
                 className="relative rounded-3xl shadow-lg hover:bg-background hover:rounded-lg transition-all duration-200 h-12 w-12"
                 variant="outline"
               >
@@ -119,7 +152,7 @@ const ControlPanel = () => {
           <TooltipButton content="Settings">
             <SheetTrigger asChild>
               <Button
-                onClick={() => handleSheetTriggerClick(TABS.WORKFLOW)}
+                onClick={() => handleSheetTriggerClick()}
                 className="relative rounded-3xl shadow-lg hover:bg-background hover:rounded-lg transition-all duration-200 h-12 w-12"
                 variant="outline"
               >
@@ -130,26 +163,7 @@ const ControlPanel = () => {
         </TooltipProvider>
       </div>
       <SheetContent side={"left"} className="overflow-y-scroll">
-        <Tabs
-          value={activeTab}
-          onValueChange={(value) => setActiveTab(value as TABS)}
-          className="mt-8"
-        >
-          <div className="px-2">
-            <TabsList className="w-full mb-4">
-              {tabs.map((tab) => (
-                <TabsTrigger className="w-full" key={tab.key} value={tab.key}>
-                  {tab.label}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-          </div>
-          {tabs.map((tab) => (
-            <TabsContent key={tab.key} value={tab.key}>
-              {tab.children}
-            </TabsContent>
-          ))}
-        </Tabs>
+        <WorkflowPageComponent />
       </SheetContent>
     </Sheet>
   );

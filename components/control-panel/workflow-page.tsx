@@ -17,7 +17,7 @@ import { toast } from "sonner";
 import Dropzone from "../dropzone";
 import { Label } from "../ui/label";
 
-const WorkflowPageComponent = () => {
+export const WorkflowPageComponent = React.memo(() => {
   const [title, setTitle] = useState<string>();
   const [localWorkflowList, setLocalWorkflowList] =
     useState<LocalPersistedGraphs[]>();
@@ -163,6 +163,4 @@ const WorkflowPageComponent = () => {
       </div>
     </div>
   );
-};
-
-export default React.memo(WorkflowPageComponent);
+});
