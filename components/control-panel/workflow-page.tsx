@@ -16,6 +16,7 @@ import WorkflowItem from "./workflow-item";
 import { toast } from "sonner";
 import Dropzone from "../dropzone";
 import { Label } from "../ui/label";
+import { Button } from "../ui/button";
 
 export const WorkflowPageComponent = React.memo(() => {
   const [title, setTitle] = useState<string>();
@@ -142,13 +143,14 @@ export const WorkflowPageComponent = React.memo(() => {
 
   return (
     <div className="flex flex-col gap-4">
+      <Button className="bg-border hover:bg-black text-white mt-3 mx-5" onClick={handleSave}>Save</Button>
       <Dropzone onUpload={handleUpload} />
       <div>
         <Label>Local Workflows</Label>
         {localWorkflowList?.map((item, index) => (
           <li
             key={item.id}
-            className="border-b border-gray-200 last:border-b-0"
+            className="border-b border-gray-200 last:border-b-0 list-none"
           >
             <WorkflowItem
               item={item}

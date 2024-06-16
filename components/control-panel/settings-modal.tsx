@@ -38,11 +38,11 @@ export const SettingsModal = ({ setOpen }: any) => {
     return (
         <DialogPortal>
             <DialogContent className="fixed inset-0 z-50 flex items-center flex-col justify-center p-4">
-                <div className="bg-black p-6 rounded-lg shadow-lg relative">
-                    <DialogTitle className="text-lg font-bold">Settings</DialogTitle>
+                <div className="bg-black p-1 rounded-lg shadow-lg relative">
+                    <DialogTitle className="text-lg font-bold mt-0.5 mr-10">Settings</DialogTitle>
                     {/* Add your settings form or content here */}
                     <DialogClose asChild>
-                        <Button className="absolute top-2 right-2 p-1 bg-transparent hover:bg-transparent border-none shadow-none" onClick={() => setOpen(false)} variant="outline">
+                        <Button className="absolute top-0 right-2 p-1 bg-transparent hover:bg-transparent border-none shadow-none" onClick={() => setOpen(false)} variant="outline">
                             <Cross2Icon />
                         </Button>
                     </DialogClose>
