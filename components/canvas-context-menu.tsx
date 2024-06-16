@@ -42,7 +42,6 @@ export default function CanvasContextMenu({
           Redo
           <ContextMenuShortcut>⌘ShiftZ</ContextMenuShortcut>
         </ContextMenuItem>
-        <ContextMenuItem inset>Export worfklow</ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
   );
