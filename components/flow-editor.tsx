@@ -212,7 +212,7 @@ const FlowEditor = ({ strength = -1000, distance = 1000 }) => {
       <MiniMap
         position="bottom-left"
         nodeColor={(n) =>
-          n.data.color || (theme === "dark" ? "#2C3E50" : "#ECF0F1")
+          n.data.color || (theme === "light" ? "#ECF0F1" : "#2C3E50")
         }
         style={{ width: 150, height: 100 }}
       />
