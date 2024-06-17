@@ -6,8 +6,8 @@ import objectInfo from "@/mock/object_info.json";
 import settings from "@/mock/settings.json";
 
 export const getSettings = async (): Promise<Settings> =>
-  settings;
-  // (await fetch(getBackendUrl("/setting"))).json();
+  // settings;
+  (await fetch(getBackendUrl("/setting"))).json();
   
 
 export const sendSetting = async (id: string, value: any): Promise<void> => {
@@ -18,8 +18,8 @@ export const sendSetting = async (id: string, value: any): Promise<void> => {
 }
 
 export const getWidgetLibrary = async (): Promise<any> =>
-  objectInfo;
-  // (await fetch(getBackendUrl("/object_info"))).json();
+  // objectInfo;
+  (await fetch(getBackendUrl("/object_info"))).json();
 
 export const getQueue = async (): Promise<Queue> =>
   (await fetch(getBackendUrl("/queue"))).json();
