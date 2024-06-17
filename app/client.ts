@@ -11,7 +11,7 @@ export const getSettings = async (): Promise<Settings> =>
   
 
 export const sendSetting = async (id: string, value: any): Promise<void> => {
-  await fetch(getBackendUrl(`/setting/${id}`), {
+  await fetch(getBackendUrl(`/settings/${id}`), {
     method: "POST",
     body: JSON.stringify(value),
   });
