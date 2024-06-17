@@ -1,5 +1,4 @@
-import React from "react";
-import { startCase } from "lodash-es";
+import React, { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { BoxesContainer } from "@/components/ui/interactive-bg-boxes";
@@ -7,15 +6,20 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 
 interface ModelDrawerProps {
+  value: string;
   type: string;
+  models: string[];
+  onChange: (val: any) => void;
 }
 
-const ModelDrawerComponent = ({ type }: ModelDrawerProps) => {
+const ModelDrawerComponent = ({ type, models, value, onChange }: ModelDrawerProps) => {
+  const [open, setOpen] = useState<boolean>(false);
+
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <Button variant="outline" className="w-full">
-          Select
+          <span className="truncate">{value || "Select"}</span>
         </Button>
       </SheetTrigger>
       <SheetContent
@@ -38,13 +42,13 @@ const ModelDrawerComponent = ({ type }: ModelDrawerProps) => {
                 "w-fit md:text-4xl text-xl font-semibold relative z-20"
               }
             >
-              {startCase(type)} Models
+              {{"ckpt_name": "Checkpoint", "lora_name": "Lora"}[type]} Models
             </h1>
             <p className="w-fit text-muted-foreground font-light mt-2 relative z-20 tracking-wide">
               Select a model to use in the workflow.
             </p>
           </div>
-          <div className="w-fit md:text-4xl text-xl font-semibold absolute right-48 top-32 z-20">
+          <div className="w-fit md:text-4xl text-xl font-semibold absolute right-[15%] top-[20%] z-20">
             <input
               name="search"
               type="text"
@@ -63,6 +67,25 @@ const ModelDrawerComponent = ({ type }: ModelDrawerProps) => {
           </div>
           <div className="flex mb-12 w-full h-[1px] bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-800 to-transparent" />
         </div>
+        {models.length > 0 && (
+          <div className="-mt-10">
+            <div className="grid grid-cols-4 gap-1">
+              {models.map((model, index) => 
+                <Button key={index} 
+                  variant="ghost" 
+                  size="sm" 
+                  className="text-xs" 
+                  onClick={() => {
+                    setOpen(false);
+                    onChange(model);
+                  }}
+                >
+                  {model}
+                </Button>
+              )}
+            </div>
+          </div>
+        )}
       </SheetContent>
     </Sheet>
   );

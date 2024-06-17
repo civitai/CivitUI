@@ -36,10 +36,13 @@ const InputParams = ({ id, name, input }: InputParamsProps) => {
   );
 
   if (checkInput.isList(input)) {
-    if (name === "ckpt_name") {
-      return <ModelDrawer type="Checkpoint" />;
-    } else if (name === "lora_name") {
-      return <ModelDrawer type="Lora" />;
+    if (name === "ckpt_name" || name === "lora_name") {
+      return <ModelDrawer 
+        value={value}
+        models={input.flat()} 
+        type={name} 
+        onChange={onChange} 
+      />;
     }
 
     return (
