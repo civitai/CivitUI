@@ -10,8 +10,8 @@ const defaultWorkflow: PersistedGraph = {
         }
       },
       "position": {
-        "x": -170.13106312032482,
-        "y": 1038.0670301674156
+        "x": -269.3325424523291,
+        "y": 1036.3999742057622
       },
       "width": 317,
       "height": 148
@@ -44,8 +44,8 @@ const defaultWorkflow: PersistedGraph = {
         }
       },
       "position": {
-        "x": 361.10392535279345,
-        "y": 1240.0333851489584
+        "x": 364.94750305419154,
+        "y": 1238.9188592484923
       },
       "width": 280,
       "height": 228
@@ -91,8 +91,8 @@ const defaultWorkflow: PersistedGraph = {
         }
       },
       "position": {
-        "x": 383.97917523593196,
-        "y": 1616.9283944586762
+        "x": 450.1747371550397,
+        "y": 1618.5429203591423
       },
       "width": 240,
       "height": 246
