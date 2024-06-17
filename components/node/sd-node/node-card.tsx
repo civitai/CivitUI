@@ -49,7 +49,7 @@ const NodeCard = ({
   children,
 }: NodeCardProps) => {
   const { theme } = useTheme();
-  const [hovered, setHovered] = useState<boolean>(false);
+  const [hovered, setHovered] = useState<boolean>(true);
   const [direction, setDirection] = useState<Direction>("TOP");
   const activeClass = active ? "shadow-lg" : "";
 
@@ -65,7 +65,7 @@ const NodeCard = ({
       onMouseEnter={(event: React.MouseEvent<HTMLDivElement>) => {
         setHovered(true);
       }}
-      onMouseLeave={() => setHovered(false)}
+      // onMouseLeave={() => setHovered(false)}
       style={{
         background: color
           ? `radial-gradient(circle at 0% -50%, ${colorMap[color]} 0%, ${bgColor} 50%, ${bgColor} 100%)`
