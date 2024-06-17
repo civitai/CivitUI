@@ -7,7 +7,7 @@ import settings from "@/mock/settings.json";
 
 export const getSettings = async (): Promise<Settings> =>
   // settings;
-  (await fetch(getBackendUrl("/setting"))).json();
+  (await fetch(getBackendUrl("/settings"))).json();
   
 
 export const sendSetting = async (id: string, value: any): Promise<void> => {
