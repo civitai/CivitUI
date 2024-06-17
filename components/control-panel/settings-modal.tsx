@@ -21,9 +21,11 @@ type SettingsOptions = [
 
 export const SettingsModal = ({ open, setOpen }: any) => {
     const { 
-        edgeType, 
+        onUpdateFrontend,
+        edgeType,
         onEdgesType,
     } = useAppStore(useShallow((state) => ({
+          onUpdateFrontend: state.onUpdateFrontend,
           edgeType: state.edgeType,
           onEdgesType: state.onEdgesType,
         }))
@@ -33,7 +35,7 @@ export const SettingsModal = ({ open, setOpen }: any) => {
         {
             label: 'Client Frontend',
             item: (options: string[]) => 
-                <Select>
+                <Select onValueChange={async () => onUpdateFrontend()}>
                     <SelectTrigger className="w-32">
                         <SelectValue placeholder="sabre" />
                     </SelectTrigger>
