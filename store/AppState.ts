@@ -66,7 +66,7 @@ export interface AppState {
   onEdgesAnimate: (animated: boolean) => void;
 
   onUpdateFrontend: () => Promise<void>;
-  onEdgesType: (type: EdgeType, send: boolean) => Promise<void>;
+  onEdgesType: (type: EdgeType, send?: boolean) => Promise<void>;
 
   onConnect: OnConnect;
 
