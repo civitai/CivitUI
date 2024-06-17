@@ -1,11 +1,21 @@
+import config from "@/app/config";
+
 import type { NodeId, PersistedGraph, PersistedNode, Widget } from "@/types";
 import { Connection } from "@/types";
 import { Node, PromptRequest, PromptResponse, Settings, Queue } from "@/types/client";
 import { checkInput, getBackendUrl } from "@/utils";
 
+import initMocks from "@/mock";
+
+export const readyServer = async () => {
+  if (process.env.NODE_ENV === "development") {
+    await initMocks(); // Enable mocking
+    console.table({ host: config.host, isMock: true });
+  }
+}
+
 export const getSettings = async (): Promise<Settings> =>
   (await fetch(getBackendUrl("/settings"))).json();
-  
 
 export const sendSetting = async (id: string, value: any): Promise<void> => {
   await fetch(getBackendUrl(`/settings/${id}`), {

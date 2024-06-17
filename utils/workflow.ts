@@ -3,7 +3,6 @@
 import { SDNode } from "@/types";
 import { v4 as uuid } from "uuid";
 import { toast } from "sonner";
-import objectInfo from "@/mock/object_info.json";
 
 interface ObjectInfo {
   [key: string]: {

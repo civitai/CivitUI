@@ -1,4 +1,6 @@
 import {
+  readyServer,
+
   createPrompt,
   deleteFromQueue,
   getSettings,
@@ -67,6 +69,8 @@ export const useAppStore = create<AppState>()(
     },
 
     onInit: async () => {
+      await readyServer(); // Wait for mock
+
       setInterval(() => get().onPersistTemp(), 5000);
       const settings = await getSettings();
 
