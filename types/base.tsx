@@ -20,11 +20,11 @@ export const edgeTypeList: EdgeType[] = [
     name: "step",
   },
   {
-    icon: <CornerBottomRightIcon />,
-    name: "default",
+    icon: <BorderSolidIcon />,
+    name: "linear",
   },
   {
-    icon: <BorderSolidIcon />,
-    name: "straight",
+    icon: <CornerBottomRightIcon />,
+    name: "spline",
   },
 ];

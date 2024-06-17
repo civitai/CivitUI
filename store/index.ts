@@ -45,7 +45,7 @@ export const useAppStore = create<AppState>()(
     edges: [] as Edge[],
     queue: [],
     gallery: [],
-    edgeType: edgeTypeList[1],
+    edgeType: edgeTypeList[2],
     nodeInProgress: undefined,
     promptError: undefined,
     clientId: undefined,
