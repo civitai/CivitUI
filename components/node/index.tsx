@@ -135,14 +135,14 @@ const NodeComponent = (node: NodeProps<Widget>) => {
         <ContextMenuItem
           key="rename"
           onClick={() => setNicknameInput(true)}
-          className="gap-2"
+          className="gap-1 text-xs"
         >
           <Pencil1Icon />
           Rename
         </ContextMenuItem>
 
         <ContextMenuSub key="colors">
-          <ContextMenuSubTrigger className="gap-2">
+          <ContextMenuSubTrigger className="gap-2 text-xs">
             <ShadowIcon />
             Colors
           </ContextMenuSubTrigger>
@@ -150,7 +150,7 @@ const NodeComponent = (node: NodeProps<Widget>) => {
             {ColorMenu.map((child, index) => (
               <ContextMenuItem
                 key={index}
-                className="gap-3"
+                className="gap-2 text-xs"
                 onClick={() => handleNodeColor(child.name as string)}
               >
                 {child.name ? child.label : "None"}
@@ -166,7 +166,7 @@ const NodeComponent = (node: NodeProps<Widget>) => {
         <ContextMenuItem
           key="copy"
           onClick={() => onDuplicateNode(node.id)}
-          className="gap-2"
+          className="gap-1 text-xs"
         >
           <CopyIcon />
           Copy
@@ -175,7 +175,7 @@ const NodeComponent = (node: NodeProps<Widget>) => {
         <ContextMenuItem
           key="delete"
           onClick={() => onDeleteNode(node.id)}
-          className="gap-2"
+          className="gap-1 text-xs"
         >
           <TrashIcon />
           Delete

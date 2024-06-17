@@ -56,7 +56,7 @@ const PreviewNode = ({ data }: PreviewNodeProps) => {
         damping: 20,
         duration: 0.15,
       }}
-      className="relative w-[350px]"
+      className="w-[350px]"
     >
       <NodeCard title={data.name} active={false} preview={true}>
         <div className="flex w-full items-stretch justify-between space-x-6">
