@@ -72,7 +72,7 @@ export const QueuePromptButton = () => {
   return (
     <Tooltip>
       {/* TODO: Fix MultiStepLoader */}
-      <Loader loadingStates={nodes} loading={loading} />
+      {/* <Loader loadingStates={nodes} loading={loading} /> */}
 
       <TooltipTrigger asChild>
         <Button
