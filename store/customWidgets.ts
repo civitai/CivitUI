@@ -8,14 +8,14 @@ const customWidgets: Record<WidgetKey, Widget> = {
     output: [],
     output_name: [],
     name: "Group",
-    category: "Utils",
+    category: "utils",
   },
   Reroute: {
     input: { required: { ["*"]: ["*"] } },
     output: ["*"],
     output_name: [],
     name: "Reroute",
-    category: "Utils",
+    category: "utils",
   },
 };
 

@@ -1,6 +1,6 @@
 "use client";
 
-import CanvasContextMenu from "@/components/canvas-context-menu";
+import NodeContextMenu from "@/components/node-menu";
 import ControlPanel from "@/components/control-panel";
 import FlowEditor from "@/components/flow-editor";
 import { ReactFlowProvider } from "reactflow";
@@ -9,9 +9,9 @@ export default function Home() {
   return (
     <div className="h-screen">
       <ReactFlowProvider>
-        <CanvasContextMenu>
+        <NodeContextMenu>
           <FlowEditor />
-        </CanvasContextMenu>
+        </NodeContextMenu>
       </ReactFlowProvider>
       <ControlPanel />
     </div>
