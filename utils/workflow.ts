@@ -26,7 +26,8 @@ interface ObjectInfo {
   };
 }
 
-const objectInfoTyped: ObjectInfo = objectInfo;
+// const objectInfoTyped: ObjectInfo = objectInfo;
+const objectInfoTyped: any = objectInfo;
 
 const requiredTopLevelProperties = [
   "last_node_id",

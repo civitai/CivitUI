@@ -8,39 +8,23 @@ import {
 export type WidgetKey = string;
 export type PropertyKey = string;
 export type NodeId = string;
-/**
- * Types of connections
- * - 'default' Default type
- * - 'step' Polyline
- * - 'smoothstep' Smooth polyline
- * - 'straight' Straight line
- */
-export type EdgeTypes = "default" | "step" | "straight";
 
-export const edgeTypeIcon = {
-  default: <CornerBottomRightIcon />,
-  straight: <BorderSolidIcon />,
-  step: <BorderDashedIcon />,
-  smoothstep: <BorderDottedIcon />,
-};
+export type EdgeType = {
+  icon: JSX.Element;
+  name: string;
+}
 
-export const EdgeTypeList = ({ onEdgesType }: any) => [
+export const edgeTypeList: EdgeType[] = [
   {
-    icon: edgeTypeIcon.default,
-    label: "Bezier",
-    key: "default",
-    onClick: () => onEdgesType("default"),
+    icon: <BorderDashedIcon />,
+    name: "step",
   },
   {
-    icon: edgeTypeIcon.straight,
-    label: "Straight",
-    key: "straight",
-    onClick: () => onEdgesType("straight"),
+    icon: <CornerBottomRightIcon />,
+    name: "default",
   },
   {
-    icon: edgeTypeIcon.step,
-    label: "Step",
-    key: "step",
-    onClick: () => onEdgesType("step"),
+    icon: <BorderSolidIcon />,
+    name: "straight",
   },
 ];

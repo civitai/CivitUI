@@ -1,51 +1,97 @@
 import { Dialog, DialogTrigger, DialogPortal, DialogContent, DialogTitle, DialogDescription, DialogClose } from '@radix-ui/react-dialog';
+import { Select, SelectContent, SelectItem, SelectIcon, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Cross2Icon } from '@radix-ui/react-icons';
 import { Button } from "@/components/ui/button";
+import { startCase } from "lodash-es";
 import { useAppStore } from "@/store";
-import { EdgeTypeList } from "@/types";
+import { edgeTypeList } from "@/types";
 import { useShallow } from "zustand/react/shallow";
+import { EdgeType } from "@/types";
 
-export const SettingsModal = ({ setOpen }: any) => {
-    const { edgeType, onEdgesType } = useAppStore(
-        useShallow((state) => ({
+type SettingOption<T> = {
+    label: string;
+    item: (options: T[]) => JSX.Element;
+    options: T[];
+}
+
+type SettingsOptions = [
+    SettingOption<string>, 
+    SettingOption<EdgeType>
+];
+
+export const SettingsModal = ({ open, setOpen }: any) => {
+    const { 
+        edgeType, 
+        onEdgesType,
+    } = useAppStore(useShallow((state) => ({
           edgeType: state.edgeType,
           onEdgesType: state.onEdgesType,
         }))
     );
 
-    const settings = [
+    const settings: SettingsOptions = [
         {
             label: 'Client Frontend',
-            key: 'Comfy.Frontend',
-            type: 'combo',
-            options: [
-                { label: 'classic', value: 'classic' },
-                { label: 'sabre', value: 'sabre' },
-            ],
+            item: (options: string[]) => 
+                <Select>
+                    <SelectTrigger className="w-32">
+                        <SelectValue placeholder="sabre" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {options.map((option) => (
+                            <SelectItem key={option} value={option}>
+                                {option}
+                            </SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>,
+            options: ['classic', 'sabre'],
         },
         {
             label: 'Edge Type',
-            key: 'Comfy.LinkRenderMode',
-            type: 'combo',
-            options: [
-                { label: 'Bezier', value: 1 },
-                { label: 'Straight', value: 2 },
-                { label: 'Step', value: 0 },
-            ],
+            item: (options: EdgeType[]) =>
+                <Select value={edgeType.name} onValueChange={n => onEdgesType(edgeTypeList.find(e => e.name === n) as EdgeType)}>
+                    <SelectTrigger className="w-32">
+                        <SelectValue placeholder={
+                            <div className="flex flex-row justify-start gap-2 items-center w-full">
+                                {edgeType.icon}
+                                {startCase(edgeType.name)}
+                            </div>
+                        } />
+                    </SelectTrigger>
+                    <SelectContent className="w-full">
+                        {options.map((option) => (
+                            <SelectItem className="w-full" key={option.name} value={option.name}>
+                                <div className="flex flex-row justify-start gap-2 items-center w-full">
+                                    {option.icon}
+                                    {startCase(option.name)}
+                                </div>
+                            </SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>,
+            options: edgeTypeList,
         }
     ]
 
     return (
         <DialogPortal>
-            <DialogContent className="fixed inset-0 z-50 flex items-center flex-col justify-center p-4">
-                <div className="bg-black p-1 rounded-lg shadow-lg relative">
+            <DialogContent className="absolute inset-0 w-96 h-52 p-4 mx-auto my-auto bg-black rounded-[12px]">
+                <div className="w-full h-full bg-black p-1 shadow-lg relative">
                     <DialogTitle className="text-lg font-bold mt-0.5 mr-10">Settings</DialogTitle>
-                    {/* Add your settings form or content here */}
                     <DialogClose asChild>
                         <Button className="absolute top-0 right-2 p-1 bg-transparent hover:bg-transparent border-none shadow-none" onClick={() => setOpen(false)} variant="outline">
                             <Cross2Icon />
                         </Button>
                     </DialogClose>
+                    <div className="flex flex-col gap-2 mt-4">
+                        {settings.map((setting: any) => (
+                            <div key={setting.label} className="flex flex-row justify-between items-center gap-1">
+                                <label className="text-sm font-semibold">{setting.label}</label>
+                                {setting.item(setting.options)}
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </DialogContent>
         </DialogPortal>
