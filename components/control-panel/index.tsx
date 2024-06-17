@@ -174,7 +174,7 @@ const ControlPanel = () => {
               </Button>
             </DialogTrigger>
           </TooltipButton>
-          <SettingsModal setOpen={setIsSettingsModalOpen} />
+          <SettingsModal open={isSettingsModalOpen} setOpen={setIsSettingsModalOpen} />
         </Dialog>
       </div>
     </TooltipProvider>

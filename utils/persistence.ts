@@ -49,7 +49,11 @@ export const cleanTempWorkflow = (): void => {
  * @returns Persisted state or null
  */
 export const retrieveTempWorkflow = (): PersistedGraph | null => {
-  const item = localStorage.getItem(TEMP_KEY);
+  let item = localStorage.getItem(TEMP_KEY);
+  if (item === JSON.stringify({ data: {}, connections: [] })) {
+    localStorage.removeItem(TEMP_KEY);
+    item = null;
+  }
   return item ? JSON.parse(item) : defaultWorkflow;
 };
 

@@ -1,10 +1,13 @@
 import {
   createPrompt,
   deleteFromQueue,
+  getSettings,
   getWidgetLibrary as getWidgets,
   sendPrompt,
+  sendSetting,
 } from "@/app/client";
-import type { Connection, EdgeTypes, PersistedGraph } from "@/types";
+import type { Connection, PersistedGraph } from "@/types";
+import { edgeTypeList } from "@/types";
 import {
   addConnection,
   addNode,
@@ -42,7 +45,7 @@ export const useAppStore = create<AppState>()(
     edges: [] as Edge[],
     queue: [],
     gallery: [],
-    edgeType: "default",
+    edgeType: edgeTypeList[1],
     nodeInProgress: undefined,
     promptError: undefined,
     clientId: undefined,
@@ -65,11 +68,18 @@ export const useAppStore = create<AppState>()(
 
     onInit: async () => {
       setInterval(() => get().onPersistTemp(), 5000);
+      const settings = await getSettings();
+
       const widgets = await getWidgets();
       set({ widgets: { ...customWidgets, ...widgets } }, false, "onInit");
+
       get().onLoadWorkflow(
-        retrieveTempWorkflow() ?? { data: {}, connections: [] }
+        retrieveTempWorkflow()
       );
+
+      // Initialize settings
+      const edgeType = edgeTypeList[parseInt(settings["Comfy.LinkRenderMode"])];
+      get().onEdgesType(edgeType, false);
     },
 
     /******************************************************
@@ -382,21 +392,33 @@ export const useAppStore = create<AppState>()(
       );
     },
 
-    onEdgesType: (type: EdgeTypes) => {
+    /******************************************************
+     ********************* Settings ***********************
+     ******************************************************/
+
+    onUpdateFrontend: async () => {
+      await sendSetting("Comfy.Frontend", "classic");
+      window.location.reload();
+    },
+
+    onEdgesType: async (edgeType, send = true) => {
+      const type = edgeType.name;
       set(
         (st) => ({
-          edgeType: type,
+          edgeType,
           edges: st.edges.map((e) => ({ ...e, type })),
         }),
         false,
         "onEdgesType"
       );
+      if (send) await sendSetting("Comfy.LinkRenderMode", edgeTypeList.indexOf(edgeType));
     },
 
     /******************************************************
      ********************* Connection ***********************
      ******************************************************/
     onConnect: (connection) => {
+      console.log("onConnect", connection);
       set((st) => addConnection(st, connection), false, "onConnect");
     },
 

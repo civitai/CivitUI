@@ -1,5 +1,11 @@
 import { NodeId, PropertyKey, WidgetKey } from "@/types";
 
+export interface Settings {
+  "Comfy.Frontend": string;
+  "Comfy.LinkRenderMode": string;
+  [key: string]: string;
+}
+
 export interface PromptRequest {
   client_id?: string;
   prompt: Record<NodeId, Node>;

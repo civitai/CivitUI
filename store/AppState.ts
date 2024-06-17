@@ -1,5 +1,5 @@
 import type {
-  EdgeTypes,
+  EdgeType,
   GalleryItem,
   ImageItem,
   NodeId,
@@ -30,15 +30,16 @@ export interface AppState {
   edges: Edge[];
   queue: QueueItem[];
   gallery: GalleryItem[];
-  edgeType: EdgeTypes;
+  edgeType: EdgeType;
   nodeInProgress?: NodeInProgress;
   promptError?: string;
   clientId?: string;
 
+  
   onSetPage: (value: string) => void;
+  onNewClientId: (id: string) => void;
   onRefresh: () => Promise<void>;
   onInit: () => Promise<void>;
-  onNewClientId: (id: string) => void;
 
   onCreateGroup: () => void;
   onSetNodesGroup: (childIds: NodeId[], groupNode: Node) => void;
@@ -63,7 +64,9 @@ export interface AppState {
 
   onEdgesChange: OnEdgesChange;
   onEdgesAnimate: (animated: boolean) => void;
-  onEdgesType: (type: EdgeTypes) => void;
+
+  onUpdateFrontend: () => Promise<void>;
+  onEdgesType: (type: EdgeType, send: boolean) => Promise<void>;
 
   onConnect: OnConnect;
 

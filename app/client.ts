@@ -1,13 +1,25 @@
 import type { NodeId, PersistedGraph, PersistedNode, Widget } from "@/types";
 import { Connection } from "@/types";
-import { Node, PromptRequest, PromptResponse, Queue } from "@/types/client";
+import { Node, PromptRequest, PromptResponse, Settings, Queue } from "@/types/client";
 import { checkInput, getBackendUrl } from "@/utils";
 import objectInfo from "@/mock/object_info.json";
+import settings from "@/mock/settings.json";
 
-export const getWidgetLibrary = async (): Promise<any> => {
-  return objectInfo;
-  // return (await fetch(getBackendUrl("/object_info"))).json();
-};
+export const getSettings = async (): Promise<Settings> =>
+  settings;
+  // (await fetch(getBackendUrl("/setting"))).json();
+  
+
+export const sendSetting = async (id: string, value: any): Promise<void> => {
+  await fetch(getBackendUrl(`/setting/${id}`), {
+    method: "POST",
+    body: JSON.stringify(value),
+  });
+}
+
+export const getWidgetLibrary = async (): Promise<any> =>
+  objectInfo;
+  // (await fetch(getBackendUrl("/object_info"))).json();
 
 export const getQueue = async (): Promise<Queue> =>
   (await fetch(getBackendUrl("/queue"))).json();
@@ -90,7 +102,6 @@ export const createPrompt = ({
 
   // Reconnection
   let connections = reconnection(graph.connections);
-  console.log(connections);
 
   connections.forEach((edge) => {
     const source = graph.data[edge.source];
