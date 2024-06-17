@@ -3,7 +3,7 @@
 import { SDNode } from "@/types";
 import { v4 as uuid } from "uuid";
 import { toast } from "sonner";
-import objectInfo from "../mock/object_info.json";
+import objectInfo from "@/mock/object_info.json";
 
 interface ObjectInfo {
   [key: string]: {
@@ -27,7 +27,6 @@ interface ObjectInfo {
 }
 
 // const objectInfoTyped: ObjectInfo = objectInfo;
-const objectInfoTyped: any = objectInfo;
 
 const requiredTopLevelProperties = [
   "last_node_id",
@@ -84,7 +83,7 @@ export function validateNonAPIFormat(data: any) {
 
 const control = ["fixed", "increment", "decrement", "randomize"];
 
-export function transformData(inputJson: any): any {
+export function transformData(inputJson: any, widgets: any): any {
   console.log("inputJson.links:", inputJson.links);
 
   const outputJson: any = { data: {}, connections: [] };
@@ -96,7 +95,7 @@ export function transformData(inputJson: any): any {
   inputJson.nodes.forEach((node: any) => {
     const nodeKey = `node-${node.id}`;
     nodeIdMap[node.id] = nodeKey;
-    const nodeInfo = objectInfoTyped[node.type];
+    const nodeInfo = widgets[node.type];
     if (!nodeInfo) {
       missingNodeTypes.push(node.type);
       return; // Skip further processing for this node

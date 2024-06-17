@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { ImagePreview } from "@/components/node";
 import { getBackendUrl } from "@/utils";
 import Image from "next/image";
@@ -9,8 +10,10 @@ interface NodeImgPreviewProps {
 }
 
 const NodeImgPreview = ({ data }: NodeImgPreviewProps) => {
+  const [error, setError] = useState<boolean>(false);
+
   const renderImage = useCallback(
-    ({ image, index }: ImagePreview) => (
+    ({ image, index }: ImagePreview) =>
       <Image
         width={500}
         height={500}
@@ -19,13 +22,12 @@ const NodeImgPreview = ({ data }: NodeImgPreviewProps) => {
         src={getBackendUrl(
           queryString.stringifyUrl({ url: `/view`, query: image })
         )}
+        onError={() => setError(true)}
         unoptimized
-      />
-    ),
-    []
+      />, []
   );
 
-  if (!data || data.length === 0) return null;
+  if (!data || data.length === 0 || error) return null;
   return <div>{data.map(renderImage).reverse()}</div>;
 };
 
