@@ -9,7 +9,6 @@ import { PlayIcon, FilePlusIcon, MoveIcon, PinTopIcon, PinBottomIcon, TrashIcon,
 import { WorkflowPage } from "./workflow-page";
 import { ClearDialog } from "./clear-dialog";
 import { SettingsModal } from "./settings-modal";
-import { MultiStepLoader as Loader } from "@/components/ui/multi-step-loader";
 import { useAppStore } from "@/store";
 import { useShallow } from "zustand/react/shallow";
 import { toast } from "sonner";
@@ -71,9 +70,6 @@ export const QueuePromptButton = () => {
 
   return (
     <Tooltip>
-      {/* TODO: Fix MultiStepLoader */}
-      {/* <Loader loadingStates={nodes} loading={loading} /> */}
-
       <TooltipTrigger asChild>
         <Button
           className={cn(
