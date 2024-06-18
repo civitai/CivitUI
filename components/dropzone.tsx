@@ -40,11 +40,6 @@ export default function Dropzone({ onUpload }: DropzoneProps) {
       );
     }
 
-    if (selectedFile.size > 102400) {
-      // 100KB in bytes
-      return setFileDropError("File size exceeds the maximum limit of 100KB.");
-    }
-
     setFile(selectedFile);
     setFileDropError("");
     onUpload(selectedFile);
@@ -61,11 +56,6 @@ export default function Dropzone({ onUpload }: DropzoneProps) {
       return setFileDropError(
         "Invalid file type! Only JSON files are accepted."
       );
-    }
-
-    if (selectedFile.size > 102400) {
-      // 100KB in bytes
-      return setFileDropError("File size exceeds the maximum limit of 100KB.");
     }
 
     setFile(selectedFile);
@@ -119,7 +109,7 @@ export default function Dropzone({ onUpload }: DropzoneProps) {
               Load a workspace or drag & drop it here
             </p>
             <p className="text-neutral-500 text-sm">
-              Only JSON files. Up to 100 KB.
+              Only JSON files.
             </p>
           </div>
         </label>
