@@ -60,7 +60,7 @@ const NodeHandle = ({
           className="mb-1"
           title={Array.isArray(slotType) ? "STRING" : slotType}
         >
-          {startCase(label.toLowerCase())}
+          {startCase(label.toLowerCase?.())}
         </h5>
       </Slot>
     </>
