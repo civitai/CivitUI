@@ -19,7 +19,6 @@ interface DropzoneProps {
 
 export default function Dropzone({ onUpload }: DropzoneProps) {
   const [file, setFile] = useState<File | null>(null);
-  const [loadingState, setLoadingState] = useState<boolean>(false);
   const [fileDropError, setFileDropError] = useState<string>("");
 
   const { dragOver, setDragOver, onDragOver, onDragLeave } = useDragDrop();
@@ -63,27 +62,9 @@ export default function Dropzone({ onUpload }: DropzoneProps) {
     onUpload(selectedFile);
   };
 
-  const simulateLoading = () => {
-    if (!file) return;
-
-    setLoadingState(true);
-
-    const duration = Math.max(1000, Math.min(file.size / 750, 4000));
-
-    setTimeout(() => {
-      setLoadingState(false);
-    }, duration);
-  };
-
   const handleDelete = () => {
     setFile(null);
   };
-
-  useEffect(() => {
-    if (file && !loadingState) {
-      simulateLoading();
-    }
-  }, [file]);
 
   return (
     <>
@@ -143,14 +124,6 @@ export default function Dropzone({ onUpload }: DropzoneProps) {
                 </p>
               </div>
               <div className="flex flex-row justify-end items-center gap-2">
-                {loadingState ? (
-                  <Loader2 className="h-4 w-4 animate-spin text-neutral-500" />
-                ) : (
-                  <div className="flex flex-row justify-start items-center text-xs rounded-full px-2 py-[0.5px] gap-1">
-                    <div className="h-2 w-2 bg-green-400 rounded-full" />
-                    <p className="text-neutral-500">Uploaded</p>
-                  </div>
-                )}
                 <button
                   className="text-neutral-400 p-1 rounded-lg hover:text-black transition-all hover:cursor-pointer"
                   onClick={handleDelete}
