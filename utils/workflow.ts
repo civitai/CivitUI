@@ -95,9 +95,11 @@ export function transformData(inputJson: any, widgets: any): any {
     const nodeKey = `node-${node.id}`;
     nodeIdMap[node.id] = nodeKey;
     const nodeInfo = widgets[node.type];
+
     if (!nodeInfo) {
+      console.log("missing node type: ", node.type);
       missingNodeTypes.push(node.type);
-      return; // Skip further processing for this node
+      return;
     }
 
     const nodeItem: SDNode = {
