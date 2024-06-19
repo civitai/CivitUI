@@ -1,6 +1,5 @@
 import {
   readyServer,
-
   createPrompt,
   deleteFromQueue,
   getSettings,
