@@ -115,7 +115,7 @@ const NodeComponent = (node: NodeProps<Widget>) => {
         {isInProgress
           ? progressBar > 0 && (
               <Progress
-                className="h-2 w-full border"
+                className="absolute h-2 w-[40%] right-2 top-16 border"
                 value={Math.floor(progressBar * 100)}
               />
             )
