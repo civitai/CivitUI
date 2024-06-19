@@ -5,7 +5,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Dialog, DialogTrigger } from '@radix-ui/react-dialog';
 import { Button } from "@/components/ui/button";
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
-import { PlayIcon, FilePlusIcon, MoveIcon, PinTopIcon, PinBottomIcon, TrashIcon, GearIcon } from "@radix-ui/react-icons";
+import { PlayIcon, FilePlusIcon, MoveIcon, ChevronDownIcon, ChevronUpIcon, TrashIcon, GearIcon } from "@radix-ui/react-icons";
 import { WorkflowPage } from "./workflow-page";
 import { ClearDialog } from "./clear-dialog";
 import { SettingsModal } from "./settings-modal";
@@ -141,7 +141,7 @@ const ControlPanel = () => {
             className="relative rounded-3xl shadow-lg hover:bg-background hover:rounded-lg transition-all duration-200 h-12 w-12"
             variant="outline"
           >
-            {isExpanded ? <PinTopIcon /> : <PinBottomIcon />}
+            {isExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
           </Button>
         </TooltipButton>
         <Dialog open={isClearDialogOpen} onOpenChange={setIsClearDialogOpen}>
