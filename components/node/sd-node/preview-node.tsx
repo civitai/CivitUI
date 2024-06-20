@@ -34,7 +34,7 @@ const PreviewNode = ({ data }: PreviewNodeProps) => {
     const params: any[] = [];
     const inputs: any[] = [];
 
-    Object.entries(data.input.required).forEach(([property, input]) => {
+    Object.entries({...data.input.required, ...data.input.optional}).forEach(([property, input]) => {
       if (checkInput.isParameterOrList(input)) {
         params.push({ name: property, type: input[0], input });
       } else {
