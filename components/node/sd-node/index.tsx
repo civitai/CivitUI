@@ -36,9 +36,11 @@ const SdNode = ({ id, data: { input, output } }: NodeProps<Widget>) => {
     }))
   );
 
+  const inputsData = {...input.required, ...input.optional};
+
   const params = useMemo(() => {
     const paramsList: any[] = [];
-    Object.entries(input.required).forEach(([property, inputType]) => {
+    Object.entries(inputsData).forEach(([property, inputType]) => {
       if (checkInput.isParameterOrList(inputType)) {
         paramsList.push({
           name: property,
@@ -52,7 +54,7 @@ const SdNode = ({ id, data: { input, output } }: NodeProps<Widget>) => {
 
   const inputs = useMemo(() => {
     const inputsList: any[] = [];
-    Object.entries(input.required).forEach(([property, inputType]) => {
+    Object.entries(inputsData).forEach(([property, inputType]) => {
       if (!checkInput.isParameterOrList(inputType)) {
         inputsList.push({ name: property, type: inputType[0] });
       }

@@ -63,9 +63,8 @@ const WorkflowPageComponent = () => {
       if (graph) {
         onLoadWorkflow(graph);
         setCount(count + 1);
-        toast.success(`Success! ${name} have been loaded.`);
       } else {
-        toast.error(`Error! Invalid workflow data.`);
+        toast.error(`${name} is invalid.`);
       }
     },
     [count, onLoadWorkflow]
@@ -76,7 +75,7 @@ const WorkflowPageComponent = () => {
     (id: string, name: string) => {
       onUpdateLocalWorkFlowGraph(id);
       setCount(count + 1);
-      toast.success(`Success! ${name} have been update.`);
+      toast.success(`${name} successfully updated.`);
     },
     [count, onUpdateLocalWorkFlowGraph]
   );
@@ -86,7 +85,7 @@ const WorkflowPageComponent = () => {
     (id: string, name: string) => {
       onUpdateLocalWorkFlowTitle(id, name);
       setCount(count + 1);
-      toast.success(`Success! the workflow have been renamed to ${name} .`);
+      toast.success(`Workflow successfully renamed to ${name}.`);
     },
     [count, onUpdateLocalWorkFlowTitle]
   );
@@ -96,7 +95,6 @@ const WorkflowPageComponent = () => {
     cleanTempWorkflow();
     onLoadWorkflow(defaultWorkflow);
     setCount(count + 1);
-    toast.success(`Success! load default workflow.`);
   }, [count, onLoadWorkflow]);
 
   // Upload workflow file
@@ -105,9 +103,8 @@ const WorkflowPageComponent = () => {
       readWorkflowFromFile(file, (workflow) => {
         if (workflow) {
           onLoadWorkflow(workflow);
-          toast.success(`Success! the workflow have been loaded.`);
         } else {
-          toast.error(`Error! Invalid workflow file.`);
+          toast.error(`Invalid workflow file.`);
         }
       });
     },
@@ -120,7 +117,7 @@ const WorkflowPageComponent = () => {
       if (Array.isArray(workflows)) {
         setLocalWorkflowList(workflows.sort((a, b) => b.time - a.time));
       } else {
-        console.error("Invalid local workflows data");
+        console.error("Invalid local workflow data.");
       }
     } catch (error) {
       console.error("Error retrieving local workflows:", error);
