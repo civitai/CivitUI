@@ -11,14 +11,14 @@
         "2": {
           "class_type": "CLIPTextEncode",
           "inputs": {
-            "text": "best quality,masterpiece,highres,original,extremely detailed wallpaper,perfect lighting,extremely detailed CG,blurry background, pbcmf,bodysuit,cleavage,pink hair,coif,bcmf,jacket,red hair,black coif`",
+            "text": "beautiful nature scenery glass bottle landscape, purple galaxy bottle`",
             "clip": ["1", 1]
           }
         },
         "3": {
           "class_type": "CLIPTextEncode",
           "inputs": {
-            "text": "(worst quality:1.2), (low quality:1.2)",
+            "text": "text, watermark",
             "clip": ["1", 1]
           }
         },
@@ -1141,3 +1141,5 @@
     }
   }
 }
+
+
