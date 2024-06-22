@@ -5,7 +5,7 @@ import { Toaster } from "sonner"
 
 type ToasterProps = React.ComponentProps<typeof Toaster>
 
-export default ({ ...props }: ToasterProps) => {
+export default Object.assign(({ ...props }: ToasterProps) => {
   const { theme = "system" } = useTheme()
 
   return (
@@ -27,4 +27,4 @@ export default ({ ...props }: ToasterProps) => {
       {...props}
     />
   )
-}
+}, { displayName: 'Toaster' })
