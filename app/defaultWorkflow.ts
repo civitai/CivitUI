@@ -79,7 +79,7 @@ const defaultWorkflow: PersistedGraph = {
           "value": {
               "widget": "CLIPTextEncode",
               "fields": {
-                  "text": "(worst quality:1.2), (low quality:1.2)"
+                  "text": "text, watermark"
               },
               "modify": {
                   "nickname": "Negative"
@@ -96,7 +96,7 @@ const defaultWorkflow: PersistedGraph = {
           "value": {
               "widget": "CLIPTextEncode",
               "fields": {
-                  "text": "best quality,masterpiece,highres,original,extremely detailed wallpaper,perfect lighting,extremely detailed CG,blurry background, pbcmf,bodysuit,cleavage,pink hair,coif,bcmf,jacket,red hair,black coif"
+                  "text": "beautiful nature scenery glass bottle landscape, , purple galaxy bottle,"
               },
               "modify": {
                   "nickname": "Positive"
