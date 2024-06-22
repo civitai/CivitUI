@@ -103,9 +103,10 @@ const NodeComponent = (node: NodeProps<Widget>) => {
           />
         ) : (
           <div
-            className={`w-fit inline-flex h-9 px-4 ${
+            className={`w-fit ${
               isInProgress ? "animate-shimmer" : ""
-            } text-sm items-center justify-center rounded-full border border-opacity-40 dark:border-slate-800 bg-[linear-gradient(110deg,rgba(240,241,243,0.5),45%,rgba(254,254,254,0.5),55%,rgba(240,241,243,0.5))] dark:bg-[linear-gradient(110deg,rgba(0,1,3,0.5),45%,rgba(30,38,49,0.5),55%,rgba(0,1,3,0.5))] bg-[length:200%_100%]`}
+            // } text-sm items-center justify-center rounded-full border border-opacity-40 dark:border-slate-800 bg-[linear-gradient(110deg,rgba(240,241,243,0.5),45%,rgba(254,254,254,0.5),55%,rgba(240,241,243,0.5))] dark:bg-[linear-gradient(110deg,rgba(0,1,3,0.5),45%,rgba(30,38,49,0.5),55%,rgba(0,1,3,0.5))] bg-[length:200%_100%]`}
+            } text-sm rounded-full`}
             onDoubleClick={() => setNicknameInput(true)}
           >
             {name}
