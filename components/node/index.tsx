@@ -98,6 +98,9 @@ const NodeComponent = (node: NodeProps<Widget>) => {
               if (e.key === "Backspace") {
                 e.stopPropagation();
               }
+              if (["Enter", "Escape"].includes(e.key)) {
+                (e.target as HTMLElement).blur()
+              }
             }}
             onBlur={handleNickname}
             className="nodrag"
