@@ -40,6 +40,12 @@ const NodeHandle = ({
     [nodes]
   );
 
+  const positionStyles = {
+    left: position === Position.Left ? "-6.5px" : "auto",
+    right: position === Position.Right ? "-6.5px" : "auto",
+    transform: "translate(0, -30%)",
+  };
+
   return (
     <>
       <Slot position={position} isRequired={isRequired ? 1 : 0}>
@@ -53,6 +59,7 @@ const NodeHandle = ({
               width: "12px",
               height: "12px",
               boxShadow: "0px 0px 12px rgba(72, 66, 66, 0.4)",
+              ...positionStyles,
             }}
           />
         ) : null}
