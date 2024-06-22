@@ -128,7 +128,7 @@ const NodeComponent = (node: NodeProps<Widget>) => {
   return (
     <ContextMenu>
       <ContextMenuTrigger>
-        <NodeCard active={isInProgress} title={<Title />} node={node}>
+        <NodeCard active={isInProgress} selected={isSelected} title={<Title />} node={node}>
           <SdNode {...node} />
         </NodeCard>
       </ContextMenuTrigger>

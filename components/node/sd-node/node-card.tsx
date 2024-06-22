@@ -11,6 +11,7 @@ import { colorMap } from "../color-menu";
 
 interface NodeCardProps {
   active: boolean;
+  selected?: boolean;
   title?: React.ReactNode;
   className?: string;
   preview?: boolean;
@@ -43,6 +44,7 @@ const highlight =
 
 const NodeCard = ({
   active,
+  selected = false,
   title,
   preview = false,
   node,
@@ -52,6 +54,7 @@ const NodeCard = ({
   const [hovered, setHovered] = useState<boolean>(true);
   const [direction, setDirection] = useState<Direction>("TOP");
   const activeClass = active ? "shadow-lg" : "";
+  const selectedClass = selected ? "border-white" : "";
 
   const color = node?.data?.color || "";
   const bgColor = theme === "light" ? "white" : "black";
@@ -59,7 +62,7 @@ const NodeCard = ({
   return (
     <Card
       className={cn(
-        `${activeClass} drag-handle relative hover:shadow-lg`,
+        `${activeClass} ${selectedClass} drag-handle relative hover:shadow-lg`,
         "rounded-xl transition duration-200 overflow-visible"
       )}
       onMouseEnter={(event: React.MouseEvent<HTMLDivElement>) => {
