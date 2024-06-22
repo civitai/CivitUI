@@ -2,8 +2,6 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { useShallow } from "zustand/react/shallow";
-import { useTheme } from "next-themes";
-import { mix, rgba } from "polished";
 import { NodeResizer, type NodeProps } from "reactflow";
 
 import { useAppStore } from "@/store";
@@ -13,7 +11,6 @@ import { ColorMenu, colorList } from "@/components/node/color-menu";
 import { Progress } from "@/components/ui/progress";
 
 import SdNode from "./sd-node";
-import { GroupCard } from "./style";
 import NodeCard from "./sd-node/node-card";
 import {
   ContextMenu,
@@ -43,7 +40,6 @@ const NodeComponent = (node: NodeProps<Widget>) => {
   const ref = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { theme } = useTheme();
   const [nicknameInput, setNicknameInput] = useState(false);
 
   const { progressBar, onDuplicateNode, onDeleteNode, onModifyChange } =
@@ -83,7 +79,7 @@ const NodeComponent = (node: NodeProps<Widget>) => {
 
   useEffect(() => {
     if (nicknameInput && inputRef.current) {
-      inputRef.current.focus();
+      setTimeout(() => inputRef.current?.focus(), 1); // hate this stupid ass hack but dunno how to fix
     }
   }, [nicknameInput]);
 
