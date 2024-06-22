@@ -165,10 +165,6 @@ const FlowEditor = ({ strength = -1000, distance = 1000 }) => {
       if (ctrlKey) {
         const action = ctrlAction[event.code];
         if (action) action();
-      } else if (event.code === "Delete" || event.code === "Backspace") {
-        reactFlowInstance
-          .getNodes()
-          .forEach((n: any) => n.selected && onDeleteNode(n.id));
       }
     },
     [reactFlowInstance, handleCopy, handlePaste, onCreateGroup, onDeleteNode]
@@ -191,9 +187,10 @@ const FlowEditor = ({ strength = -1000, distance = 1000 }) => {
       snapGrid={[20, 20]}
       minZoom={0.05}
       multiSelectionKeyCode={["Shift"]}
-      deleteKeyCode={[]}
+      deleteKeyCode={["Delete", "Backspace"]}
       disableKeyboardA11y
       onNodesChange={onNodesChange}
+      onNodesDelete={n => n.forEach((node: any) => onDeleteNode(node.id))}
       onEdgesChange={onEdgesChange}
       onEdgeUpdate={onEdgeUpdate}
       onEdgeUpdateStart={onEdgeUpdateStart}
