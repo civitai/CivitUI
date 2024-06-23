@@ -94,7 +94,7 @@ const SliderInput: React.FC<SliderInputProps> = ({
           value={Number(inputValue)}
           onChange={(e) => handleChange(e)}
           onBlur={(e) => handleChange(e)}
-          className="nodrag min-w-[100px]"
+          className="nodrag min-w-[100px] text-muted-foreground focus:text-accent-foreground"
         />
       </div>
 

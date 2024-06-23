@@ -5,7 +5,6 @@ import { writeWorkflowToFile } from "@/utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
-import { Separator } from "@/components/ui/separator";
 
 interface WorkflowItemProps {
   item: LocalPersistedGraphs;
@@ -73,7 +72,7 @@ const WorkflowItem: React.FC<WorkflowItemProps> = ({
   return (
     <TooltipProvider delayDuration={0}>
       <ul className="list-none p-0 m-0">
-        <li key={item.id} className="border-b border-gray-200 last:border-b-0">
+        <li key={item.id} className="last:border-b-0">
           <div className="flex flex-col justify-between">
             <div className="flex justify-between">
               <div>
@@ -94,7 +93,6 @@ const WorkflowItem: React.FC<WorkflowItemProps> = ({
                   </TooltipTrigger>
                   <TooltipContent>Rename workflow</TooltipContent>
                 </Tooltip>
-                <Separator orientation="vertical" decorative/>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button className="bg-transparent text-white hover:bg-primary hover:text-black p-2 m-0" onClick={handleUpdateClick}>
@@ -103,7 +101,6 @@ const WorkflowItem: React.FC<WorkflowItemProps> = ({
                   </TooltipTrigger>
                   <TooltipContent>Overwrite with current</TooltipContent>
                 </Tooltip>
-                <Separator orientation="vertical" decorative/>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button className="bg-transparent text-white hover:bg-primary hover:text-black p-2 m-0" onClick={handleDownloadClick}>
@@ -112,7 +109,6 @@ const WorkflowItem: React.FC<WorkflowItemProps> = ({
                   </TooltipTrigger>
                   <TooltipContent>Download to disk</TooltipContent>
                 </Tooltip>
-                <Separator orientation="vertical" decorative/>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button className="bg-transparent text-white hover:bg-primary hover:text-black p-2 m-0" onClick={handleDeleteClick}>

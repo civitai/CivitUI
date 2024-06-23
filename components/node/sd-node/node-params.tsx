@@ -20,7 +20,7 @@ const NodeParams = ({ data, nodeId }: NodeParamsProps) => {
       {data.map(({ name, type, input }, index) => (
         <div
           key={name}
-          className={`grid ${
+          className={`text-muted-foreground focus:text-accent-foreground grid ${
             name === "text" ? "grid-cols-1" : "grid-cols-2"
           } items-center gap-2`}
         >

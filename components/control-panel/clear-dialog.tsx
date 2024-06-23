@@ -17,7 +17,7 @@ export const ClearDialog = ({ setOpen }: any) => (
 							Cancel
 						</Button>
 					</DialogClose>
-					<Button onClick={() => {
+					<Button variant="destructive" onClick={() => {
 						// Add your clear graph logic here
 						setOpen(false);
 					}}>

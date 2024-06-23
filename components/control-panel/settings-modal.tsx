@@ -94,6 +94,15 @@ export const SettingsModal = ({ open, setOpen }: any) => {
                             </div>
                         ))}
                     </div>
+                    <div className="flex flex-col gap-2 mt-4" style={{ float: 'right', margin: '6px' }} title="Recalculate Node Positions">
+                        <Button
+                            onClick={() => {}}
+                            className="relative rounded-3xl shadow-lg hover:bg-background hover:rounded-lg transition-all duration-200 h-12 w-12"
+                            variant="outline"
+                        >
+                            <MoveIcon />
+                        </Button>
+                    </div>
                 </div>
             </DialogContent>
         </DialogPortal>

@@ -147,7 +147,7 @@ const WorkflowPageComponent = () => {
         {localWorkflowList?.map((item, index) => (
           <li
             key={item.id}
-            className="border-b border-gray-200 last:border-b-0 list-none"
+            className="list-none"
           >
             <WorkflowItem
               item={item}
