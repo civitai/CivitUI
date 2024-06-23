@@ -44,6 +44,7 @@ const FlowEditor = ({ strength = -1000, distance = 1000 }) => {
     onInit,
     onNodesChange,
     onEdgesChange,
+    onSubmit,
     onConnect,
     onAddNode,
     onCopyNode,
@@ -58,6 +59,7 @@ const FlowEditor = ({ strength = -1000, distance = 1000 }) => {
       onInit: st.onInit,
       onNodesChange: debounce(st.onNodesChange, 1),
       onEdgesChange: debounce(st.onEdgesChange, 1),
+      onSubmit: st.onSubmit,
       onConnect: st.onConnect,
       onAddNode: st.onAddNode,
       onCopyNode: st.onCopyNode,
@@ -161,6 +163,7 @@ const FlowEditor = ({ strength = -1000, distance = 1000 }) => {
         KeyC: handleCopy,
         KeyV: handlePaste,
         KeyG: onCreateGroup,
+        Enter: onSubmit,
       };
       if (ctrlKey) {
         const action = ctrlAction[event.code];
