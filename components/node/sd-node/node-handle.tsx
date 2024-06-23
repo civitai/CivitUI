@@ -43,7 +43,7 @@ const NodeHandle = ({
   const positionStyles = {
     left: position === Position.Left ? "-6.5px" : "auto",
     right: position === Position.Right ? "-6.5px" : "auto",
-    transform: "translate(0, -30%)",
+    // transform: "translate(0, -30%)",
   };
 
   return (
@@ -64,7 +64,7 @@ const NodeHandle = ({
           />
         ) : null}
         <h5
-          className="mb-1"
+          className="mb-1 text-sm"
           title={Array.isArray(slotType) ? "STRING" : slotType}
         >
           {startCase(label.toLowerCase?.())}
