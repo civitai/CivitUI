@@ -1,5 +1,8 @@
 import { Dialog, DialogTrigger, DialogPortal, DialogContent, DialogTitle, DialogDescription, DialogClose } from '@radix-ui/react-dialog';
 import { Select, SelectContent, SelectItem, SelectIcon, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+
+import { MoveIcon } from "@radix-ui/react-icons";
 import { Cross2Icon } from '@radix-ui/react-icons';
 import { Button } from "@/components/ui/button";
 import { startCase } from "lodash-es";
@@ -7,6 +10,16 @@ import { useAppStore } from "@/store";
 import { edgeTypeList } from "@/types";
 import { useShallow } from "zustand/react/shallow";
 import { EdgeType } from "@/types";
+
+const TooltipButton = ({ content, children }: any) => 
+    <Tooltip>
+      <TooltipTrigger asChild>
+        {children}
+      </TooltipTrigger>
+      <TooltipContent side="left" className="text-xs">
+        {content}
+      </TooltipContent>
+    </Tooltip>
 
 type SettingOption<T> = {
     label: string;
@@ -94,15 +107,22 @@ export const SettingsModal = ({ open, setOpen }: any) => {
                             </div>
                         ))}
                     </div>
-                    <div className="flex flex-col gap-2 mt-4" style={{ float: 'right', margin: '6px' }} title="Recalculate Node Positions">
-                        <Button
-                            onClick={() => {}}
-                            className="relative rounded-3xl shadow-lg hover:bg-background hover:rounded-lg transition-all duration-200 h-12 w-12"
-                            variant="outline"
-                        >
-                            <MoveIcon />
-                        </Button>
-                    </div>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <div className="flex flex-col gap-2 mt-4" style={{ float: 'right', margin: '6px' }} title="Recalculate Node Positions">
+                                <Button
+                                    onClick={() => {}}
+                                    className="relative rounded-3xl shadow-lg hover:bg-background hover:rounded-lg transition-all duration-200 h-12 w-12"
+                                    variant="outline"
+                                >
+                                    <MoveIcon />
+                                </Button>
+                                </div>
+                            </TooltipTrigger>
+                            <TooltipContent side="left" className="text-xs bg-black text-white">
+                                    Recalculate node positions
+                            </TooltipContent>
+                        </Tooltip>
                 </div>
             </DialogContent>
         </DialogPortal>
