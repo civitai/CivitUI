@@ -45,8 +45,9 @@ const NodePickerGroup = ({
   };
 
   return (
+    // a nested menu inside the main context menu
     <ContextMenuSub>
-      <ContextMenuSubTrigger className="text-xs text-left py-0 my-0 px-1 w-full">
+      <ContextMenuSubTrigger className="text-xs text-center py-0 my-0 px-1 w-full">
         {category}
       </ContextMenuSubTrigger>
       <ContextMenuSubContent className="p-2">
@@ -67,8 +68,8 @@ const NodePickerGroup = ({
             <button
               key={i.name}
               className={cn(
-                "cursor-click shadow-sm -mt-px w-full text-left",
-                "relative z-0 hover:z-50 px-1 py-0.7 rounded border border-neutral-600 transition duration-200 hover:border-white bg-background text-neutral-200 text-xs"
+                "cursor-click shadow-sm -mt-px w-full text-left text-accent-foreground hover:text-muted-foreground",
+                "relative z-0 hover:z-50 px-1 py-0.7 rounded transition duration-200 border border-background hover:border-white bg-background text-xs"
               )}
               onClick={(e) => {
                 e.preventDefault();

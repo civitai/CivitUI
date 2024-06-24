@@ -63,7 +63,7 @@ const NodeCard = ({
     <Card
       className={cn(
         `${activeClass} ${selectedClass} drag-handle relative hover:shadow-lg`,
-        "rounded-xl transition duration-200 overflow-visible"
+        "rounded-xl transition duration-200 overflow-visible min-w-[17rem]"
       )}
       onMouseEnter={(event: React.MouseEvent<HTMLDivElement>) => {
         setHovered(true);

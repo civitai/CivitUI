@@ -43,12 +43,12 @@ export default function NodeContextMenu({
   <>
     <ContextMenu>
       <ContextMenuTrigger>{children}</ContextMenuTrigger>
-      <ContextMenuContent className="overflow-scroll">
+      <ContextMenuContent className="overflow-auto">
         <NodePicker setActiveItem={setActiveItem}/>
       </ContextMenuContent>
     </ContextMenu>
     { activeItem !== null && 
-      <div className={`fixed z-[60] ${previewPosition.x}-0 ${previewPosition.y}-0 bg-muted/50 p-8 rounded-lg border backdrop-blur-sm`}>
+      <div className={`fixed z-[60] ${previewPosition.x}-0 ${previewPosition.y}-0 text-accent-foreground bg-muted/50 p-8 rounded-lg border backdrop-blur-sm`}>
         <PreviewNode data={activeItem} />
       </div>
     }

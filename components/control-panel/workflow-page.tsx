@@ -44,7 +44,7 @@ const WorkflowPageComponent = () => {
   const handleSave = useCallback(() => {
     onSaveLocalWorkFlow(title);
     setCount(count + 1);
-    toast.success(`Success! ${title ?? "Your workflow"} have been saved.`);
+    toast.success(`Success! ${title ?? "Your workflow"} has been saved.`);
   }, [count, onSaveLocalWorkFlow, title]);
 
   // Delete local workflow
@@ -63,6 +63,7 @@ const WorkflowPageComponent = () => {
       if (graph) {
         onLoadWorkflow(graph);
         setCount(count + 1);
+        toast.success(`${name} successfully loaded.`);
       } else {
         toast.error(`${name} is invalid.`);
       }
@@ -103,6 +104,8 @@ const WorkflowPageComponent = () => {
       readWorkflowFromFile(file, (workflow) => {
         if (workflow) {
           onLoadWorkflow(workflow);
+          // setCount(count + 1);
+          // EXDYSA: needs a toast, but what is for?? WHO WAS PHONE!?!?
         } else {
           toast.error(`Invalid workflow file.`);
         }
@@ -143,7 +146,7 @@ const WorkflowPageComponent = () => {
       <Button className="bg-border hover:bg-black text-white mt-3 mx-5" onClick={handleSave}>Save</Button>
       <Dropzone onUpload={handleUpload} />
       <div>
-        <Label>Local Workflows</Label>
+        <Label className="text-neutral-500">Local Workflows</Label>
         {localWorkflowList?.map((item, index) => (
           <li
             key={item.id}

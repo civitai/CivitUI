@@ -75,7 +75,7 @@ const WorkflowItem: React.FC<WorkflowItemProps> = ({
         <li key={item.id} className="last:border-b-0">
           <div className="flex flex-col justify-between">
             <div className="flex justify-between">
-              <div>
+                <div className="text-muted-foreground hover:bg-primary h-7 m-1 p-2 hover:text-black flex items-center cursor-default" title="Load Workflow" style={{borderRadius: '5px'}}>
                 <a
                   title="Load"
                   onClick={handleLoadClick}
@@ -87,7 +87,7 @@ const WorkflowItem: React.FC<WorkflowItemProps> = ({
               <div className="flex justify-end items-center">
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button className="bg-transparent text-white hover:bg-primary hover:text-black p-2 m-0" onClick={handleEditClick}>
+                    <Button className="bg-transparent text-white hover:bg-primary hover:text-black p-2 m-0"  size="narrow" onClick={handleEditClick}>
                       <InputIcon />
                     </Button>
                   </TooltipTrigger>
@@ -95,7 +95,7 @@ const WorkflowItem: React.FC<WorkflowItemProps> = ({
                 </Tooltip>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button className="bg-transparent text-white hover:bg-primary hover:text-black p-2 m-0" onClick={handleUpdateClick}>
+                    <Button className="bg-transparent text-white hover:bg-primary hover:text-black p-2 m-0"  size="narrow"  onClick={handleUpdateClick}>
                       <Pencil2Icon />
                     </Button>
                   </TooltipTrigger>
@@ -103,7 +103,7 @@ const WorkflowItem: React.FC<WorkflowItemProps> = ({
                 </Tooltip>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button className="bg-transparent text-white hover:bg-primary hover:text-black p-2 m-0" onClick={handleDownloadClick}>
+                    <Button className="bg-transparent text-white hover:bg-primary hover:text-black p-2 m-0" size="narrow"  onClick={handleDownloadClick}>
                       <DownloadIcon />
                     </Button>
                   </TooltipTrigger>
@@ -111,7 +111,7 @@ const WorkflowItem: React.FC<WorkflowItemProps> = ({
                 </Tooltip>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button className="bg-transparent text-white hover:bg-primary hover:text-black p-2 m-0" onClick={handleDeleteClick}>
+                    <Button className="bg-transparent text-white hover:bg-primary hover:text-black p-2 m-0" size="narrow" onClick={handleDeleteClick}>
                       <Cross1Icon />
                     </Button>
                   </TooltipTrigger>
