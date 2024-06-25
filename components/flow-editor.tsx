@@ -189,7 +189,7 @@ const FlowEditor = ({ strength = -1000, distance = 1000 }) => {
       fitView
       snapGrid={[20, 20]}
       minZoom={0.05}
-      multiSelectionKeyCode={["Shift"]}
+      multiSelectionKeyCode={["Shift", "Control"]}
       deleteKeyCode={["Delete", "Backspace"]}
       disableKeyboardA11y
       onNodesChange={onNodesChange}

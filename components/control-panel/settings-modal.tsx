@@ -12,7 +12,6 @@ import { useShallow } from "zustand/react/shallow";
 import { EdgeType } from "@/types";
 
 
-
 const TooltipButton = ({ content, children }: any) => 
     <Tooltip>
       <TooltipTrigger asChild>
@@ -94,7 +93,7 @@ export const SettingsModal = ({ open, setOpen }: any) => {
     return (
         <DialogPortal>
             <DialogContent className="absolute inset-0 w-96 h-52 p-4 mx-auto my-auto bg-black rounded-[12px]">
-                <div className="w-full h-full bg-black p-1 shadow-lg relative">
+                <div className="w-full h-50% bg-black p-1 shadow-lg relative">
                     <DialogTitle className="text-lg font-bold mt-0.5 mr-10">Settings</DialogTitle>
                     <DialogClose asChild>
                         <Button className="absolute top-0 right-2 p-1 bg-transparent hover:bg-transparent border-none shadow-none" onClick={() => setOpen(false)} variant="outline">
@@ -111,16 +110,16 @@ export const SettingsModal = ({ open, setOpen }: any) => {
                     </div>
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <div className="flex flex-col gap-2 my-4" style={{ float: 'right' }} title="Recalculate Node Positions">
+                            <div className="flex flex-col gap-2 w-full pb-2" title="Recalculate Node Positions">
                                 <Button
-                                    className="relative rounded-3xl shadow-lg hover:bg-background hover:rounded-lg transition-all duration-200 h-12 w-12"
+                                    className="inline rounded-3xl shadow-lg hover:bg-background hover:rounded-lg transition-all duration-200 h-12 w-12 mt-1 ml-auto mr-10"
                                     variant="outline"
                                 >
                                     <MoveIcon />
                                 </Button>
                                 </div>
                             </TooltipTrigger>
-                            <TooltipContent side="left" className="text-xs bg-black text-white">
+                            <TooltipContent side="right" className="text-xs bg-black text-white">
                                     Recalculate node positions
                             </TooltipContent>
                         </Tooltip>

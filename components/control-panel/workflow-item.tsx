@@ -82,7 +82,7 @@ const WorkflowItem: React.FC<WorkflowItemProps> = ({
         <li key={item.id} className="last:border-b-0">
           <div className="flex flex-col justify-between overflow-hidden">
             <div className="flex justify-between">
-                <div className="text-muted-foreground w-full hover:text-secondary h-7 m-1 p-1 flex items-center cursor-default" title="Load Workflow" style={{borderRadius: '5px'}}>
+                <div className="text-muted-foreground w-full overflow-hidden hover:text-secondary h-7 m-1 p-1 flex items-center cursor-default [&>span]:line-clamp-1" title="Load Workflow" style={{borderRadius: '5px'}}>
                     <span
                       title="Load"
                       className="flex items-center space-x-3 my-4 p-1 text-sm overflow-hidden w-full hover:bg-foreground whitespace-nowrap"
