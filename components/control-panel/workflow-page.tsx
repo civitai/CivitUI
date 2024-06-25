@@ -142,8 +142,8 @@ const WorkflowPageComponent = () => {
   );
 
   return (
-    <div className="flex flex-col gap-4">
-      <Button className="bg-border hover:bg-black text-white mt-3 mx-5" onClick={handleSave}>Save</Button>
+    <div className="flex flex-col gap-4 overflow-auto">
+      <Button className="bg-border hover:bg-accent-foreground text-accent-foreground hover:text-background mt-3 mx-5" onClick={handleSave}>Save</Button>
       <Dropzone onUpload={handleUpload} />
       <div>
         <Label className="text-neutral-500">Local Workflows</Label>

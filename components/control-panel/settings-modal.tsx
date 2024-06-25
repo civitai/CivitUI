@@ -11,6 +11,8 @@ import { edgeTypeList } from "@/types";
 import { useShallow } from "zustand/react/shallow";
 import { EdgeType } from "@/types";
 
+
+
 const TooltipButton = ({ content, children }: any) => 
     <Tooltip>
       <TooltipTrigger asChild>
@@ -109,9 +111,8 @@ export const SettingsModal = ({ open, setOpen }: any) => {
                     </div>
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <div className="flex flex-col gap-2 mt-4" style={{ float: 'right', margin: '6px' }} title="Recalculate Node Positions">
+                            <div className="flex flex-col gap-2 my-4" style={{ float: 'right' }} title="Recalculate Node Positions">
                                 <Button
-                                    onClick={() => {}}
                                     className="relative rounded-3xl shadow-lg hover:bg-background hover:rounded-lg transition-all duration-200 h-12 w-12"
                                     variant="outline"
                                 >

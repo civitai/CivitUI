@@ -211,8 +211,6 @@ const FlowEditor = ({ strength = -1000, distance = 1000 }) => {
       <Controls showZoom={false} showInteractive={false} className="text-black hover:bg-primary hover:text-white"/>
       <MiniMap
         position="bottom-left"
-        onMountCenterOnX="true"
-        onMountCenterOnY="true"
         nodeColor={(n) =>
           n.data.color || (theme === "light" ? "#ECF0F1" : "#2C3E50")
         }

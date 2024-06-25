@@ -121,7 +121,7 @@ const ControlPanel = () => {
                   </Button>
                 </SheetTrigger>
               </TooltipButton>
-          <SheetContent side={"left"} className="overflow-y-scroll">
+          <SheetContent side={"left"} className="overflow-auto">
             <WorkflowPage />
           </SheetContent>
         </Sheet>
