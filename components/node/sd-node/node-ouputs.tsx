@@ -10,9 +10,9 @@ const NodeOutputs: React.FC<NodeOutpusProps> = ({ data }) => {
   if (!data?.length) return <div />;
   return (
     <div className="flex-1">
-      {data.map((item) => (
+      {data.map((item, i) => (
         <NodeHandle
-          key={item}
+          key={i}
           slotType={item}
           label={item}
           type="source"

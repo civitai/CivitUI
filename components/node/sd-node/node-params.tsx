@@ -17,9 +17,9 @@ const NodeParams = ({ data, nodeId }: NodeParamsProps) => {
   if (!data?.length) return null;
   return (
     <div className="space-y-2">
-      {data.map(({ name, type, input }, index) => (
+      {data.map(({ name, type, input }, i) => (
         <div
-          key={name}
+          key={i}
           className={`text-muted-foreground focus:text-accent-foreground grid ${
             name === "text" ? "grid-cols-1" : "grid-cols-2"
           } items-center gap-2`}

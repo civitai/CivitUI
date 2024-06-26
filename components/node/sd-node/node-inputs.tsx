@@ -13,9 +13,9 @@ const NodeInputs = ({ data }: NodeInputsProps) => {
   if (!data?.length) return <div />;
   return (
     <div className="flex-1">
-      {data.map(({ name, type }) => (
+      {data.map(({ name, type }, i) => (
         <NodeHandle
-          key={name}
+          key={i}
           slotType={type}
           label={name}
           type="target"
