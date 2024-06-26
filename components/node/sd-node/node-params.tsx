@@ -11,9 +11,10 @@ interface NodeParamsProps {
     type: string;
     input: [Flow];
   }[];
+  selected: boolean;
 }
 
-const NodeParams = ({ data, nodeId }: NodeParamsProps) => {
+const NodeParams = ({ data, nodeId, selected }: NodeParamsProps) => {
   if (!data?.length) return null;
   return (
     <div className="space-y-2">
@@ -31,6 +32,7 @@ const NodeParams = ({ data, nodeId }: NodeParamsProps) => {
               type="target"
               position={Position.Left}
               isRequired={false}
+              selected={selected}
             />
           )}
           <InputParams name={name} id={nodeId} input={input} />

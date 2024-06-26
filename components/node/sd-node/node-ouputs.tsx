@@ -2,11 +2,12 @@ import React from "react";
 import { Position } from "reactflow";
 import NodeHandle from "./node-handle";
 
-interface NodeOutpusProps {
+interface NodeOutputsProps {
   data: string[];
+  selected: boolean;
 }
 
-const NodeOutputs: React.FC<NodeOutpusProps> = ({ data }) => {
+const NodeOutputs = ({ data, selected }: NodeOutputsProps) => {
   if (!data?.length) return <div />;
   return (
     <div className="flex-1">
@@ -18,6 +19,7 @@ const NodeOutputs: React.FC<NodeOutpusProps> = ({ data }) => {
           type="source"
           position={Position.Right}
           isRequired
+          selected={selected}
         />
       ))}
     </div>

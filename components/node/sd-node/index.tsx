@@ -18,7 +18,7 @@ import { useAppStore } from "@/store";
 import { Widget } from "@/types";
 import { checkInput } from "@/utils";
 
-const SdNode = ({ id, data: { input, output } }: NodeProps<Widget>) => {
+const SdNode = ({ id, data: { input, output }, selected }: NodeProps<Widget>) => {
   const { imagePreviews, inputImgPreviews } = useAppStore(
     useShallow((st) => ({
       imagePreviews: st.graph?.[id]?.images
@@ -73,8 +73,8 @@ const SdNode = ({ id, data: { input, output } }: NodeProps<Widget>) => {
   return (
     <>
       <div className="flex items-stretch justify-stretch w-full space-x-6">
-        <NodeInputs data={inputs} />
-        <NodeOutputs data={output} />
+        <NodeInputs data={inputs} selected={selected} />
+        <NodeOutputs data={output} selected={selected} />
       </div>
       {params.length > 0 && (
         <Accordion
@@ -85,7 +85,7 @@ const SdNode = ({ id, data: { input, output } }: NodeProps<Widget>) => {
           <AccordionItem value={id}>
             <AccordionTrigger />
             <AccordionContent className="m-0.5">
-              <NodeParams data={params} nodeId={id} />
+              <NodeParams data={params} nodeId={id} selected={selected} />
             </AccordionContent>
           </AccordionItem>
         </Accordion>

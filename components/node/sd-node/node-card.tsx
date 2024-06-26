@@ -55,6 +55,7 @@ const NodeCard = ({
   const [direction, setDirection] = useState<Direction>("TOP");
   const activeClass = active ? "shadow-lg" : "";
   const selectedClass = selected ? "border-white" : "";
+  // const selectedClass = "";
 
   const color = node?.data?.color || "";
   const bgColor = theme === "light" ? "white" : "black";

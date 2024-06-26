@@ -55,7 +55,7 @@ const NodeComponent = (node: NodeProps<Widget>) => {
       }))
     );
   const isInProgress = progressBar !== undefined;
-  const isSelected = node.selected;
+  // const isSelected = node.selected;
   const name = node.data?.nickname || node.data.name;
   const isGroup = node.data.name === "Group";
 
@@ -128,7 +128,7 @@ const NodeComponent = (node: NodeProps<Widget>) => {
   return (
     <ContextMenu>
       <ContextMenuTrigger>
-        <NodeCard active={isInProgress} selected={isSelected} title={<Title />} node={node}>
+        <NodeCard active={isInProgress} selected={node.selected} title={<Title />} node={node}>
           <SdNode {...node} />
         </NodeCard>
       </ContextMenuTrigger>

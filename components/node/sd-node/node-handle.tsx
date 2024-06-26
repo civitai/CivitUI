@@ -12,6 +12,7 @@ interface NodeHandleProps {
   position: Position;
   slotType?: string;
   isRequired?: boolean;
+  selected?: boolean;
 }
 
 const NodeHandle = ({
@@ -20,6 +21,7 @@ const NodeHandle = ({
   position,
   slotType,
   isRequired,
+  selected = false,
 }: NodeHandleProps) => {
   const nodes = useAppStore(useShallow((state) => state.nodes));
 
@@ -59,6 +61,8 @@ const NodeHandle = ({
               width: "12px",
               height: "12px",
               boxShadow: "0px 0px 12px rgba(72, 66, 66, 0.4)",
+              borderColor: selected ? "white" : "#a3a3a3",
+              transitionDuration: "200ms",
               ...positionStyles,
             }}
           />
