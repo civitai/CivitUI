@@ -5,6 +5,7 @@ import React, { useCallback } from "react";
 import { Handle, HandleType, Position } from "reactflow";
 import { useShallow } from "zustand/react/shallow";
 import { Slot } from "../style";
+import { cn } from "@/lib/utils";
 
 interface NodeHandleProps {
   label: string;
@@ -13,6 +14,8 @@ interface NodeHandleProps {
   slotType?: string;
   isRequired?: boolean;
   selected?: boolean;
+  clickable?: boolean;
+  onClick?: () => void;
 }
 
 const NodeHandle = ({
@@ -22,6 +25,8 @@ const NodeHandle = ({
   slotType,
   isRequired,
   selected = false,
+  clickable = false,
+  onClick,
 }: NodeHandleProps) => {
   const nodes = useAppStore(useShallow((state) => state.nodes));
 
@@ -45,7 +50,7 @@ const NodeHandle = ({
   const positionStyles = {
     left: position === Position.Left ? "-6.5px" : "auto",
     right: position === Position.Right ? "-6.5px" : "auto",
-    // transform: "translate(0, -30%)",
+    transform: "translate(0, -30%)",
   };
 
   return (
@@ -67,12 +72,16 @@ const NodeHandle = ({
             }}
           />
         ) : null}
-        <h5
-          className="mb-1 text-sm text-muted-foreground"
+        <a
+          className={cn(
+            "mb-1 text-sm text-muted-foreground",
+            clickable && "cursor-pointer hover:underline hover:text-white transition duration-200 ease-in-out",
+          )}
           title={Array.isArray(slotType) ? "STRING" : slotType}
+          onClick={onClick}
         >
           {startCase(label.toLowerCase?.())}
-        </h5>
+        </a>
       </Slot>
     </>
   );

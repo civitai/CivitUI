@@ -1,11 +1,11 @@
-import React, { useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { NodeProps } from "reactflow";
 import { useShallow } from "zustand/react/shallow";
 
 import NodeImgPreview from "./node-img-preview";
 import NodeInputs from "./node-inputs";
 import NodeOutputs from "./node-ouputs";
-import NodeParams from "./node-params";
+import { NodeSwappedParams, NodeParams } from "./node-params";
 
 import {
   Accordion,
@@ -19,7 +19,7 @@ import { Widget } from "@/types";
 import { checkInput } from "@/utils";
 
 const SdNode = ({ id, data: { input, output }, selected }: NodeProps<Widget>) => {
-  const { imagePreviews, inputImgPreviews } = useAppStore(
+  const { imagePreviews, inputImgPreviews, onUpdateNodes, nodes, graph } = useAppStore(
     useShallow((st) => ({
       imagePreviews: st.graph?.[id]?.images
         ?.map((image, index) => ({ image, index }))
@@ -33,14 +33,26 @@ const SdNode = ({ id, data: { input, output }, selected }: NodeProps<Widget>) =>
           index: 0,
         },
       ].filter((i) => i.image.filename),
+      onUpdateNodes: st.onUpdateNodes,
+      nodes: st.nodes,
+      graph: st.graph,
     }))
   );
+
+  const [swappedParams, setSwappedParams] = useState<any[]>([]);
+
+  const swapItem = (item: any) => { // swap between params and inputs
+    if (swappedParams.find(e => e.name === item.name)) {
+      setSwappedParams(p => p.filter(e => e.name !== item.name));
+    } else {
+      setSwappedParams(p => [...p, item]);
+    }
+  }
 
   const params = useMemo(() => {
     const paramsList: any[] = [];
     Object.entries({...input.required, ...input.optional}).forEach(([property, inputType]) => {
-      if (checkInput.isParameterOrList(inputType)) {
-        // console.log(property, inputType[0], input)
+      if (checkInput.isParameterOrList(inputType) && !swappedParams.some(p => p.name === property)) {
         paramsList.push({
           name: property,
           type: inputType[0],
@@ -49,12 +61,12 @@ const SdNode = ({ id, data: { input, output }, selected }: NodeProps<Widget>) =>
       }
     });
     return paramsList;
-  }, [input]);
+  }, [input, swappedParams]);
 
   const inputs = useMemo(() => {
-    const makeInputList = (data: Record<string, any>) => {
+    const makeInputList = (data: Record<string, any> | undefined) => {
       const inputList: any[] = [];
-      Object.entries(data).forEach(([property, inputType]) => {
+      Object.entries(data ?? []).forEach(([property, inputType]) => {
         if (!checkInput.isParameterOrList(inputType)) {
           inputList.push({ name: property, type: inputType[0] });
         }
@@ -63,7 +75,7 @@ const SdNode = ({ id, data: { input, output }, selected }: NodeProps<Widget>) =>
     };
     return {
       required: makeInputList(input.required),
-      optional: input.optional ? makeInputList(input.optional) : [],
+      optional: makeInputList(input.optional),
     };
   }, [input]);
 
@@ -78,7 +90,10 @@ const SdNode = ({ id, data: { input, output }, selected }: NodeProps<Widget>) =>
   return (
     <>
       <div className="flex items-stretch justify-stretch w-full space-x-6">
-        <NodeInputs data={inputs} selected={selected} />
+        <div className="flex-1">
+          <NodeInputs data={inputs} selected={selected} />
+          <NodeSwappedParams data={swappedParams} selected={selected} swapItem={swapItem} />
+        </div>
         <NodeOutputs data={output} selected={selected} />
       </div>
       {params.length > 0 && (
@@ -90,7 +105,7 @@ const SdNode = ({ id, data: { input, output }, selected }: NodeProps<Widget>) =>
           <AccordionItem value={id}>
             <AccordionTrigger />
             <AccordionContent className="m-0.5">
-              <NodeParams data={params} nodeId={id} selected={selected} />
+              <NodeParams data={params} nodeId={id} selected={selected} swapItem={swapItem} />
             </AccordionContent>
           </AccordionItem>
         </Accordion>

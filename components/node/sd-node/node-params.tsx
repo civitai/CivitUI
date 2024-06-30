@@ -12,9 +12,30 @@ interface NodeParamsProps {
     input: [Flow];
   }[];
   selected: boolean;
+  swapItem: (item: any) => void;
 }
 
-const NodeParams = ({ data, nodeId, selected }: NodeParamsProps) => {
+export const NodeSwappedParams = React.memo(({ data, selected, swapItem }: Omit<NodeParamsProps, 'nodeId'>) => {
+  return (
+    <>
+      {data.map(({ name, type, input }, i) => (
+        <NodeHandle
+          key={i}
+          slotType={type}
+          label={name}
+          type="target"
+          position={Position.Left}
+          isRequired
+          selected={selected}
+          clickable={true}
+          onClick={() => swapItem({ name, type, input })}
+        />
+      ))}
+    </>
+  )
+});
+
+export const NodeParams = React.memo(({ data, nodeId, selected, swapItem }: NodeParamsProps) => {
   return (!data?.length) ? null : (
     <div className="space-y-2">
       {data.map(({ name, type, input }, i) => (
@@ -32,6 +53,8 @@ const NodeParams = ({ data, nodeId, selected }: NodeParamsProps) => {
               position={Position.Left}
               isRequired={false}
               selected={selected}
+              clickable={true}
+              onClick={() => swapItem({ name, type, input })}
             />
           )}
           {/* {(() => { console.log(name); return 0})()} */}
@@ -40,6 +63,4 @@ const NodeParams = ({ data, nodeId, selected }: NodeParamsProps) => {
       ))}
     </div>
   );
-};
-
-export default React.memo(NodeParams);
+});

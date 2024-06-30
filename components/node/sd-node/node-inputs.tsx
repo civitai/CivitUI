@@ -2,24 +2,22 @@ import React from "react";
 import { Position } from "reactflow";
 import NodeHandle from "./node-handle";
 
+interface Input {
+  name: string;
+  type: string;
+}
+
 interface NodeInputsProps {
   data: {
-    required: {
-      name: string;
-      type: string;
-    }[],
-    optional: {
-      name: string;
-      type: string;
-    }[]
+    required: Input[],
+    optional: Input[],
   };
   selected: boolean;
 }
 
 const NodeInputs = ({ data, selected }: NodeInputsProps) => {
-  if (!data?.required.length && !data?.optional.length) return <div />;
   return (
-    <div className="flex-1">
+    <>
       {data.required.map(({ name, type }, i) => (
         <NodeHandle
           key={i}
@@ -42,7 +40,7 @@ const NodeInputs = ({ data, selected }: NodeInputsProps) => {
           selected={selected}
         />
       ))}
-    </div>
+    </>
   );
 };
 
