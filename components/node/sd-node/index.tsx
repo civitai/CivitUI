@@ -36,12 +36,11 @@ const SdNode = ({ id, data: { input, output }, selected }: NodeProps<Widget>) =>
     }))
   );
 
-  const inputsData = {...input.required, ...input.optional};
-
   const params = useMemo(() => {
     const paramsList: any[] = [];
-    Object.entries(inputsData).forEach(([property, inputType]) => {
+    Object.entries({...input.required, ...input.optional}).forEach(([property, inputType]) => {
       if (checkInput.isParameterOrList(inputType)) {
+        // console.log(property, inputType[0], input)
         paramsList.push({
           name: property,
           type: inputType[0],
@@ -53,13 +52,19 @@ const SdNode = ({ id, data: { input, output }, selected }: NodeProps<Widget>) =>
   }, [input]);
 
   const inputs = useMemo(() => {
-    const inputsList: any[] = [];
-    Object.entries(inputsData).forEach(([property, inputType]) => {
-      if (!checkInput.isParameterOrList(inputType)) {
-        inputsList.push({ name: property, type: inputType[0] });
-      }
-    });
-    return inputsList;
+    const makeInputList = (data: Record<string, any>) => {
+      const inputList: any[] = [];
+      Object.entries(data).forEach(([property, inputType]) => {
+        if (!checkInput.isParameterOrList(inputType)) {
+          inputList.push({ name: property, type: inputType[0] });
+        }
+      });
+      return inputList;
+    };
+    return {
+      required: makeInputList(input.required),
+      optional: input.optional ? makeInputList(input.optional) : [],
+    };
   }, [input]);
 
   const { expanded, onExpand } = useAppStore((state) => ({

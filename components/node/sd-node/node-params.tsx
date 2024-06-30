@@ -15,8 +15,7 @@ interface NodeParamsProps {
 }
 
 const NodeParams = ({ data, nodeId, selected }: NodeParamsProps) => {
-  if (!data?.length) return null;
-  return (
+  return (!data?.length) ? null : (
     <div className="space-y-2">
       {data.map(({ name, type, input }, i) => (
         <div
@@ -35,6 +34,7 @@ const NodeParams = ({ data, nodeId, selected }: NodeParamsProps) => {
               selected={selected}
             />
           )}
+          {/* {(() => { console.log(name); return 0})()} */}
           <InputParams name={name} id={nodeId} input={input} />
         </div>
       ))}
