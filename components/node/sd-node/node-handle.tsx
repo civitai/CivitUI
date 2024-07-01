@@ -55,7 +55,12 @@ export const NodeHandle = ({
 
   return (
     <>
-      <Slot position={position} isRequired={isRequired ? 1 : 0}>
+      <Slot 
+        position={position} 
+        isRequired={isRequired ? 1 : 0} 
+        className={cn("group", clickable && "cursor-pointer")} 
+        onClick={onClick}
+      >
         {isRequired ? (
           <Handle
             id={label}
@@ -75,10 +80,9 @@ export const NodeHandle = ({
         <a
           className={cn(
             "mb-1 text-sm text-muted-foreground",
-            clickable && "cursor-pointer hover:underline hover:text-white transition duration-200 ease-in-out",
+            clickable && "group-hover:underline group-hover:text-white transition duration-200 ease-in-out",
           )}
           title={Array.isArray(slotType) ? "STRING" : slotType}
-          onClick={onClick}
         >
           {startCase(label.toLowerCase?.())}
         </a>
