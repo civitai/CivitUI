@@ -1,6 +1,6 @@
 import React from "react";
 import { Position } from "reactflow";
-import NodeHandle from "./node-handle";
+import { NodeHandle } from "./node-handle";
 
 interface Input {
   name: string;
@@ -15,7 +15,7 @@ interface NodeInputsProps {
   selected: boolean;
 }
 
-const NodeInputs = ({ data, selected }: NodeInputsProps) => {
+const NodeInputsComponent = ({ data, selected }: NodeInputsProps) => {
   return (
     <>
       {data.required.map(({ name, type }, i) => (
@@ -44,4 +44,4 @@ const NodeInputs = ({ data, selected }: NodeInputsProps) => {
   );
 };
 
-export default React.memo(NodeInputs);
+export const NodeInputs = React.memo(NodeInputsComponent);

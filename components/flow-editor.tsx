@@ -20,7 +20,7 @@ import { debounce } from "lodash-es";
 import { useShallow } from "zustand/react/shallow";
 import { useTheme } from "next-themes";
 
-import NodeComponent, { NODE_IDENTIFIER } from "@/components/node";
+import { Node, NODE_IDENTIFIER } from "@/components/node";
 import { getPostion, getPostionCenter } from "@/utils";
 import useUndoRedo from "@/hooks/use-undo-redo";
 import { useAppStore } from "@/store";
@@ -28,8 +28,8 @@ import { useAppStore } from "@/store";
 import "reactflow/dist/style.css";
 import useForceLayout from "@/hooks/use-force-layout";
 
-const FlowEditor = ({ strength = -1000, distance = 1000 }) => {
-  const nodeTypes = useMemo(() => ({ [NODE_IDENTIFIER]: NodeComponent }), []);
+export const FlowEditor = ({ strength = -1000, distance = 1000 }) => {
+  const nodeTypes = useMemo(() => ({ [NODE_IDENTIFIER]: Node }), []);
   const { theme } = useTheme();
   const reactFlowRef = useRef<HTMLDivElement>(null);
   const edgeUpdateSuccessful = useRef(true);
@@ -219,5 +219,3 @@ const FlowEditor = ({ strength = -1000, distance = 1000 }) => {
     </ReactFlow>
   );
 };
-
-export default FlowEditor;

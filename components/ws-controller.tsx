@@ -10,7 +10,7 @@ import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
 const WS_HOST = `ws://${config.host}/ws`;
 console.log("WS_HOST", WS_HOST);
 
-const WsController = () => {
+const WsControllerComponent = () => {
   const {
     clientId,
     onNewClientId,
@@ -97,4 +97,4 @@ const WsController = () => {
   return null;
 };
 
-export default React.memo(WsController);
+export const WsController = React.memo(WsControllerComponent);

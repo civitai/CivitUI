@@ -1,8 +1,8 @@
-import NodeHandle from "@/components/node/sd-node/node-handle";
-import { Flow } from "@/types";
 import React from "react";
+import { NodeHandle } from "@/components/node/sd-node/node-handle";
+import { Flow } from "@/types";
 import { Position } from "reactflow";
-import InputParams from "./input-param";
+import { InputParams } from "./input-param";
 
 interface NodeParamsProps {
   nodeId: string;

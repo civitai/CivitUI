@@ -5,7 +5,7 @@ import type { Widget } from "@/types";
 import React, { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useShallow } from "zustand/react/shallow";
-import NodePickerGroup from "./node-picker-group";
+import { NodePickerGroup } from "./node-picker-group";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { ContextMenuSeparator } from "@/components/ui/context-menu";
 
@@ -109,4 +109,4 @@ const NodePickerComponent = ({ setActiveItem }: any) => {
   );
 };
 
-export default React.memo(NodePickerComponent);
+export const NodePicker = React.memo(NodePickerComponent);

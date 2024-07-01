@@ -1,15 +1,15 @@
 "use client"
 
 import { useTheme } from "next-themes"
-import { Toaster } from "sonner"
+import { Toaster as ToasterPrimitive } from "sonner"
 
-type ToasterProps = React.ComponentProps<typeof Toaster>
+type ToasterProps = React.ComponentProps<typeof ToasterPrimitive>
 
-export default Object.assign(({ ...props }: ToasterProps) => {
+export const Toaster = ({ ...props }: ToasterProps) => {
   const { theme = "system" } = useTheme()
 
   return (
-    <Toaster
+    <ToasterPrimitive
       theme={theme as ToasterProps["theme"]}
       className="toaster group"
       toastOptions={{
@@ -27,4 +27,4 @@ export default Object.assign(({ ...props }: ToasterProps) => {
       {...props}
     />
   )
-}, { displayName: 'Toaster' })
+};

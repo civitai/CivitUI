@@ -20,7 +20,7 @@ interface NodePickerGroupProps {
   setExpandedItems: (items: string[]) => void;
 }
 
-const NodePickerGroup = ({
+const NodePickerGroupComponent = ({
   category,
   items,
   setActiveItem,
@@ -89,4 +89,4 @@ const NodePickerGroup = ({
   );
 };
 
-export default React.memo(NodePickerGroup);
+export const NodePickerGroup = React.memo(NodePickerGroupComponent);

@@ -15,14 +15,14 @@ import {
   ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
-import NodePicker from "./node-picker";
-import PreviewNode from "../node/sd-node/preview-node";
+import { NodePicker } from "./node-picker";
+import { PreviewNode } from "../node/sd-node/preview-node";
 
-export default function NodeContextMenu({
+export const NodeContextMenu = ({
   children,
 }: {
   children: React.ReactNode;
-}) {
+}) => {
   const [activeItem, setActiveItem] = useState<Widget | null>(null);
   const [previewPosition, setPreviewPosition] = useState<{x: string, y: string}>({x: 'right', y: 'bottom'});
 

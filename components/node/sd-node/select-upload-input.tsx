@@ -19,7 +19,7 @@ interface SelectUploadInputProps {
   name: string;
 }
 
-const SelectUploadInput: React.FC<SelectUploadInputProps> = ({
+const SelectUploadInputComponent: React.FC<SelectUploadInputProps> = ({
   value,
   input,
   onChange,
@@ -96,4 +96,4 @@ const SelectUploadInput: React.FC<SelectUploadInputProps> = ({
   );
 };
 
-export default React.memo(SelectUploadInput);
+export const SelectUploadInput = React.memo(SelectUploadInputComponent);

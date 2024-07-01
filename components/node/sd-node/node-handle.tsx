@@ -18,7 +18,7 @@ interface NodeHandleProps {
   onClick?: () => void;
 }
 
-const NodeHandle = ({
+export const NodeHandle = ({
   label,
   type,
   position,
@@ -86,5 +86,3 @@ const NodeHandle = ({
     </>
   );
 };
-
-export default NodeHandle;

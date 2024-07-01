@@ -34,4 +34,4 @@ const GalleryComponent: React.FC = () => {
   );
 };
 
-export default React.memo(GalleryComponent);
+export const Gallery = React.memo(GalleryComponent);

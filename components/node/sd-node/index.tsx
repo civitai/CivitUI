@@ -2,9 +2,9 @@ import React, { useState, useMemo } from "react";
 import { NodeProps } from "reactflow";
 import { useShallow } from "zustand/react/shallow";
 
-import NodeImgPreview from "./node-img-preview";
-import NodeInputs from "./node-inputs";
-import NodeOutputs from "./node-ouputs";
+import { NodeImgPreview } from "./node-img-preview";
+import { NodeInputs } from "./node-inputs";
+import { NodeOutputs } from "./node-outputs";
 import { NodeSwappedParams, NodeParams } from "./node-params";
 
 import {
@@ -18,7 +18,7 @@ import { useAppStore } from "@/store";
 import { Widget } from "@/types";
 import { checkInput } from "@/utils";
 
-const SdNode = ({ id, data: { input, output }, selected }: NodeProps<Widget>) => {
+const SdNodeComponent = ({ id, data: { input, output }, selected }: NodeProps<Widget>) => {
   const { imagePreviews, inputImgPreviews, onUpdateNodes, nodes, graph } = useAppStore(
     useShallow((st) => ({
       imagePreviews: st.graph?.[id]?.images
@@ -115,4 +115,4 @@ const SdNode = ({ id, data: { input, output }, selected }: NodeProps<Widget>) =>
   );
 };
 
-export default React.memo(SdNode);
+export const SdNode = React.memo(SdNodeComponent);

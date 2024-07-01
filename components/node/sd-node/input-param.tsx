@@ -5,8 +5,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { debounce } from "lodash-es";
 import React, { useMemo } from "react";
 import { useShallow } from "zustand/react/shallow";
-import SelectUploadInput from "./select-upload-input";
-import SliderInput from "./slider-input";
+import { SelectUploadInput } from "./select-upload-input";
+import { SliderInput } from "./slider-input";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ModelDrawer } from "../model-drawer";
@@ -17,7 +17,7 @@ interface InputParamsProps {
   input: InputData;
 }
 
-const InputParams = ({ id, name, input }: InputParamsProps) => {
+const InputParamsComponent = ({ id, name, input }: InputParamsProps) => {
   const { graph, onPropChange } = useAppStore(
     useShallow((state) => ({
       graph: state.graph,
@@ -132,4 +132,4 @@ const InputParams = ({ id, name, input }: InputParamsProps) => {
   return null;
 };
 
-export default React.memo(InputParams);
+export const InputParams = React.memo(InputParamsComponent);

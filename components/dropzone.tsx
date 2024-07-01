@@ -17,7 +17,7 @@ interface DropzoneProps {
   onUpload: (file: File) => void;
 }
 
-export default function Dropzone({ onUpload }: DropzoneProps) {
+export const Dropzone = ({ onUpload }: DropzoneProps) => {
   const [file, setFile] = useState<File | null>(null);
   const [fileDropError, setFileDropError] = useState<string>("");
 

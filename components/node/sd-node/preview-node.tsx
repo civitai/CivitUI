@@ -1,9 +1,9 @@
-import { type Widget } from "@/types";
-import { checkInput } from "@/utils";
+import React, { useMemo } from "react";
 import { startCase } from "lodash-es";
 import { motion } from "framer-motion";
-import React, { useMemo } from "react";
-import NodeCard from "./node-card";
+import { type Widget } from "@/types";
+import { checkInput } from "@/utils";
+import { NodeCard } from "./node-card";
 
 interface SlotProps {
   isRequired: 1 | 0;
@@ -28,7 +28,7 @@ interface PreviewNodeProps {
   data: Widget;
 }
 
-const PreviewNode = ({ data }: PreviewNodeProps) => {
+const PreviewNodeComponent = ({ data }: PreviewNodeProps) => {
   const { outputs, params, inputs } = useMemo(() => {
     const outputs = data.output.map((o) => ({ name: o, type: o }));
     const params: any[] = [];
@@ -89,4 +89,4 @@ const PreviewNode = ({ data }: PreviewNodeProps) => {
   );
 };
 
-export default React.memo(PreviewNode);
+export const PreviewNode = React.memo(PreviewNodeComponent);

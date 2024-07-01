@@ -12,9 +12,9 @@ import {
 
 import React, { useCallback, useEffect, useState } from "react";
 import { useShallow } from "zustand/react/shallow";
-import WorkflowItem from "./workflow-item";
 import { toast } from "sonner";
-import Dropzone from "../dropzone";
+import { Dropzone } from "../dropzone";
+import { WorkflowItem } from "./workflow-item";
 import { Label } from "../ui/label";
 import { Button } from "../ui/button";
 
@@ -167,6 +167,4 @@ const WorkflowPageComponent = () => {
   );
 };
 
-const WorkflowPage = React.memo(WorkflowPageComponent);
-
-export { WorkflowPage };
+export const WorkflowPage = React.memo(WorkflowPageComponent);

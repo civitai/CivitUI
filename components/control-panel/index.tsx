@@ -33,7 +33,7 @@ const TooltipButton = ({ content, children }: any) =>
     </TooltipContent>
   </Tooltip>
 
-export const QueuePromptButton = () => {
+const QueuePromptButtonComponent = () => {
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(0);
 
@@ -89,7 +89,9 @@ export const QueuePromptButton = () => {
   );
 };
 
-const ControlPanel = () => {
+export const QueuePromptButton = React.memo(QueuePromptButtonComponent);
+
+const ControlPanelComponent = () => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isClearDialogOpen, setIsClearDialogOpen] = useState(false);
@@ -168,4 +170,4 @@ const ControlPanel = () => {
   );
 };
 
-export default React.memo(ControlPanel);
+export const ControlPanel = React.memo(ControlPanelComponent);

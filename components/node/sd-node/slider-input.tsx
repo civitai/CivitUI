@@ -21,7 +21,7 @@ interface SliderInputProps {
   onChange: (val: any) => void;
 }
 
-const SliderInput: React.FC<SliderInputProps> = ({
+const SliderInputComponent: React.FC<SliderInputProps> = ({
   name,
   value,
   min,
@@ -105,4 +105,4 @@ const SliderInput: React.FC<SliderInputProps> = ({
   );
 };
 
-export default React.memo(SliderInput);
+export const SliderInput = React.memo(SliderInputComponent);

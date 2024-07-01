@@ -15,7 +15,7 @@ interface WorkflowItemProps {
   handleLoad: (graph: PersistedGraph, title: string) => void;
 }
 
-const WorkflowItem: React.FC<WorkflowItemProps> = ({
+const WorkflowItemComponent: React.FC<WorkflowItemProps> = ({
   item,
   index,
   handleRename,
@@ -164,4 +164,4 @@ const WorkflowItem: React.FC<WorkflowItemProps> = ({
   );
 };
 
-export default React.memo(WorkflowItem);
+export const WorkflowItem = React.memo(WorkflowItemComponent);

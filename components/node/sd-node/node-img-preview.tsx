@@ -9,7 +9,7 @@ interface NodeImgPreviewProps {
   data?: ImagePreview[];
 }
 
-const NodeImgPreview = ({ data }: NodeImgPreviewProps) => {
+const NodeImgPreviewComponent = ({ data }: NodeImgPreviewProps) => {
   const [error, setError] = useState<boolean>(false);
 
   const renderImage = useCallback(
@@ -31,4 +31,4 @@ const NodeImgPreview = ({ data }: NodeImgPreviewProps) => {
   return <div>{data.map(renderImage).reverse()}</div>;
 };
 
-export default React.memo(NodeImgPreview);
+export const NodeImgPreview = React.memo(NodeImgPreviewComponent);

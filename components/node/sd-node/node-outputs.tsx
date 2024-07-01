@@ -1,13 +1,13 @@
 import React from "react";
 import { Position } from "reactflow";
-import NodeHandle from "./node-handle";
+import { NodeHandle } from "./node-handle";
 
 interface NodeOutputsProps {
   data: string[];
   selected: boolean;
 }
 
-const NodeOutputs = ({ data, selected }: NodeOutputsProps) => {
+const NodeOutputsComponent = ({ data, selected }: NodeOutputsProps) => {
   if (!data?.length) return <div />;
   return (
     <div className="flex-1">
@@ -26,4 +26,4 @@ const NodeOutputs = ({ data, selected }: NodeOutputsProps) => {
   );
 };
 
-export default React.memo(NodeOutputs);
+export const NodeOutputs = React.memo(NodeOutputsComponent);

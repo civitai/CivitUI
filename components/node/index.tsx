@@ -10,8 +10,8 @@ import { Input } from "@/components/ui/input";
 import { ColorMenu, colorList } from "@/components/node/color-menu";
 import { Progress } from "@/components/ui/progress";
 
-import SdNode from "./sd-node";
-import NodeCard from "./sd-node/node-card";
+import { SdNode } from "./sd-node";
+import { NodeCard } from "./sd-node/node-card";
 import {
   ContextMenu,
   ContextMenuContent,
@@ -186,4 +186,4 @@ const NodeComponent = (node: NodeProps<Widget>) => {
   );
 };
 
-export default React.memo(NodeComponent);
+export const Node = React.memo(NodeComponent);
