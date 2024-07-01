@@ -59,7 +59,6 @@ const NodeParamsComponent = ({ data, nodeId, selected, swapItem }: NodeParamsPro
               onClick={() => swapItem({ name, type, input })}
             />
           )}
-          {/* {(() => { console.log(name); return 0})()} */}
           <InputParams name={name} id={nodeId} input={input} />
         </div>
       ))}

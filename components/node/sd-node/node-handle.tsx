@@ -1,9 +1,8 @@
-import { useAppStore } from "@/store";
-import { Connection } from "reactflow";
-import { isArray, startCase } from "lodash-es";
 import React, { useCallback } from "react";
-import { Handle, HandleType, Position } from "reactflow";
+import { Connection, Handle, HandleType, Position } from "reactflow";
+import { isArray, startCase } from "lodash-es";
 import { useShallow } from "zustand/react/shallow";
+import { useAppStore } from "@/store";
 import { Slot } from "../style";
 import { cn } from "@/lib/utils";
 
