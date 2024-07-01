@@ -15,7 +15,7 @@ interface NodeParamsProps {
   swapItem: (item: any) => void;
 }
 
-export const NodeSwappedParams = React.memo(({ data, selected, swapItem }: Omit<NodeParamsProps, 'nodeId'>) => {
+const NodeSwappedParamsComponent = ({ data, selected, swapItem }: Omit<NodeParamsProps, 'nodeId'>) => {
   return (
     <>
       {data.map(({ name, type, input }, i) => (
@@ -33,9 +33,11 @@ export const NodeSwappedParams = React.memo(({ data, selected, swapItem }: Omit<
       ))}
     </>
   )
-});
+};
 
-export const NodeParams = React.memo(({ data, nodeId, selected, swapItem }: NodeParamsProps) => {
+const NodeSwappedParams = React.memo(NodeSwappedParamsComponent);
+
+const NodeParamsComponent = ({ data, nodeId, selected, swapItem }: NodeParamsProps) => {
   return (!data?.length) ? null : (
     <div className="space-y-2">
       {data.map(({ name, type, input }, i) => (
@@ -63,4 +65,8 @@ export const NodeParams = React.memo(({ data, nodeId, selected, swapItem }: Node
       ))}
     </div>
   );
-});
+};
+
+const NodeParams = React.memo(NodeParamsComponent);
+
+export { NodeParams, NodeSwappedParams };
