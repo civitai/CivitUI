@@ -1,12 +1,14 @@
 "use client";
 
-import { useAppStore } from "@/store";
-import type { Widget } from "@/types";
 import React, { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useShallow } from "zustand/react/shallow";
+
+import { useAppStore } from "@/store";
+import type { Widget } from "@/types";
 import { NodePickerGroup } from "./node-picker-group";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import { NodePickerWidgetButton } from "./node-picker-widget-button";
 import { ContextMenuSeparator } from "@/components/ui/context-menu";
 
 const NodePickerComponent = ({ setActiveItem }: any) => {
@@ -18,6 +20,7 @@ const NodePickerComponent = ({ setActiveItem }: any) => {
   );
   const [category, setCategory] = useState<any>({});
   const [keywords, setKeywords] = useState<string>("");
+  const [widgetList, setWidgetList] = useState<Widget[]>([]);
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
 
   useEffect(() => {
@@ -25,6 +28,7 @@ const NodePickerComponent = ({ setActiveItem }: any) => {
 
     const addWidgetToCategory = (categoryPath: string[], widget: Widget) => {
       let currentLevel = byCategory;
+
       categoryPath.forEach((category, index) => {
         if (!currentLevel[category]) {
           currentLevel[category] = { widgets: [], subcategories: {} };
@@ -48,6 +52,7 @@ const NodePickerComponent = ({ setActiveItem }: any) => {
       addWidgetToCategory(categoryPath, widget);
     }
 
+    setWidgetList(widgetsValues);
     setCategory(byCategory);
   }, [widgets, keywords]);
 
@@ -83,27 +88,38 @@ const NodePickerComponent = ({ setActiveItem }: any) => {
       <ContextMenuSeparator />
 
       <div className="flex flex-col">
-        {Object.entries(category).map(([cat, items], index) => (
-          <motion.div
-            key={cat}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              delay: index * 0.01,
-              duration: 0.2,
-            }}
-          >
-            <NodePickerGroup
-              key={cat}
-              category={cat}
-              items={items}
-              setActiveItem={setActiveItem}
-              onAddNode={onAddNode}
-              expandedItems={expandedItems}
-              setExpandedItems={setExpandedItems}
-            />
-          </motion.div>
-        ))}
+        {
+          (keywords === "") ?
+            Object.entries(category).map(([cat, items], index) => (
+              <motion.div
+                key={cat}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  delay: index * 0.01,
+                  duration: 0.2,
+                }}
+              >
+                <NodePickerGroup
+                  key={cat}
+                  category={cat}
+                  items={items}
+                  setActiveItem={setActiveItem}
+                  onAddNode={onAddNode}
+                  expandedItems={expandedItems}
+                  setExpandedItems={setExpandedItems}
+                />
+              </motion.div>
+            )) :
+            Object.values(widgetList).map((w: Widget) => (
+              <NodePickerWidgetButton
+                key={w.name}
+                w={w}
+                onAddNode={onAddNode}
+                setActiveItem={setActiveItem}
+              />
+            ))
+        }
       </div>
     </div>
   );
