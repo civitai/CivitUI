@@ -30,9 +30,6 @@ const NodePickerGroupComponent = ({
   expandedItems,
   setExpandedItems,
 }: NodePickerGroupProps) => {
-
-  console.log(category, items);
-
   return (
     // a nested menu inside the main context menu
     <ContextMenuSub>

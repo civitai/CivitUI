@@ -15,6 +15,7 @@ interface NodeCardProps {
   title?: React.ReactNode;
   className?: string;
   preview?: boolean;
+  path?: string;
   node?: NodeProps<Widget>;
   children: React.ReactNode;
 }
@@ -47,6 +48,7 @@ const NodeCardComponent = ({
   selected = false,
   title,
   preview = false,
+  path = "",
   node,
   children,
 }: NodeCardProps) => {
@@ -79,7 +81,7 @@ const NodeCardComponent = ({
       <CardHeader
         style={{
           position: "relative",
-          padding: "1rem 1.25rem",
+          padding: path === "" ? "1rem 1.25rem" : "1rem 1.25rem 0.5rem",
           borderTopLeftRadius: "0.75rem",
           borderTopRightRadius: "0.75rem",
           zIndex: 10,
@@ -87,6 +89,7 @@ const NodeCardComponent = ({
           overflow: "visible",
         }}
       >
+        {path !== "" && <div className="text-xs text-neutral-400 pb-1">{path}</div>}
         {title}
         {!preview && (
           <NodeResizeControl
