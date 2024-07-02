@@ -24,12 +24,19 @@ export const NodeContextMenu = ({
   children: React.ReactNode;
 }) => {
   const [activeItem, setActiveItem] = useState<Widget | null>(null);
+  const [showPath, setShowPath] = useState<boolean>(false);
   const [previewPosition, setPreviewPosition] = useState<{x: string, y: string}>({x: 'right', y: 'bottom'});
+  const [flipPath, setFlipPath] = useState<boolean>(false);
 
   useEffect(() => {
     const updateMousePosition = (e: MouseEvent) => {
-      if (e.clientX > window.innerWidth * 2 / 3) setPreviewPosition({x: 'left', y: 'top'})
-      else setPreviewPosition({x: 'right', y: 'bottom'})
+      if (e.clientX > window.innerWidth * 2 / 3) {
+        setPreviewPosition({x: 'left', y: 'top'});
+        setFlipPath(true);
+      } else {
+        setPreviewPosition({x: 'right', y: 'bottom'});
+        setFlipPath(false);
+      }
     };
 
     window.addEventListener('mousemove', updateMousePosition);
@@ -44,12 +51,12 @@ export const NodeContextMenu = ({
     <ContextMenu>
       <ContextMenuTrigger>{children}</ContextMenuTrigger>
       <ContextMenuContent className="overflow-auto">
-        <NodePicker setActiveItem={setActiveItem}/>
+        <NodePicker setActiveItem={setActiveItem} setShowPath={setShowPath} />
       </ContextMenuContent>
     </ContextMenu>
     { activeItem !== null && 
       <div className={`fixed z-[60] ${previewPosition.x}-0 ${previewPosition.y}-0 text-accent-foreground bg-muted/50 p-8 rounded-lg border backdrop-blur-sm`}>
-        <PreviewNode data={activeItem} />
+        <PreviewNode data={activeItem} showPath={showPath} flipPath={flipPath} />
       </div>
     }
   </>

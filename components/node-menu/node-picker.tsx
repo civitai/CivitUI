@@ -11,7 +11,7 @@ import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { NodePickerWidgetButton } from "./node-picker-widget-button";
 import { ContextMenuSeparator } from "@/components/ui/context-menu";
 
-const NodePickerComponent = ({ setActiveItem }: any) => {
+const NodePickerComponent = ({ setActiveItem, setShowPath }: any) => {
   const { widgets, onAddNode } = useAppStore(
     useShallow((state) => ({
       widgets: state.widgets,
@@ -25,6 +25,8 @@ const NodePickerComponent = ({ setActiveItem }: any) => {
 
   useEffect(() => {
     const byCategory: any = {};
+
+    setShowPath(keywords !== ""); // show path in node preview when searching
 
     const addWidgetToCategory = (categoryPath: string[], widget: Widget) => {
       let currentLevel = byCategory;

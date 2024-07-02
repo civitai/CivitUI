@@ -26,9 +26,11 @@ const Slot = ({ isRequired, position }: SlotProps) => (
 
 interface PreviewNodeProps {
   data: Widget;
+  showPath?: boolean;
+  flipPath?: boolean;
 }
 
-const PreviewNodeComponent = ({ data }: PreviewNodeProps) => {
+const PreviewNodeComponent = ({ data, showPath, flipPath }: PreviewNodeProps) => {
   const { outputs, params, inputs } = useMemo(() => {
     const outputs = data.output.map((o) => ({ name: o, type: o }));
     const params: any[] = [];
@@ -45,6 +47,14 @@ const PreviewNodeComponent = ({ data }: PreviewNodeProps) => {
     return { outputs, params, inputs };
   }, [data]);
 
+  const path = data.category + "/" + data.name;
+
+  const PathComponent = () => (
+    <div className={`w-full h-full truncate text-xs bg-black text-neutral-400 rounded-full flex justify-center items-center transform ${flipPath ? "-" : ""}translate-y-1/2`}>
+      {path.replaceAll("/", " › ")}
+    </div>
+  );
+
   return (
     <motion.div
       initial={{ scale: 0.5, opacity: 0 }}
@@ -58,6 +68,7 @@ const PreviewNodeComponent = ({ data }: PreviewNodeProps) => {
       }}
       className="w-[350px]"
     >
+      { showPath && flipPath && <PathComponent /> }
       <NodeCard title={data.name} active={false} preview={true}>
         <div className="flex w-full items-stretch justify-between space-x-6">
           <div className="flex-1">
@@ -85,6 +96,7 @@ const PreviewNodeComponent = ({ data }: PreviewNodeProps) => {
           ))}
         </div>
       </NodeCard>
+      { showPath && !flipPath && <PathComponent /> }
     </motion.div>
   );
 };
